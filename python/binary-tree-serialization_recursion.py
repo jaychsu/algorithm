@@ -15,21 +15,17 @@ class Solution:
     can be easily deserialized by your own "deserialize" method later.
     """
     def serialize(self, root):
-        if any([
-            not isinstance(root, TreeNode),
-            root is None,
-        ]):
-            return '{}'
-        result = self._serialize(root)
-        return '{%s}' % ','.join([str(val) if val is not None else '#' for val in result])
+        if isinstance(root, TreeNode):
+            return '{%s}' % ','.join(self._serialize(root, []))
+        return '{}'
 
-    def _serialize(self, node, result = []):
-        if node is None:
-            result.append(None)
-        else:
-            result.append(node.val)
+    def _serialize(self, node, result):
+        if isinstance(node, TreeNode):
+            result.append(str(node.val))
             self._serialize(node.left, result)
             self._serialize(node.right, result)
+        else:
+            result.append('#')
         return result
 
     """
@@ -41,19 +37,26 @@ class Solution:
     "serialize" method.
     """
     def deserialize(self, data):
-        if any([
-            not isinstance(data, str),
-            data is '{}',
-            data[0] is not '{' and data[-1] is not '}'
-        ]):
+        if not isinstance(data, str) \
+            or data is '{}' \
+            or data[0] is not '{' \
+            or data[-1] is not '}':
             return
-        return self._deserialize(data[1:-1].split(','))
+        values = data[1:-1].split(',')
+        root = TreeNode(values.pop(0))
+        self._deserialize(root, values)
+        return root
 
-    def _deserialize(self, reference):
-        val = reference.pop(0) if len(reference) > 0 else '#'
-        if val is '#':
+    def _deserialize(self, node, values):
+        if len(values) < 1:
             return
-        node = TreeNode(val)
-        node.left = self._deserialize(reference)
-        node.right = self._deserialize(reference)
-        return node
+        value = values.pop(0)
+        if value is not '#':
+            node.left = TreeNode(value)
+            self._deserialize(node.left, values)
+        if len(values) < 1:
+            return
+        value = values.pop(0)
+        if value is not '#':
+            node.right = TreeNode(value)
+            self._deserialize(node.right, values)
