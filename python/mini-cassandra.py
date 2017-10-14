@@ -22,8 +22,8 @@ class MiniCassandra:
     def insert(self, raw_key, column_key, column_value):
         if raw_key not in self.storage:
             self.storage[raw_key] = OrderedDict()
-
         self.storage[raw_key][column_key] = column_value
+        self.storage[raw_key] = OrderedDict(sorted(self.storage[raw_key].items()))
 
     """
     @param: raw_key: a string
@@ -33,7 +33,6 @@ class MiniCassandra:
     """
     def query(self, raw_key, column_start, column_end):
         if raw_key in self.storage:
-            self.storage[raw_key] = OrderedDict(sorted(self.storage[raw_key].items()))
             return [
                 Column(key, value)
                 for key, value in self.storage[raw_key].items()
@@ -41,4 +40,3 @@ class MiniCassandra:
             ]
         else:
             return []
-
