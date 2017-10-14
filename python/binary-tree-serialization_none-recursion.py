@@ -15,19 +15,20 @@ class Solution:
     can be easily deserialized by your own "deserialize" method later.
     """
     def serialize(self, root):
-        if any([
-            not isinstance(root, TreeNode),
-            root is None,
-        ]):
+        if not isinstance(root, TreeNode):
             return '{}'
         queue = [root]
+        result = []
         for node in queue:
-            if node is not None:
-                queue.append(node.left)
-                queue.append(node.right)
-        while queue[-1] is None:
-            queue.pop()
-        return '{%s}' % ','.join([str(node.val) if node is not None else '#' for node in queue])
+            if not isinstance(node, TreeNode):
+                result.append('#')
+                continue
+            result.append(str(node.val))
+            queue.append(node.left)
+            queue.append(node.right)
+        while result[-1] is '#':
+            result.pop()
+        return '{%s}' % ','.join(result)
 
     """
     @param data: A string serialized by your serialize method.
@@ -38,25 +39,24 @@ class Solution:
     "serialize" method.
     """
     def deserialize(self, data):
-        if any([
-            not isinstance(data, str),
-            data is '{}',
-            data[0] is not '{' and data[-1] is not '}'
-        ]):
+        if not isinstance(data, str) \
+            or data is '{}' \
+            or data[0] is not '{' \
+            or data[-1] is not '}':
             return
-        reference = data[1:-1].split(',')
-        val = reference.pop(0)
-        root = TreeNode(val) if val is not '#' else None
+        values = data[1:-1].split(',')
+        value = values.pop(0) if len(values) > 0 else '#'
+        root = TreeNode(value) if value is not '#' else None
         queue = [root]
         index = -1
-        while len(reference) > 0:
+        while len(values) > 0:
             index += 1
             if queue[index] is None:
                 continue
-            val = reference.pop(0)
-            queue[index].left = TreeNode(val) if val is not '#' else None
+            value = values.pop(0)
+            queue[index].left = TreeNode(value) if value is not '#' else None
             queue.append(queue[index].left)
-            val = reference.pop(0) if len(reference) > 0 else '#'
-            queue[index].right = TreeNode(val) if val is not '#' else None
+            value = values.pop(0) if len(values) > 0 else '#'
+            queue[index].right = TreeNode(value) if value is not '#' else None
             queue.append(queue[index].right)
         return root
