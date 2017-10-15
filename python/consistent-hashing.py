@@ -15,7 +15,7 @@ class Solution:
             ti = 0
             # emi: existing_machine_index for the **existing** machines in results
             # for n is 5 and will add last machine: got [0, 1, 2, 3]
-            for emi in range(0, mi):
+            for emi in range(mi):
                 # Before adding each machine, check the current maximum partition
                 if res[emi][1] - res[emi][0] > res[ti][1] - res[ti][0]:
                     ti = emi

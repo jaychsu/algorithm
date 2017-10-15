@@ -11,7 +11,7 @@ class TinyUrl:
 
     def generateShortId(self):
         result = ''
-        for i in range(0, self.short_id_digit):
+        for i in range(self.short_id_digit):
             index = random.randint(0, len(self.char_list) - 1)
             result += self.char_list[index]
         return result

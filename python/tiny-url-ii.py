@@ -17,7 +17,7 @@ class TinyUrl2:
     def generateKey(self):
         key = ''
         index = 0
-        for i in range(0, self.shortkey_digit):
+        for i in range(self.shortkey_digit):
             index = random.randint(0, len(self.char_list) - 1)
             key += self.char_list[index]
         return key
