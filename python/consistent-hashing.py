@@ -4,20 +4,22 @@ class Solution:
     @return: n x 3 matrix
     """
     def consistentHashing(self, n):
-        results = [[0, 359, 1]]
-        if not isinstance(n, int) or n < 2:
-            return results
-        # These are the indices for the **upcoming** machines in results
+        res = [[0, 359, 1]]
+        if not isinstance(n, int) \
+            or n < 2:
+            return res
+        ti = 0 # ti: target_index for the **upcoming** machine in results
+        # mi: machine_index for the **upcoming** machines in results
         # for n is 5: got [1, 2, 3, 4]
-        for i in range(1, n):
-            index = 0
-            # These are the indices for the **existing** machines in results
+        for mi in range(1, n):
+            ti = 0
+            # emi: existing_machine_index for the **existing** machines in results
             # for n is 5 and will add last machine: got [0, 1, 2, 3]
-            for j in range(0, i):
+            for emi in range(0, mi):
                 # Before adding each machine, check the current maximum partition
-                if results[j][1] - results[j][0] > results[index][1] - results[index][0]:
-                    index = j
-            x, y = results[index][0], results[index][1]
-            results[index][1] = (x + y) / 2
-            results.append([(x + y) / 2 + 1, y, i+1])
-        return sorted(results, key=lambda item: item[0])
+                if res[emi][1] - res[emi][0] > res[ti][1] - res[ti][0]:
+                    ti = emi
+            x, y = res[ti][0], res[ti][1]
+            res[ti][1] = (x + y) / 2
+            res.append([(x + y) / 2 + 1, y, mi + 1])
+        return sorted(res, key=lambda item: item[0])
