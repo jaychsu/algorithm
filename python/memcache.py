@@ -1,13 +1,13 @@
 class MemcacheItem:
-    def __init__(self, value, expired_at):
+    def __init__(self, key, value, expired_at):
+        self.key = key
         self.value = value
         self.expired_at = expired_at
-
-INT_MAX = 2147483647
 
 class Memcache:
     def __init__(self):
         self.cache = {}
+        self.MAX_INT = 2147483647
 
     """
     @param: curtTime: An integer
@@ -16,15 +16,12 @@ class Memcache:
     """
     def get(self, curtTime, key):
         if key not in self.cache:
-            return INT_MAX
+            return self.MAX_INT
         item = self.cache[key]
-        if any([
-            item.expired_at >= curtTime,
-            item.expired_at is -1,
-        ]):
+        if item.expired_at >= curtTime \
+            or item.expired_at is -1:
             return item.value
-        else:
-            return INT_MAX
+        return self.MAX_INT
 
     """
     @param: curtTime: An integer
@@ -34,11 +31,11 @@ class Memcache:
     @return: nothing
     """
     def set(self, curtTime, key, value, ttl):
-        if isinstance(ttl, int) and ttl > 0:
-            item = MemcacheItem(value, curtTime + ttl - 1)
+        if isinstance(ttl, int) \
+            and ttl > 0:
+            self.cache[key] = MemcacheItem(key, value, curtTime + ttl - 1)
         else:
-            item = MemcacheItem(value, -1)
-        self.cache[key] = item
+            self.cache[key] = MemcacheItem(key, value, -1)
 
     """
     @param: curtTime: An integer
@@ -46,9 +43,8 @@ class Memcache:
     @return: nothing
     """
     def delete(self, curtTime, key):
-        if key not in self.cache:
-            return
-        del self.cache[key]
+        if key in self.cache:
+            del self.cache[key]
 
     """
     @param: curtTime: An integer
@@ -58,16 +54,13 @@ class Memcache:
     """
     def incr(self, curtTime, key, delta):
         if key not in self.cache:
-            return INT_MAX
+            return self.MAX_INT
         item = self.cache[key]
-        if any([
-            item.expired_at >= curtTime,
-            item.expired_at is -1,
-        ]):
+        if item.expired_at >= curtTime \
+            or item.expired_at is -1:
             item.value += delta
             return item.value
-        else:
-            return INT_MAX
+        return self.MAX_INT
 
     """
     @param: curtTime: An integer
