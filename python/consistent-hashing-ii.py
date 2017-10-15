@@ -12,8 +12,8 @@ class Solution:
         solution = cls()
         solution.n = n
         solution.k = k
-        solution.point_locations = {}
-        solution.machines = {}
+        solution.p2l = {} # point to location
+        solution.l2p = {} # location to points
         return solution
 
     """
@@ -21,30 +21,26 @@ class Solution:
     @return: a list of shard ids
     """
     def addMachine(self, machine_id):
-        ids = []
+        item = self.l2p[machine_id] = []
         point = -1
-        for i in range(self.k):
+        for i in range(0, self.k):
             point = random.randint(0, self.n - 1)
-            while point in self.point_locations:
+            while point in self.p2l:
                 point = random.randint(0, self.n - 1)
-            self.point_locations[point] = machine_id
-            ids.append(point)
-        ids.sort()
-        self.machines[machine_id] = ids
-        return ids
+            self.p2l[point] = machine_id
+            item.append(point)
+        item.sort()
+        return item
 
     """
     @param: hashcode: An integer
     @return: A machine id
     """
     def getMachineIdByHashCode(self, hashcode):
-        points = sorted(self.point_locations.keys())
-        index = bisect.bisect_left(points, hashcode)
-        if index >= len(points):
-            index = 0
+        points = sorted(self.p2l.keys())
+        index = bisect.bisect_left(points, hashcode) % len(points)
         # # counterclockwise
         # index = bisect.bisect(points, hashcode) - 1
         # if index < 0:
         #     index = len(points) - 1
-        #
-        return self.point_locations[points[index]]
+        return self.p2l[points[index]]
