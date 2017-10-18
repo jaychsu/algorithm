@@ -21,13 +21,13 @@ class Solution:
                 continue
 
             # Move forward the left pointer to ignore those mismatched chars
-            while begin < end and freq_s.get(begin_char, 0) > freq_t.get(begin_char, 0):
-                freq_s[begin_char] = freq_s.get(begin_char, 0) - 1
+            while begin < end and freq_s[begin_char] > freq_t.get(begin_char, 0):
+                freq_s[begin_char] -= 1
                 begin += 1
                 begin_char = source[begin]
 
             # Record the length of current window if it less than min_len
-            if end - begin < min_len: # actually should be `end + 1 - begin <= min_len` here, but it's equivalent
+            if end - begin < min_len:
                 min_len = end + 1 - begin
                 min_start = begin
 
