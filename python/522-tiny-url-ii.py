@@ -3,24 +3,29 @@ import re
 
 class TinyUrl2:
     def __init__(self):
+        self.char_list = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
         self.host = 'http://tiny.url/'
-        self.char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-        self.shortkey_digit = 6
-        self.url2key = {}
-        self.key2url = {}
-        self.custom_url2key = {}
-        self.custom_key2url = {}
+        self.k = 6
+        self.l2s = {}
+        self.s2l = {}
+        self.c_l2s = {}
+        self.c_s2l = {}
 
-    def formatShortUrl(self, key):
-        return self.host + key
+    def saveUrl(self, hash, url, isCustom=False):
+        if isCustom:
+            self.c_l2s[url] = hash
+            self.c_s2l[hash] = url
+        else:
+            self.l2s[url] = hash
+            self.s2l[hash] = url
 
-    def generateKey(self):
-        key = ''
-        index = 0
-        for i in range(self.shortkey_digit):
-            index = random.randint(0, len(self.char_list) - 1)
-            key += self.char_list[index]
-        return key
+    def generateHash(self, k):
+        res = ''
+        j, n = 0, len(self.char_list)
+        for i in range(k):
+            j = random.randint(0, n - 1)
+            res += self.char_list[j]
+        return res
 
     """
     @param: long_url: a long url
@@ -28,14 +33,15 @@ class TinyUrl2:
     @return: a short url starts with http://tiny.url/
     """
     def createCustom(self, long_url, key):
-        is_long_url_logged = long_url in self.custom_url2key
-        is_custom_key_logged = key in self.custom_key2url
-        if is_long_url_logged and is_custom_key_logged:
-            return self.formatShortUrl(self.custom_url2key[long_url])
-        if not is_long_url_logged and not is_custom_key_logged:
-            self.custom_url2key[long_url] = key
-            self.custom_key2url[key] = long_url
-            return self.formatShortUrl(key)
+        if not long_url or not key:
+            return 'error'
+        if long_url in self.c_l2s \
+        and key in self.c_s2l:
+            return self.host + self.c_l2s[long_url]
+        if long_url not in self.c_l2s \
+        and key not in self.c_s2l:
+            self.saveUrl(key, long_url, isCustom=True)
+            return self.host + self.c_l2s[long_url]
         return 'error'
 
     """
@@ -43,26 +49,29 @@ class TinyUrl2:
     @return: a short url starts with http://tiny.url/
     """
     def longToShort(self, long_url):
-        if long_url in self.url2key:
-            return self.formatShortUrl(self.url2key[long_url])
-        if long_url in self.custom_url2key:
-            return self.formatShortUrl(self.custom_url2key[long_url])
-        key = self.generateKey()
-        while key in self.key2url:
-            key = self.generateKey()
-        self.url2key[long_url] = key
-        self.key2url[key] = long_url
-        return self.formatShortUrl(key)
+        if not long_url:
+            return 'error'
+        if long_url in self.l2s:
+            return self.host + self.l2s[long_url]
+        if long_url in self.c_l2s:
+            return self.host + self.c_l2s[long_url]
+        hash = self.generateHash(self.k)
+        while hash in self.s2l:
+            hash = self.generateHash(self.k)
+        self.saveUrl(hash, long_url)
+        return self.host + hash
 
     """
     @param: short_url: a short url starts with http://tiny.url/
     @return: a long url
     """
     def shortToLong(self, short_url):
-        key = re.match(self.host + '([A-Za-z0-9]+)\/?', short_url)
-        key = key.group(1) if key else 'error'
-        if key in self.key2url:
-            return self.key2url[key]
-        if key in self.custom_key2url:
-            return self.custom_key2url[key]
+        if not short_url:
+            return 'error'
+        hash = re.match(self.host + '([a-zA-Z0-9]+)\/?', short_url)
+        hash = hash.group(1) if hash else None
+        if hash in self.s2l:
+            return self.s2l[hash]
+        if hash in self.c_s2l:
+            return self.c_s2l[hash]
         return 'error'

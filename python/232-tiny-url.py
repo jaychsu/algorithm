@@ -22,6 +22,8 @@ class TinyUrl:
     @return: a short url starts with http://tiny.url/
     """
     def longToShort(self, url):
+        if not url:
+            return 'error'
         if url in self.l2s:
             return self.host + self.l2s[url]
         hash = self.generateHash(self.k)
@@ -36,7 +38,10 @@ class TinyUrl:
     @return: a long url
     """
     def shortToLong(self, url):
+        if not url:
+            return 'error'
         hash = re.match(self.host + '([A-Za-z0-9]+)\/?', url)
         hash = hash.group(1) if hash else None
         if hash in self.s2l:
             return self.s2l[hash]
+        return 'error'
