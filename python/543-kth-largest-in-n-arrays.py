@@ -1,3 +1,5 @@
+import heapq
+
 class Solution:
 
     """
@@ -7,9 +9,8 @@ class Solution:
     """
     def KthInArrays(self, arrays, k):
         res = []
-        for arr in arrays:
-            res += arr
-            res.sort()
+        for arr in arrays: res += arr
         if k > len(res):
-            raise 'error'
+            return 'error'
+        res.sort()
         return res[-k]
