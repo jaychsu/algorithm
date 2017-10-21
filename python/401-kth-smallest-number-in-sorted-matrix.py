@@ -7,15 +7,13 @@ class Solution:
     @return: the kth smallest number in the matrix
     """
     def kthSmallest(self, matrix, k):
-        m, n = len(matrix), len(matrix[0])
-        heap = []
-        min_child = -1
-        for i in range(min(k, m)):
-            heapq.heappush(heap, (matrix[i][0], 0, i))
+        ans = j = 0
+        heap, m, n = [], len(matrix), len(matrix[0])
+        for i in range(min(k, m)): heapq.heappush(heap, (matrix[i][0], i, 0))
         while k > 0:
-            min_child = heapq.heappop(heap)
-            x, y = min_child[1], min_child[2]
-            if x + 1 < n:
-                heapq.heappush(heap, (matrix[y][x + 1], x + 1, y))
+            ans = heapq.heappop(heap)
+            j = ans[2] + 1
+            if j < n:
+                heapq.heappush(heap, (matrix[ans[1]][j], ans[1], j))
             k -= 1
-        return min_child[0]
+        return ans[0]
