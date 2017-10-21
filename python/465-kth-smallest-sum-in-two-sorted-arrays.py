@@ -4,7 +4,7 @@ import heapq
 Assuming: len(A) == len(B) == 3
 
 To find the result(min of A[i]+B[j]), we got a 3x3 matrix:
-BA | 0 | 1 | 2 |
+AB | 0 | 1 | 2 |
  0 | a | b | c |
  1 | d | e | f |
  2 | g | h | i |
@@ -24,14 +24,13 @@ class Solution:
     """
     def kthSmallestSum(self, A, B, k):
         m, n = len(A), len(B)
+        ans = j = 0
         heap = []
-        min_child = -1
-        for i in range(min(k, n)):
-            heapq.heappush(heap, (A[0] + B[i], 0, i))
+        for i in range(min(m, k)): heapq.heappush(heap, (A[i] + B[0], i, 0))
         while k > 0:
-            min_child = heapq.heappop(heap)
-            x, y = min_child[1], min_child[2]
-            if x + 1 < m:
-                heapq.heappush(heap, (A[x + 1] + B[y], x + 1, y))
+            ans = heapq.heappop(heap)
+            j = ans[2] + 1
+            if j < n:
+                heapq.heappush(heap, (A[ans[1]] + B[j], ans[1], j))
             k -= 1
-        return min_child[0]
+        return ans[0]
