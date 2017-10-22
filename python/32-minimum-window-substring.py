@@ -7,31 +7,34 @@ class Solution:
     def minWindow(self, source, target):
         if not source or not target:
             return ''
-        n, m, freq_t, freq_s = len(source), len(target), dict.fromkeys(target, 0), {}
-        begin = found = 0
-        min_start, min_len, begin_char = -1, n, source[begin]
-        for s in target: freq_t[s] += 1
-        for end, child in enumerate(source):
-
+        n, m = len(source), len(target)
+        l = r = found = 0
+        min_start, min_len = -1, n
+        freq_s, freq_t = {}, dict.fromkeys(target, 0)
+        for c in target: freq_t[c] += 1
+        while r < n:
             # Find the first matched window in current iteration
-            freq_s[child] = freq_s.get(child, 0) + 1
-            if freq_s[child] <= freq_t.get(child, 0):
-                found += 1
-            if found < m:
-                continue
+            while r < n and found < m:
+                freq_s[source[r]] = freq_s.get(source[r], 0) + 1
+                if freq_s[source[r]] <= freq_t.get(source[r], 0):
+                    found += 1
+                r += 1
+
+            # Terminate iteration if there is a string in source but not in target
+            if r >= n and found < m:
+                break
 
             # Move forward the left pointer to ignore those mismatched chars
-            while begin < end and freq_s[begin_char] > freq_t.get(begin_char, 0):
-                freq_s[begin_char] -= 1
-                begin += 1
-                begin_char = source[begin]
+            while l < r and freq_s[source[l]] > freq_t.get(source[l], 0):
+                freq_s[source[l]] -= 1
+                l += 1
 
             # Record the length of current window if it less than min_len
-            if end - begin < min_len:
-                min_len = end + 1 - begin
-                min_start = begin
+            if r - l <= min_len:
+                min_start = l
+                min_len = r - l
 
             # Start to find the next matched window
+            freq_s[source[l]] -= 1
             found -= 1
-
-        return '' if min_start is -1 else source[min_start : min_start + min_len]
+        return '' if min_start == -1 else source[min_start : min_start + min_len]
