@@ -9,14 +9,13 @@ class Tweet:
 
 from collections import OrderedDict
 
-NULL_SET = set()
-
 class MiniTwitter:
 
     def __init__(self):
         self.timestamp = 0
         self.tweets = {}
         self.friends = {}
+        self.NULL_SET = set()
 
     """
     @param: user_id: An integer
@@ -35,16 +34,19 @@ class MiniTwitter:
     @return: a list of 10 new feeds recently and sort by timeline
     """
     def getNewsFeed(self, user_id):
-        results = []
+        res = []
         if user_id in self.tweets:
-            results += [item for item in self.tweets[user_id].items()][-10:]
+            res += [
+                item for item in self.tweets[user_id].items()[-10:]
+            ]
         if user_id in self.friends:
             for friend_id in self.friends[user_id]:
                 if friend_id in self.tweets:
-                    results += [item for item in self.tweets[friend_id].items()][-10:]
-        return [
-            item[1]
-            for item in sorted(results, key=lambda item: item[0])[-10:]
+                    res += [
+                        item for item in self.tweets[friend_id].items()[-10:]
+                    ]
+        return [] if len(res) == 0 else [
+            item[1] for item in sorted(res, key=lambda item: item[0])[-10:]
         ][::-1]
 
     """
@@ -75,6 +77,5 @@ class MiniTwitter:
     @return: nothing
     """
     def unfollow(self, from_user_id, to_user_id):
-        if to_user_id not in self.friends.get(from_user_id, NULL_SET):
-            return
-        self.friends[from_user_id].remove(to_user_id)
+        if to_user_id in self.friends.get(from_user_id, self.NULL_SET):
+            self.friends[from_user_id].remove(to_user_id)
