@@ -36,5 +36,6 @@ class Solution:
 
             # Start to find the next matched window
             freq_s[source[l]] -= 1
+            l += 1
             found -= 1
         return '' if min_start == -1 else source[min_start : min_start + min_len]
