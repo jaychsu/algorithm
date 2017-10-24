@@ -15,18 +15,19 @@ class Solution:
     can be easily deserialized by your own "deserialize" method later.
     """
     def serialize(self, root):
-        if isinstance(root, TreeNode):
-            return '{%s}' % ','.join(self._serialize(root, []))
-        return '{}'
+        if not isinstance(root, TreeNode):
+            return '{}'
+        result = []
+        self._serialize(root, result)
+        return '{%s}' % ','.join(result)
 
-    def _serialize(self, node, result):
+    def _serialize(self, node, data):
         if isinstance(node, TreeNode):
-            result.append(str(node.val))
-            self._serialize(node.left, result)
-            self._serialize(node.right, result)
+            data.append(str(node.val))
+            self._serialize(node.left, data)
+            self._serialize(node.right, data)
         else:
-            result.append('#')
-        return result
+            data.append('#')
 
     """
     @param data: A string serialized by your serialize method.
@@ -38,25 +39,25 @@ class Solution:
     """
     def deserialize(self, data):
         if not isinstance(data, str) \
-            or data is '{}' \
-            or data[0] is not '{' \
-            or data[-1] is not '}':
+        or len(data) < 3 \
+        or data[0] != '{' \
+        or data[-1] != '}':
             return
         values = data[1:-1].split(',')
         root = TreeNode(values.pop(0))
         self._deserialize(root, values)
         return root
 
-    def _deserialize(self, node, values):
-        if len(values) < 1:
+    def _deserialize(self, node, data):
+        if len(data) < 1:
             return
-        value = values.pop(0)
+        value = data.pop(0)
         if value is not '#':
             node.left = TreeNode(value)
-            self._deserialize(node.left, values)
-        if len(values) < 1:
+            self._deserialize(node.left, data)
+        if len(data) < 1:
             return
-        value = values.pop(0)
+        value = data.pop(0)
         if value is not '#':
             node.right = TreeNode(value)
-            self._deserialize(node.right, values)
+            self._deserialize(node.right, data)
