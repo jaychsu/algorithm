@@ -26,7 +26,7 @@ class Solution:
             result.append(str(node.val))
             queue.append(node.left)
             queue.append(node.right)
-        while result[-1] is '#':
+        while result[-1] == '#':
             result.pop()
         return '{%s}' % ','.join(result)
 
@@ -40,23 +40,35 @@ class Solution:
     """
     def deserialize(self, data):
         if not isinstance(data, str) \
-            or data is '{}' \
-            or data[0] is not '{' \
-            or data[-1] is not '}':
+        or len(data) < 3 \
+        or data[0] != '{' \
+        or data[-1] != '}':
             return
         values = data[1:-1].split(',')
-        value = values.pop(0) if len(values) > 0 else '#'
-        root = TreeNode(value) if value is not '#' else None
+        value = values.pop(0)
+        root = TreeNode(value)
         queue = [root]
         index = -1
         while len(values) > 0:
             index += 1
-            if queue[index] is None:
+
+            if queue[index] == '#':
                 continue
+
             value = values.pop(0)
-            queue[index].left = TreeNode(value) if value is not '#' else None
-            queue.append(queue[index].left)
-            value = values.pop(0) if len(values) > 0 else '#'
-            queue[index].right = TreeNode(value) if value is not '#' else None
-            queue.append(queue[index].right)
+            if value != '#':
+                queue[index].left = TreeNode(value)
+                queue.append(queue[index].left)
+            else:
+                queue.append('#')
+
+            if len(values) < 1:
+                break
+
+            value = values.pop(0)
+            if value != '#':
+                queue[index].right = TreeNode(value)
+                queue.append(queue[index].right)
+            else:
+                queue.append('#')
         return root
