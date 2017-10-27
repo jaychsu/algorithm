@@ -22,3 +22,12 @@ True
 >>> u'test' is 'test'
 True
 ```
+
+- Use cascade comparison
+
+```python
+>>> 0 <= 2 < 3
+True
+>>> 0 <= 4 < 3
+False
+```

@@ -2,8 +2,9 @@
 
 ```python
 # For any m * n matrix
+# 0 <= x < m, 0 <= y < n
 # The cell at `[i, j]` can be mapped to `k` in line
-k = i * m + j
+k = i * n + j
 ```
 
 - To iterate around the current cell (means to visit the cell at the top/bottom/left/right)
