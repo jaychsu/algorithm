@@ -31,3 +31,10 @@ True
 >>> 0 <= 4 < 3
 False
 ```
+
+- Override mutable variable and keep the pointer
+
+```python
+arr = [1, 2, 3]
+arr[:] = [4, 5, 6, 7]
+```
