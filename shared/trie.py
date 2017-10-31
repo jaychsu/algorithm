@@ -1,44 +1,46 @@
 class Trie:
     def __init__(self):
-        self.root = {}
+        self.root = self._new_node()
 
-    def insert(self, string):
-        if not string:
+    def put(self, key):
+        if not key:
             return
         parent = self.root
-        for char in string:
-            if char in parent:
-                parent = parent[char]
-            else:
-                parent[char] = {}
-                parent = parent[char]
-        parent['_end'] = True
+        for char in key:
+            if char not in parent['children']:
+                parent['children'][char] = self._new_node()
+            parent = parent['children'][char]
+        parent['end_of'] = key
 
-    def search(self, string):
-        if not string:
+    def has_key(self, key):
+        if not key:
             return False
+        return self._search(key) == key
+
+    def has_prefix(self, key):
+        if not key:
+            return False
+        return self._search(key) is not False
+
+    def get_node(self, char, parent=None):
+        if not parent:
+            parent = self.root
+        if char in parent['children']:
+            return parent['children'][char]
+
+    def _search(self, key):
         parent = self.root
-        for char in string:
-            if char in parent:
-                parent = parent[char]
-            else:
+        for char in key:
+            if char not in parent['children']:
                 return False
-        return True
+            parent = parent['children'][char]
+        return parent['end_of']
 
-    def search_in_regex(self, string):
-        if not string:
-            return False
-        return self._search_in_regex(string, self.root, 0)
+    def _new_node(self):
+        return {
+            'end_of': '',
+            'children': {}
+        }
 
-    def _search_in_regex(self, string, parent, i):
-        if i == len(string):
-            return parent.get('_end', False)
-        result = False
-        if string[i] == '.':
-            for child in parent:
-                if child[0] != '_' and self._search_in_regex(string, parent[child], i + 1):
-                    result = True
-        elif string[i] in parent:
-            if self._search_in_regex(string, parent[string[i]], i + 1):
-                result = True
-        return result
+    def __repr__(self):
+        return repr(self.root)

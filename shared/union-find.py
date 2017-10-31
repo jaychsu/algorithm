@@ -16,3 +16,6 @@ class UnionFind:
             return a
         self.nodes[a] = self.find(self.nodes[a])
         return self.nodes[a]
+
+    def __repr__(self):
+        return repr(self.nodes)
