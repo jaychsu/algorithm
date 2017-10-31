@@ -1,6 +1,6 @@
 from heapq import heappush, heappop
 
-class Heap:
+class HashHeap:
     def __init__(self):
         self.heap = []
         self.deleted = {}
@@ -41,7 +41,8 @@ class Solution:
     @return: The median of the element inside the window at each moving
     """
     """
-    Assuming nums = [1,2,7,8,5]
+    Assuming nums = [1,2,7,8,5], k = 3
+
     i | max_heap |m| min_heap
     =============|=|=========
     0 |          |1|
@@ -49,6 +50,15 @@ class Solution:
     2 |        1 |2| 7
     3 |    -1- 2 |7| 8
     4 |    -2- 5 |7| 8
+
+    ans = [2,7,7]
+
+    The key point is how you delete the `nums[i-k]` after `i>=k` turns
+    see the `remove` and `_clean_top` in `Heap`, the concepts are:
+    1. mark item as deleted when `remove` is calling
+    2. follow the operation rule in heap,
+       just `heappop` these item marked as deleted
+       before calling `pop` or `top`
     """
     def medianSlidingWindow(self, nums, k):
         ans = []
@@ -95,4 +105,5 @@ class Solution:
         elif r < l:
             return - self.max_heap.top()
         else:
+            # `a + (b - a)/2` to avoid the max_int overflow
             return (self.min_heap.top() + self.max_heap.top()) / 2 - self.max_heap.top()

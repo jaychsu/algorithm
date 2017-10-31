@@ -1,6 +1,6 @@
 from heapq import heappush, heappop
 
-class Heap:
+class HashHeap:
     def __init__(self):
         self.heap = []
         self.deleted = {}

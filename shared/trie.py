@@ -15,7 +15,7 @@ class Trie:
     def has_key(self, key):
         if not key:
             return False
-        return self._search(key) == key
+        return self._search(key) is key
 
     def has_prefix(self, key):
         if not key:
