@@ -77,3 +77,50 @@ r 5 5 5 5 5
 
 max = 6 = (5 - 2) * 2
 """
+
+
+# Mono Stack
+# This problem could be treated as histogram, see lintcode#122
+class Solution:
+    """
+    @param: matrix: a boolean 2D matrix
+    @return: an integer
+    """
+    def maximalRectangle(self, matrix):
+        ans = 0
+        if not matrix or len(matrix) < 1:
+            return ans
+        height = [0] * len(matrix[0])
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if int(matrix[i][j]) == 0:
+                    height[j] = 0
+                else:
+                    height[j] += 1
+            ans = max(ans, self.largestRectangleArea(height))
+
+            # To remove the trick `0`
+            height.pop()
+
+        return ans
+
+    def largestRectangleArea(self, height):
+        ans = 0
+        if not height or len(height) < 1:
+            return ans
+
+        # To ensure the last element in monostack will be handled
+        height.append(0)
+
+        indices = []
+        top = l = h = 0
+
+        # https://goo.gl/nLfT99
+        for r in range(len(height)):
+            while indices and height[indices[-1]] >= height[r]:
+                top = indices.pop()
+                h = height[top]
+                l = indices[-1] if indices else -1
+                ans = max(ans, h * (r - l - 1))
+            indices.append(r)
+        return ans
