@@ -36,11 +36,6 @@ class HashHeap:
 
 class Solution:
     """
-    @param: nums: A list of integers
-    @param: k: An integer
-    @return: The median of the element inside the window at each moving
-    """
-    """
     Assuming nums = [1,2,7,8,5], k = 3
 
     i | max_heap |m| min_heap
@@ -61,11 +56,16 @@ class Solution:
        before calling `pop` or `top`
     """
     def medianSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[float]
+        """
         ans = []
         if not nums or len(nums) < 1 or k <= 0:
             return ans
-        self.min_heap = Heap()
-        self.max_heap = Heap()
+        self.min_heap = HashHeap()
+        self.max_heap = HashHeap()
 
         for i in range(len(nums)):
             if i >= k:
