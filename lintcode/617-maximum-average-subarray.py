@@ -51,10 +51,15 @@ class Solution:
             m = l + (r - l) / 2.0
             for i in range(1, n + 1):
                 P[i] = P[i - 1] + nums[i - 1] - m
+
+                # the allowance is `i-k+1 >= 0`, so we should prevent `i-k+1 < 0`
+                # actually is `i < k-1` here
+                # but when `i == k-1`, we got `P[i-k+1] == P[0]` below
+                # so we can ignore this trivial iteration
                 if i < k:
                     continue
 
-                # if we find a `P[j]` that satisfies `P[j] - P[j-k+1] >= 0`
+                # if we find a `P[i]` that satisfies `P[i] - P[i-k+1] >= 0`
                 if P[i] >= min_sum:
                     is_check = 1
                     break
