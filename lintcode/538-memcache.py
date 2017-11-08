@@ -7,7 +7,7 @@ class MemcacheItem:
 class Memcache:
     def __init__(self):
         self.cache = {}
-        self.MAX_INT = 2147483647
+        self.INT_MAX = 2147483647
 
     """
     @param: curtTime: An integer
@@ -16,12 +16,12 @@ class Memcache:
     """
     def get(self, curtTime, key):
         if key not in self.cache:
-            return self.MAX_INT
+            return self.INT_MAX
         item = self.cache[key]
         if item.expired_at >= curtTime \
             or item.expired_at is -1:
             return item.value
-        return self.MAX_INT
+        return self.INT_MAX
 
     """
     @param: curtTime: An integer
@@ -54,13 +54,13 @@ class Memcache:
     """
     def incr(self, curtTime, key, delta):
         if key not in self.cache:
-            return self.MAX_INT
+            return self.INT_MAX
         item = self.cache[key]
         if item.expired_at >= curtTime \
             or item.expired_at is -1:
             item.value += delta
             return item.value
-        return self.MAX_INT
+        return self.INT_MAX
 
     """
     @param: curtTime: An integer

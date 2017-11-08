@@ -1,5 +1,5 @@
 class Calculator:
-    max_int = 0xFFFFFFFF
+    INT_RANGE = 0xFFFFFFFF
 
     """
     :example: 1 + 5, that is 0001 + 0101
@@ -18,8 +18,8 @@ class Calculator:
     @classmethod
     def plus(cls, a, b):
         if not b:
-            return a if a >> 31 is 0 else a ^ ~cls.max_int
-        return cls.plus((a ^ b) & cls.max_int, (a & b) << 1)
+            return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
+        return cls.plus((a ^ b) & cls.INT_RANGE, (a & b) << 1)
 
     # a + b
     # iteration
@@ -27,8 +27,8 @@ class Calculator:
     def _plus(cls, a, b):
         while b:
             a, b = a ^ b, (a & b) << 1
-            a &= cls.max_int
-        return a if a >> 31 is 0 else a ^ ~cls.max_int
+            a &= cls.INT_RANGE
+        return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
 
     # a - b
     # the simplest way is `a + (-b)`
@@ -105,7 +105,11 @@ class Calculator:
             # => in origin, _a < _b
             # => in overflow, _a > _b
             if _a >> i >= _b:
+                # a << i: a * (2 ** i)
+                # a >> i: a / (2 ** i)
                 quotient = cls.plus(quotient, 1 << i)
+                # continue to use the divisor(b) to reduce the dividend(a)
+                # until the dividend(a) is less than the divisor(b)
                 _a = cls.minus(_a, _b << i)
 
         # remainder = _a

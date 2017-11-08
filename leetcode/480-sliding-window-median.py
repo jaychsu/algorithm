@@ -105,5 +105,5 @@ class Solution:
         elif r < l:
             return - self.max_heap.top()
         else:
-            # `a + (b - a)/2` to avoid the max_int overflow
+            # `a + (b - a)/2` to avoid the INT_MAX overflow
             return (self.min_heap.top() + self.max_heap.top()) / 2 - self.max_heap.top()
