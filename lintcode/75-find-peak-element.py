@@ -7,10 +7,10 @@ class Solution:
     def findPeak(self, A):
         if not A:
             return
-        l, m, r = 0, 0, len(A) - 2
+        l, m, r = 1, 1, len(A) - 1
 
         while l + 1 < r:
-            m = l + (r - l) / 2
+            m = l + (r - l) // 2
             if A[m] < A[m-1]:
                 r = m
             else:
