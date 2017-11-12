@@ -16,7 +16,7 @@ class Calculator:
     # a + b
     # recursion
     @classmethod
-    def plus(cls, a, b):
+    def _plus(cls, a, b):
         if not b:
             return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
         return cls.plus((a ^ b) & cls.INT_RANGE, (a & b) << 1)
@@ -24,19 +24,23 @@ class Calculator:
     # a + b
     # iteration
     @classmethod
-    def _plus(cls, a, b):
+    def plus(cls, a, b):
         while b:
             a, b = a ^ b, (a & b) << 1
             a &= cls.INT_RANGE
         return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
 
+    """
+    the simplest way is `a + (-b)`
+    """
     # a - b
-    # the simplest way is `a + (-b)`
     @classmethod
     def minus(cls, a, b):
 
-        # to get the complement of `b`, that is `-b`
-        # -b = ~b + 1
+        """
+        to get the complement of `b`, that is `-b`
+        -b = ~b + 1
+        """
         b = cls.plus(~b, 1)
 
         return cls.plus(a, b)
@@ -70,11 +74,13 @@ class Calculator:
             if _b & 1:
                 product = cls.plus(product, _a)
 
-            # see diagram above
-            # r1/ 1100 * 0
-            # r2/ 11000 * 1
-            # r3/ 110000 * 0
-            # r4/ 1100000 * 1
+            """
+            see diagram above
+            r1/ 1100 * 0
+            r2/ 11000 * 1
+            r3/ 110000 * 0
+            r4/ 1100000 * 1
+            """
             _a = _a << 1
 
             # allow to check last digit
@@ -97,19 +103,25 @@ class Calculator:
         quotient = 0
         # remainder = 0
 
-        # max_{positive,negative}_int: 2 ** 31
+        # the upper limit of int: 2 ** 31
         for i in range(31, -1, -1):
 
-            # avoid to `_a >= _b << i`
-            # it may lead to overflow
-            # => in origin, _a < _b
-            # => in overflow, _a > _b
+            """
+            avoid to `_a >= _b << i`
+            it may lead to overflow
+            => in origin, _a < _b
+            => in overflow, _a > _b
+            """
             if _a >> i >= _b:
-                # a << i: a * (2 ** i)
-                # a >> i: a / (2 ** i)
+                """
+                a << i: a * (2 ** i)
+                a >> i: a / (2 ** i)
+                """
                 quotient = cls.plus(quotient, 1 << i)
-                # continue to use the divisor(b) to reduce the dividend(a)
-                # until the dividend(a) is less than the divisor(b)
+                """
+                continue to use the divisor(b) to reduce the dividend(a)
+                until the dividend(a) is less than the divisor(b)
+                """
                 _a = cls.minus(_a, _b << i)
 
         # remainder = _a
