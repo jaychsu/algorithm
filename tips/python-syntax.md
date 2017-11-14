@@ -32,9 +32,22 @@ True
 False
 ```
 
-- Override mutable variable and keep the pointer
+- Override mutable variable and keep the pointer if need
 
 ```python
-arr = [1, 2, 3]
-arr[:] = [4, 5, 6, 7]
+>>> a = b = [1, 2, 3]
+>>> a is b
+True
+
+>>> b[:] = [4, 5, 6]
+>>> a
+[4, 5, 6]
+>>> a is b
+True
+
+>>> b = [7, 8, 9]
+>>> a
+[4, 5, 6]
+>>> a is b
+False
 ```
