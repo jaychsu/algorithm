@@ -23,6 +23,27 @@ True
 True
 ```
 
+- Be careful of the division
+
+```python
+# Python 2
+>>> 3 / 2
+1
+>>> 3 // 2
+1
+
+# to parse the result as float
+>>> 3 * 1.0 / 2
+1.5
+
+
+# Python 3
+>>> 3 / 2
+1.5
+>>> 3 // 2
+1
+```
+
 - Use cascade comparison
 
 ```python
@@ -50,4 +71,16 @@ True
 [4, 5, 6]
 >>> a is b
 False
+```
+
+- Infinity
+
+```python
+# positive infinite
+>>> float('inf')
+inf
+
+# negative infinite
+>>> float('-inf')
+-inf
 ```
