@@ -1,10 +1,20 @@
 - To extend list with existing items
 
+Note that this is copying the pointer, not value, that is,
+the children must be immutable in the list.
+
 ```python
 >>> [1] * 3 * 3
 [1, 1, 1, 1, 1, 1, 1, 1, 1]
 >>> [1, 2, 3] * 3
 [1, 2, 3, 1, 2, 3, 1, 2, 3]
+
+>>> A = [[0] * 3] * 3
+>>> A
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+>>> A[0][1] = 1
+>>> A
+[[0, 1, 0], [0, 1, 0], [0, 1, 0]]
 ```
 
 - Be careful of the Unicode string
