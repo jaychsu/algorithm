@@ -1,3 +1,27 @@
+"""
+% python -i _test_binary_tree.py
+Serialization lib is valid.
+============
+Traversal Case: {1,2,3,4,#,#,5,#,6,#,#,7,8}
+------------
+preorder_iteration_traversal: 1, 2, 4, 6, 7, 8, 3, 5
+preorder_recursion_traversal: 1, 2, 4, 6, 7, 8, 3, 5
+inorder_iteration_traversal: 4, 7, 6, 8, 2, 1, 3, 5
+inorder_recursion_traversal: 4, 7, 6, 8, 2, 1, 3, 5
+postorder_iteration_traversal: 7, 8, 6, 4, 2, 5, 3, 1
+postorder_recursion_traversal: 7, 8, 6, 4, 2, 5, 3, 1
+============
+Traversal Case: {1,#,2,#,3,#,4,#,5,#,6,#,7}
+------------
+preorder_iteration_traversal: 1, 2, 3, 4, 5, 6, 7
+preorder_recursion_traversal: 1, 2, 3, 4, 5, 6, 7
+inorder_iteration_traversal: 1, 2, 3, 4, 5, 6, 7
+inorder_recursion_traversal: 1, 2, 3, 4, 5, 6, 7
+postorder_iteration_traversal: 7, 6, 5, 4, 3, 2, 1
+postorder_recursion_traversal: 7, 6, 5, 4, 3, 2, 1
+============
+"""
+
 from binary_tree_serialization import BinaryTree
 
 from binary_tree_preorder_traversal import (
