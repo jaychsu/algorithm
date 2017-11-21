@@ -1,7 +1,7 @@
-- To extend list with existing items
+## To extend list with existing items
 
 Note that this is copying the pointer, not value, that is,
-the children must be immutable in the list.
+the children must be **IMMUTABLE** in the list.
 
 ```python
 >>> [1] * 3 * 3
@@ -17,7 +17,7 @@ the children must be immutable in the list.
 [[0, 1, 0], [0, 1, 0], [0, 1, 0]]
 ```
 
-- Be careful of the Unicode string
+## Be careful of the Unicode string
 
 ```python
 # Python `2.7.13`, `2.7.14`
@@ -33,7 +33,7 @@ True
 True
 ```
 
-- Be careful of the division
+## Be careful of the division
 
 ```python
 # Python 2
@@ -54,7 +54,7 @@ True
 1
 ```
 
-- Use cascade comparison
+## Use cascade comparison
 
 ```python
 >>> 0 <= 2 < 3
@@ -63,7 +63,7 @@ True
 False
 ```
 
-- Override mutable variable and keep the pointer if need
+## Override mutable variable and keep the pointer if need
 
 ```python
 >>> a = b = [1, 2, 3]
@@ -83,7 +83,7 @@ True
 False
 ```
 
-- Infinity
+## Infinity
 
 ```python
 # positive infinite
