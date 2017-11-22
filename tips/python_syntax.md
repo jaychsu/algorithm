@@ -17,6 +17,15 @@ the children must be **IMMUTABLE** in the list.
 [[0, 1, 0], [0, 1, 0], [0, 1, 0]]
 ```
 
+## To extend existing list and create new one
+
+```python
+>>> a = [1]
+>>> b = a + [2]
+>>> a is b
+False
+```
+
 ## Be careful of the Unicode string
 
 ```python
