@@ -22,6 +22,6 @@
 
 ## Binary search in 2D matrix
 
-```python
-# TODO
+```
+TODO
 ```
