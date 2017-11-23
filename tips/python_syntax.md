@@ -26,6 +26,66 @@ the children must be **IMMUTABLE** in the list.
 False
 ```
 
+## To clone a list
+
+```python
+>>> a = [1, 2, 3]
+
+# shallow clone
+>>> b = a
+>>> b is a
+True
+>>> b = a[:]
+>>> b is a
+False
+
+# shallow clone
+>>> c = a
+>>> c is a
+True
+>>> c = a + []
+>>> c is a
+False
+
+# deep clone
+>>> a = [{'a': 1}]
+>>> from copy import deepcopy
+>>> b = deepcopy(a)
+>>> a[0]['a'] = 2
+>>> a, b
+([{'a': 2}], [{'a': 1}])
+```
+
+## To clone a dict
+
+```python
+>>> a = {'a': 1, 'b': 2}
+
+# extend
+>>> a.update({'c': 3, 'd': {'e': 4}})
+>>> a
+{'a': 1, 'b': 2, 'c': 3, 'd': {'e': 4}}
+
+# shallow clone
+>>> b = a.copy()
+>>> a, b
+({'a': 1, 'b': 2, 'c': 3, 'd': {'e': 4}}, {'a': 1, 'b': 2, 'c': 3, 'd': {'e': 4}})
+>>> a['a'] = 99
+>>> a['d']['e'] = 99
+>>> a, b
+({'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}}, {'a': 1, 'b': 2, 'c': 3, 'd': {'e': 99}})
+
+# deep clone
+>>> from copy import deepcopy
+>>> b = deepcopy(a)
+>>> a, b
+({'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}}, {'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}})
+>>> a['a'] = 111
+>>> a['d']['e'] = 111
+>>> a, b
+({'a': 111, 'b': 2, 'c': 3, 'd': {'e': 111}}, {'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}})
+```
+
 ## Be careful of the Unicode string
 
 ```python
