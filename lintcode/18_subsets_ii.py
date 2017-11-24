@@ -1,14 +1,15 @@
 class Solution:
-    ans = [[]]
+    ans = []
 
     """
     @param: nums: A set of numbers.
     @return: A list of lists. All valid subsets.
     """
     def subsetsWithDup(self, nums):
-        if not nums:
+        if nums is None:
             return self.ans
 
+        self.ans.append([])
         self.dfs(sorted(nums), 0, [])
 
         return self.ans
