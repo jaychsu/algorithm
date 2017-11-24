@@ -30,7 +30,7 @@ class Solution:
 
             # to prevent [1', 2, 5] and [1", 2, 5]
             # appear in result at same time
-            if i != start \
+            if i > start \
                     and nums[i] == nums[i - 1]:
                 continue
 
