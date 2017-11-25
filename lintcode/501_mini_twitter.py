@@ -9,13 +9,11 @@ class Tweet:
 
 from collections import OrderedDict
 
-class MiniTwitter:
 
-    def __init__(self):
-        self.timestamp = 0
-        self.tweets = {}
-        self.friends = {}
-        self.NULL_SET = set()
+class MiniTwitter:
+    timestamp = 0
+    tweets = {}
+    friends = {}
 
     """
     @param: user_id: An integer
@@ -34,32 +32,42 @@ class MiniTwitter:
     @return: a list of 10 new feeds recently and sort by timeline
     """
     def getNewsFeed(self, user_id):
-        res = []
+        result = []
+
         if user_id in self.tweets:
-            res += [
-                item for item in self.tweets[user_id].items()[-10:]
+            result += [
+                item
+                for item in self.tweets[user_id].items()[-10:]
             ]
+
         if user_id in self.friends:
             for friend_id in self.friends[user_id]:
                 if friend_id in self.tweets:
-                    res += [
-                        item for item in self.tweets[friend_id].items()[-10:]
+                    result += [
+                        item
+                        for item in self.tweets[friend_id].items()[-10:]
                     ]
-        return [] if len(res) == 0 else [
-            item[1] for item in sorted(res, key=lambda item: item[0])[-10:]
-        ][::-1]
+
+        if result:
+            result.sort(key=lambda item: item[0])
+            return [
+                tweet
+                for timestamp, tweet in result[-10:]
+            ][::-1]
+        else:
+            return []
 
     """
     @param: user_id: An integer
     @return: a list of 10 new posts recently and sort by timeline
     """
     def getTimeline(self, user_id):
-        if user_id in self.tweets:
-            return [
-                tweet for tweet in self.tweets[user_id].values()[-10:]
-            ][::-1]
-        else:
+        if user_id not in self.tweets:
             return []
+        return [
+            tweet
+            for tweet in self.tweets[user_id].values()[-10:]
+        ][::-1]
 
     """
     @param: from_user_id: An integer
@@ -77,5 +85,7 @@ class MiniTwitter:
     @return: nothing
     """
     def unfollow(self, from_user_id, to_user_id):
-        if to_user_id in self.friends.get(from_user_id, self.NULL_SET):
-            self.friends[from_user_id].remove(to_user_id)
+        if from_user_id not in self.friends \
+                or to_user_id not in self.friends[from_user_id]:
+            return
+        self.friends[from_user_id].remove(to_user_id)
