@@ -1,1 +1,1 @@
-see [lintcode/115-unique-paths-ii.py](../lintcode/115-unique-paths-ii.py)
+see [lintcode/115_unique_paths_ii.py](../lintcode/115_unique_paths_ii.py)

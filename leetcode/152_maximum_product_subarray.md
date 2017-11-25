@@ -1,1 +1,1 @@
-see [lintcode/191-maximum-product-subarray.py](../lintcode/191-maximum-product-subarray.py)
+see [lintcode/191_maximum_product_subarray.py](../lintcode/191_maximum_product_subarray.py)

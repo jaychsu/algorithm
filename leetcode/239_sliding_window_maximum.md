@@ -1,1 +1,1 @@
-see [lintcode#362](../lintcode/362-sliding-window-maximum.py)
+see [lintcode/362_sliding_window_maximum.py](../lintcode/362_sliding_window_maximum.py)

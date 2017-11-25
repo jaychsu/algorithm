@@ -1,1 +1,1 @@
-see [lintcode#122](../lintcode/122-largest-rectangle-in-histogram.py)
+see [lintcode/122_largest_rectangle_in_histogram.py](../lintcode/122_largest_rectangle_in_histogram.py)

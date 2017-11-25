@@ -1,1 +1,1 @@
-see [lintcode/75-find-peak-element.py](../lintcode/75-find-peak-element.py)
+see [lintcode/75_find_peak_element.py](../lintcode/75_find_peak_element.py)

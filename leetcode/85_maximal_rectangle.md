@@ -1,1 +1,1 @@
-see [lintcode#510](../lintcode/510-maximal-rectangle.py)
+see [lintcode/510_maximal_rectangle.py](../lintcode/510_maximal_rectangle.py)

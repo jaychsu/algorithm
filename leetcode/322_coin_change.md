@@ -1,1 +1,1 @@
-see [lintcode/669-coin-change.py](../lintcode/669-coin-change.py)
+see [lintcode/669_coin_change.py](../lintcode/669_coin_change.py)

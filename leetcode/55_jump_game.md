@@ -1,1 +1,1 @@
-see [lintcode/116-jump-game.py](../lintcode/116-jump-game.py)
+see [lintcode/116_jump_game.py](../lintcode/116_jump_game.py)

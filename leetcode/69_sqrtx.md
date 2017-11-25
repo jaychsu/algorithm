@@ -1,1 +1,1 @@
-see [lintcode#141](../lintcode/141-sqrtx.py)
+see [lintcode/141_sqrtx.py](../lintcode/141_sqrtx.py)

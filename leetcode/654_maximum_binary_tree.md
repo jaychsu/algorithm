@@ -1,1 +1,1 @@
-see [lintcode#126](../lintcode/126-max-tree.py)
+see [lintcode/126_max_tree.py](../lintcode/126_max_tree.py)

@@ -31,7 +31,7 @@ for dx, dy in VECTOR:
 
 ## To avoid returning along the original path, just simply set the last visited cell to `'#'`
 
-see [132-word-search-ii.py](../lintcode/132-word-search-ii.py)
+see [lintcode/132_word_search_ii.py](../lintcode/132_word_search_ii.py)
 
 ## Traverse the half triangle in matrix
 

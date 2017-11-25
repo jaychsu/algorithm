@@ -1,1 +1,1 @@
-see [lintcode/617-maximum-average-subarray.py](../lintcode/617-maximum-average-subarray.py)
+see [lintcode/617_maximum_average_subarray.py](../lintcode/617_maximum_average_subarray.py)
