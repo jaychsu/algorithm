@@ -37,6 +37,8 @@ class BinaryTree:
             return
 
         values = data[1:-1].split(',')
+        if not values:
+            return
         value = values.pop(0)
         if value == cls.NULL_NODE:
             return
