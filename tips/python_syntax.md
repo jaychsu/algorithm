@@ -1,4 +1,105 @@
-## To extend list with existing items
+Python Syntax Note
+======
+
+## Operator
+
+### Difference between `is` and `==`
+
+`is` will return True if two variables point to the same object,
+`==` if the objects referred to by the variables are equal.
+
+- example in `str` and `bytes`
+
+```python
+# Python `2.7.13`, `2.7.14`
+>>> u'test' == 'test'
+True
+>>> u'test' is 'test'
+False
+
+# Python `3.6.0`, `3.6.3`
+>>> u'test' == 'test'
+True
+>>> u'test' is 'test'
+True
+```
+
+- example in `list`
+
+```python
+>>> a = [1, 2, 3]
+>>> b = [1, 2, 3]
+>>> a == b
+True
+>>> a is b
+False
+```
+
+### To override mutable variable and keep the pointer if need
+
+```python
+>>> a = b = [1, 2, 3]
+>>> a is b
+True
+
+>>> b[:] = [4, 5, 6]
+>>> a
+[4, 5, 6]
+>>> a is b
+True
+
+>>> b = [7, 8, 9]
+>>> a
+[4, 5, 6]
+>>> a is b
+False
+```
+
+## Number `int`, `float`
+
+### Using cascade comparison
+
+```python
+>>> 0 <= 2 < 3
+True
+>>> 0 <= 4 < 3
+False
+```
+
+### Be careful of the division
+
+```python
+# Python 2
+>>> 3 // 2
+1
+>>> 3 / 2
+1
+# to parse the result as float
+>>> 3 * 1.0 / 2
+1.5
+
+# Python 3
+>>> 3 // 2
+1
+>>> 3 / 2
+1.5
+```
+
+### Infinity
+
+```python
+# positive infinite
+>>> float('inf')
+inf
+
+# negative infinite
+>>> float('-inf')
+-inf
+```
+
+## List `list`
+
+### To extend list with existing items
 
 Note that this is copying the pointer, not value, that is,
 the children must be **IMMUTABLE** in the list.
@@ -17,7 +118,7 @@ the children must be **IMMUTABLE** in the list.
 [[0, 1, 0], [0, 1, 0], [0, 1, 0]]
 ```
 
-## To extend existing list and create new one
+### To extend existing list and create new one
 
 ```python
 >>> a = [1]
@@ -26,7 +127,7 @@ the children must be **IMMUTABLE** in the list.
 False
 ```
 
-## To clone a list
+### To clone a list
 
 ```python
 >>> a = [1, 2, 3]
@@ -56,7 +157,9 @@ False
 ([{'a': 2}], [{'a': 1}])
 ```
 
-## To clone a dict
+## Dict `dict`
+
+### To clone a dict
 
 ```python
 >>> a = {'a': 1, 'b': 2}
@@ -84,82 +187,4 @@ False
 >>> a['d']['e'] = 111
 >>> a, b
 ({'a': 111, 'b': 2, 'c': 3, 'd': {'e': 111}}, {'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}})
-```
-
-## Be careful of the Unicode string
-
-```python
-# Python `2.7.13`, `2.7.14`
->>> u'test' == 'test'
-True
->>> u'test' is 'test'
-False
-
-# Python `3.6.0`, `3.6.3`
->>> u'test' == 'test'
-True
->>> u'test' is 'test'
-True
-```
-
-## Be careful of the division
-
-```python
-# Python 2
->>> 3 / 2
-1
->>> 3 // 2
-1
-
-# to parse the result as float
->>> 3 * 1.0 / 2
-1.5
-
-
-# Python 3
->>> 3 / 2
-1.5
->>> 3 // 2
-1
-```
-
-## Use cascade comparison
-
-```python
->>> 0 <= 2 < 3
-True
->>> 0 <= 4 < 3
-False
-```
-
-## Override mutable variable and keep the pointer if need
-
-```python
->>> a = b = [1, 2, 3]
->>> a is b
-True
-
->>> b[:] = [4, 5, 6]
->>> a
-[4, 5, 6]
->>> a is b
-True
-
->>> b = [7, 8, 9]
->>> a
-[4, 5, 6]
->>> a is b
-False
-```
-
-## Infinity
-
-```python
-# positive infinite
->>> float('inf')
-inf
-
-# negative infinite
->>> float('-inf')
--inf
 ```
