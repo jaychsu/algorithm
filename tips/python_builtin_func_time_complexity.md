@@ -3,7 +3,7 @@ The time-complexity of various operations in **CPython**
 
 note that,
 
-1. **CPython** is the official and most widespread version
+1. **CPython** is the official and most widespread implementation
 2. `n = len(data)`
 
 ## Basic
@@ -11,7 +11,7 @@ note that,
 | Operation                    | Example              | Complexity | Notes                                    |
 | ---------------------------- | -------------------- | ---------- | ---------------------------------------- |
 | binding immutable value      | `a = 1`              | $O(1)$     |                                          |
-| simple operators on integers | `1 + 1`,<br>`2 == 2` | $O(1)$     | assume small integers unless explicitly told otherwise |
+| simple operators on integers | `1 + 1`,<br>`2 == 2` | $O(1)$     | assume small integers unless explicitly told otherwise<br>(whose values are small: e.g., under 12 digits) |
 
 ## List, Tuple
 
