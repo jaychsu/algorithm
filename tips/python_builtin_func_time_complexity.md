@@ -1,7 +1,7 @@
 The time-complexity of various operations in **CPython**
 ======
 
-note that,
+Note that,
 
 1. **CPython** is the official and most widespread implementation
 2. `n = len(data)`
@@ -15,7 +15,9 @@ note that,
 
 ## List, Tuple
 
-Tuples support all operations that do not mutate the data structure (and with the same complexity classes).
+`tuple` support all operations that do not mutate the data structure (and with the same complexity classes).
+
+When comparing two lists for equality, the complexity class above shows as $O(n)$, but in reality we would need to multiply this complexity by $O(==)$ where $O(==)$ is the complexity class for checking whether two values in the list are `==`. If they are ints, $O(==)$ would be $O(1)$; if they are strings, $O(==)$ in the worst case it would be $O(len(string))$. This issue applies any time an `==` check is done. We mostly will assume `==` checking on values in lists is $O(1)$: e.g., checking ints and small strings.
 
 | Operation             | Example               | Complexity    | Notes                                    |
 | --------------------- | --------------------- | ------------- | ---------------------------------------- |
@@ -43,7 +45,7 @@ Tuples support all operations that do not mutate the data structure (and with th
 
 ## Set
 
-Sets have many more operations that are O(1) compared with lists and tuples. Not needing to keep values in a specific order in a set (which lists/tuples require) allows for faster set operations.
+`set` have many more operations that are $O(1)$ compared with lists and tuples. Not needing to keep values in a specific order in a set (which lists/tuples require) allows for faster set operations.
 
 Frozen sets support all operations that do not mutate the data structure (and with the same complexity classes).
 
@@ -68,6 +70,10 @@ Frozen sets support all operations that do not mutate the data structure (and wi
 | copy                 | `s.copy()`            | $O(n)$     |                                          |
 
 ## Dict
+
+Most `dict` operations are $O(1)$.
+
+`defaultdict` support all operations that dicts support, with the same complexity classes (because it inherits all the operations); this assumes that calling the constructor when a values isn't found in the defaultdict is $O(1)$ - which is true for `int()`, `list()`, `set()`, ... (the things we commonly use)
 
 | Operation               | Example       | Complexity | Notes                                    |
 | ----------------------- | ------------- | ---------- | ---------------------------------------- |
