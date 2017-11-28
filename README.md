@@ -3,7 +3,14 @@ LeetCode/LintCode Solutions
 
 ## Todos
 
-- [ ] Group problems by kind (like kth, window, and etc.)
-- [ ] Add unit test to print run time and judge
-  - failed if time limit exceeded
-  - failed if unable to pass test cases
+- [ ] autofill commit message by the times of completion
+- [ ] group problems
+  - [ ] kind (like kth, window, and etc.)
+  - [ ] used algorithm
+  - [ ] used data structure
+- [ ] add unit test
+  - [ ] connect lintcode judge api
+  - [ ] connect leetcode judge api
+  - [ ] a command to judge single file
+  - [ ] a command to submit single file
+  - [ ] ci/cd to see the status of all problems
