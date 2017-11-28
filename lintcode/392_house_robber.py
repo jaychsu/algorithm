@@ -12,15 +12,15 @@ class Solution:
             return 0
 
         n = len(A)
-        F = [[0] * 2 for _ in range(2)]
-        F[0][1] = A[0]
-
         prev = curr = 0
+        dp = [[0] * 2 for _ in range(2)]
+        dp[0][1] = A[0]
+
         for i in range(1, n):
             prev = curr # (i - 1) % 2
             curr = i % 2
 
-            F[curr][0] = F[prev][0] if F[prev][0] > F[prev][1] else F[prev][1]
-            F[curr][1] = F[prev][0] + A[i]
+            dp[curr][0] = max(dp[prev])
+            dp[curr][1] = dp[prev][0] + A[i]
 
-        return max(F[curr])
+        return max(dp[curr])

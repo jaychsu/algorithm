@@ -9,7 +9,7 @@ class Solution:
 
         INFINITY = float('inf')
         m, n = len(costs), len(costs[0])
-        F = [[0] * n for _ in range(2)]
+        dp = [[0] * n for _ in range(2)]
 
         """
         i: `i`th house
@@ -18,17 +18,17 @@ class Solution:
         """
         i = j = k = prev = curr = 0
         for j in range(n):
-            F[0][j] = costs[0][j]
+            dp[0][j] = costs[0][j]
         for i in range(1, m):
             prev = curr # (i - 1) % 2
             curr = i % 2
             for j in range(n):
-                F[curr][j] = INFINITY
+                dp[curr][j] = INFINITY
                 for k in range(n):
-                    if k != j and F[prev][k] + costs[i][j] < F[curr][j]:
-                        F[curr][j] = F[prev][k] + costs[i][j]
+                    if k != j and dp[prev][k] + costs[i][j] < dp[curr][j]:
+                        dp[curr][j] = dp[prev][k] + costs[i][j]
 
         """
         curr == (m - 1) % 2
         """
-        return min(F[curr])
+        return min(dp[curr])
