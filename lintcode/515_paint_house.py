@@ -20,7 +20,7 @@ class Solution:
         for j in range(n):
             F[0][j] = costs[0][j]
         for i in range(1, m):
-            prev = (i - 1) % 2
+            prev = curr # (i - 1) % 2
             curr = i % 2
             for j in range(n):
                 F[curr][j] = INFINITY
