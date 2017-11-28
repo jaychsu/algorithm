@@ -53,3 +53,42 @@ class Solution:
             dp[curr][1] = dp[prev][0] + A[i]
 
         return max(dp[curr])
+
+
+class Solution:
+    """
+    @param: A: An array of non-negative integers.
+    @return: The maximum amount of money you can rob tonight
+    """
+    def houseRobber2(self, A):
+        if not A:
+            return 0
+
+        n = len(A)
+        if n == 1:
+            return A[0]
+        if n == 2:
+            return max(A[0], A[1])
+
+        dp = [0] * 3
+
+        return max(
+            # range(0, n - 1)
+            self.houseRobber(A, 0, dp),
+            # range(1, n)
+            self.houseRobber(A, 1, dp)
+        )
+
+    def houseRobber(self, A, start, dp):
+        n = len(A)
+        prev2, prev1, curr = 0, start % 3, (start + 1) % 3
+        dp[prev1] = A[start]
+        dp[curr] = max(A[start], A[start + 1])
+
+        for i in range(2 + start, n - 1 + start):
+            prev2, prev1 = prev1, curr
+            curr = i % 3
+
+            dp[curr] = max(dp[prev1], dp[prev2] + A[i])
+
+        return dp[curr]
