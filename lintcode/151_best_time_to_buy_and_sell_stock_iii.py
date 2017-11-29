@@ -9,7 +9,6 @@ class Solution:
 
         K = 2
         STAGE = 2 * K + 1
-        n = len(P)
 
         """
         `dp[i][j]` means the `i`th day at the `j`th stage
@@ -22,10 +21,12 @@ class Solution:
         note that, `dp[i][0]` means always stay in stage 0,
         so its never going to be profitable
         """
-        dp = [[0] * STAGE for _ in range(n)]
+        dp = [[0] * STAGE for _ in range(2)]
 
-        i = j = profit = 0
-        for i in range(1, n):
+        i = j = prev = curr = profit = 0
+        for i in range(1, len(P)):
+            prev = curr
+            curr = 1 - curr
             profit = P[i] - P[i - 1]
             for j in range(1, STAGE, 2):
                 """
@@ -37,7 +38,7 @@ class Solution:
                    just makes a buying today, so no profit
                 choose the maximum
                 """
-                dp[i][j] = max(dp[i - 1][j] + profit, dp[i - 1][j - 1])
+                dp[curr][j] = max(dp[prev][j] + profit, dp[prev][j - 1])
             for j in range(2, STAGE, 2):
                 """
                 in stage 2 and 4, holding no any stock
@@ -48,6 +49,6 @@ class Solution:
                    and gains profit (may be negative) today
                 choose the maximum
                 """
-                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] + profit)
+                dp[curr][j] = max(dp[prev][j], dp[prev][j - 1] + profit)
 
-        return max(dp[n - 1])
+        return max(dp[curr])
