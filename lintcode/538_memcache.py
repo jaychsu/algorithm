@@ -1,13 +1,8 @@
-class MemcacheItem:
-    def __init__(self, key, value, expired_at):
-        self.key = key
-        self.value = value
-        self.expired_at = expired_at
-
 class Memcache:
-    def __init__(self):
-        self.cache = {}
-        self.INT_MAX = 2147483647
+
+    INT_MAX = 0x7FFFFFFF
+    PERMANENT_TTL = -1
+    storage = {}
 
     """
     @param: curtTime: An integer
@@ -15,12 +10,13 @@ class Memcache:
     @return: An integer
     """
     def get(self, curtTime, key):
-        if key not in self.cache:
+        if key not in self.storage:
             return self.INT_MAX
-        item = self.cache[key]
-        if item.expired_at >= curtTime \
-            or item.expired_at is -1:
-            return item.value
+
+        if (curtTime < self.storage[key]['expired_at'] or
+            self.storage[key]['expired_at'] == self.PERMANENT_TTL):
+            return self.storage[key]['val']
+
         return self.INT_MAX
 
     """
@@ -31,11 +27,10 @@ class Memcache:
     @return: nothing
     """
     def set(self, curtTime, key, value, ttl):
-        if isinstance(ttl, int) \
-            and ttl > 0:
-            self.cache[key] = MemcacheItem(key, value, curtTime + ttl - 1)
+        if ttl > 0:
+            self.storage[key] = self._new_item(key, value, curtTime + ttl)
         else:
-            self.cache[key] = MemcacheItem(key, value, -1)
+            self.storage[key] = self._new_item(key, value, self.PERMANENT_TTL)
 
     """
     @param: curtTime: An integer
@@ -43,8 +38,8 @@ class Memcache:
     @return: nothing
     """
     def delete(self, curtTime, key):
-        if key in self.cache:
-            del self.cache[key]
+        if key in self.storage:
+            del self.storage[key]
 
     """
     @param: curtTime: An integer
@@ -53,13 +48,14 @@ class Memcache:
     @return: An integer
     """
     def incr(self, curtTime, key, delta):
-        if key not in self.cache:
+        if key not in self.storage:
             return self.INT_MAX
-        item = self.cache[key]
-        if item.expired_at >= curtTime \
-            or item.expired_at is -1:
-            item.value += delta
-            return item.value
+
+        if (curtTime < self.storage[key]['expired_at'] or
+            self.storage[key]['expired_at'] == self.PERMANENT_TTL):
+            self.storage[key]['val'] += delta
+            return self.storage[key]['val']
+
         return self.INT_MAX
 
     """
@@ -69,4 +65,11 @@ class Memcache:
     @return: An integer
     """
     def decr(self, curtTime, key, delta):
-        return self.incr(curtTime, key, delta * -1)
+        return self.incr(curtTime, key, -1 * delta)
+
+    def _new_item(self, key, value, expired_at):
+        return {
+            'key': key,
+            'val': value,
+            'expired_at': expired_at
+        }
