@@ -46,9 +46,9 @@ class Solution:
     "serialize" method.
     """
     def deserialize(self, data):
-        if not isinstance(data, str) \
-                or data[0] != '{' \
-                or data[-1] != '}':
+        if (not isinstance(data, str) or
+            data[0] != '{' or
+            data[-1] != '}'):
             return
 
         values = data[1:-1].split(',')
