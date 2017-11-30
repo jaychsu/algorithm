@@ -6,12 +6,10 @@ class Column:
         self.value = value
 """
 
-from collections import OrderedDict
 
 class MiniCassandra:
 
-    def __init__(self):
-        self.storage = {}
+    storage = {}
 
     """
     @param: raw_key: a string
@@ -20,9 +18,10 @@ class MiniCassandra:
     @return: nothing
     """
     def insert(self, raw_key, column_key, column_value):
-        if raw_key not in self.storage: self.storage[raw_key] = OrderedDict()
+        if raw_key not in self.storage:
+            self.storage[raw_key] = {}
+
         self.storage[raw_key][column_key] = Column(column_key, column_value)
-        self.storage[raw_key] = OrderedDict(sorted(self.storage[raw_key].items()))
 
     """
     @param: raw_key: a string
@@ -31,11 +30,13 @@ class MiniCassandra:
     @return: a list of Columns
     """
     def query(self, raw_key, column_start, column_end):
-        if raw_key in self.storage:
-            return [
-                col_value
-                for col_key, col_value in self.storage[raw_key].items()
-                if col_key >= column_start and col_key <= column_end
-            ]
-        else:
+        if raw_key not in self.storage:
             return []
+
+        result = [
+            column
+            for column_key, column in self.storage[raw_key].items()
+            if column_start <= column_key <= column_end
+        ]
+
+        return sorted(result, key=lambda column: column.key)
