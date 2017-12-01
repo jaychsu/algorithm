@@ -99,6 +99,17 @@ inf
 
 ## List `list`
 
+### To extend list
+
+```python
+>>> a = [1, 2, 3]
+>>> a
+[1, 2, 3]
+>>> a.extend((4, 5, 6))
+>>> a
+[1, 2, 3, 4, 5, 6]
+```
+
 ### To extend list with existing items
 
 Note that this is copying the pointer, not value, that is,
