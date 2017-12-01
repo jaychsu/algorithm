@@ -43,6 +43,7 @@ class GeoHash:
     def get_bin(self, target, left, right):
         mid = 0
         bin_codes = []
+
         for i in range(self.searching_times):
             mid = left + (right - left) / 2.0
             if target > mid:
@@ -51,6 +52,7 @@ class GeoHash:
             else:
                 right = mid
                 bin_codes.append('0')
+
         return bin_codes
 
     def get_base32(self):
@@ -59,9 +61,9 @@ class GeoHash:
         for i in range(10):
             result.append(str(i))
 
-        ignored_char = ('a', 'i', 'l', 'o')
+        ignored_char = (ord('a'), ord('i'), ord('l'), ord('o'))
         for i in range(ord('a'), ord('z') + 1):
-            if chr(i) in ignored_char:
+            if i in ignored_char:
                 continue
             result.append(chr(i))
 

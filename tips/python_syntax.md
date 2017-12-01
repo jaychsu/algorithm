@@ -55,6 +55,17 @@ True
 False
 ```
 
+## String `str`, `bytes`
+
+### To find index
+
+```python
+>>> 'abc'.find('b')
+1
+>>> 'abc'.find('z')
+-1
+```
+
 ## Number `int`, `float`
 
 ### Using cascade comparison
@@ -75,13 +86,25 @@ False
 >>> 3 / 2
 1
 # to parse the result as float
->>> 3 * 1.0 / 2
+>>> 3 / 2.0
 1.5
 
 # Python 3
 >>> 3 // 2
 1
 >>> 3 / 2
+1.5
+```
+
+conclusion:
+
+```python
+# need int
+>>> 3 // 2
+1
+
+# need float
+>>> 3 / 2.0
 1.5
 ```
 
@@ -98,6 +121,15 @@ inf
 ```
 
 ## List `list`
+
+### To find index
+
+```python
+>>> ['a', 'b', 'c'].index('b')
+1
+>>> ['a', 'b', 'c'].index('z')
+ValueError: 'z' is not in list
+```
 
 ### To extend list
 
