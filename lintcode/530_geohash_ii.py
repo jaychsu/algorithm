@@ -1,8 +1,10 @@
+"""
+main concept is in `../shared/geohash.py`
+"""
+
+
 class GeoHash:
     base32 = []
-
-    def __init__(self):
-        self.base32 = self.get_base32()
 
     """
     @param: geohash: geohash a base32 string
@@ -11,26 +13,28 @@ class GeoHash:
     def decode(self, geohash):
         if not geohash:
             return []
+        if not self.base32:
+            self.base32 = self.get_base32_list()
 
         bin_codes = []
         for char in geohash:
             if char not in self.base32:
                 return []
-            bin_codes.extend(self.oct_to_bin_list(self.base32.index(char)))
+            bin_codes.extend(self._oct_to_bins(self.base32.index(char)))
 
         n = len(bin_codes)
-        lng_codes = [bin_codes[i] for i in range(0, n, 2)]
         lat_codes = [bin_codes[i] for i in range(1, n, 2)]
+        lng_codes = [bin_codes[i] for i in range(0, n, 2)]
 
         return [
-            self.find_area(lat_codes, -90, 90),
-            self.find_area(lng_codes, -180, 180)
+            self._bins_to_loc(lat_codes,  -90,  90),
+            self._bins_to_loc(lng_codes, -180, 180)
         ]
 
-    def find_area(self, codes, left, right):
+    def _bins_to_loc(self, bins, left, right):
         mid = 0
 
-        for code in codes:
+        for code in bins:
             mid = left + (right - left) / 2.0
             if code:
                 left = mid
@@ -39,28 +43,24 @@ class GeoHash:
 
         return left + (right - left) / 2.0
 
-    def oct_to_bin_list(self, val_in_oct):
-        bin_codes = []
-
+    def _oct_to_bins(self, val_in_oct):
+        bins = []
         for i in range(5):
             if val_in_oct % 2:
-                bin_codes.append(1)
+                bins.append(1)
             else:
-                bin_codes.append(0)
-            val_in_oct //= 2
+                bins.append(0)
+            val_in_oct = val_in_oct >> 1
 
-        return reversed(bin_codes)
+        return reversed(bins)
 
-    def get_base32(self):
-        result = []
-
-        for i in range(10):
-            result.append(str(i))
+    def get_base32_list(self):
+        base32_list = [str(i) for i in range(10)]
 
         ignored_char = (ord('a'), ord('i'), ord('l'), ord('o'))
         for i in range(ord('a'), ord('z') + 1):
             if i in ignored_char:
                 continue
-            result.append(chr(i))
+            base32_list.append(chr(i))
 
-        return result
+        return base32_list
