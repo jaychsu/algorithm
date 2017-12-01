@@ -43,6 +43,22 @@ When comparing two lists for equality, the complexity class above shows as $O(n)
 | sort                  | `l.sort()`            | $O(n\log(n))$ | `key`/`reverse` mostly doesn't change    |
 | multiply              | `k * l`               | $O(k×n)$      |                                          |
 
+## collections.deque
+
+A `deque` (double-ended queue) is represented internally as a doubly linked list. (Well, a list of arrays rather than objects, for greater efficiency.) Both ends are accessible, but even looking at the middle is slow, and adding to or removing from the middle is slower still.
+
+| Operation  | Example           | Complexity | Notes                                    |
+| ---------- | ----------------- | ---------- | ---------------------------------------- |
+| append     | `q.append(1)`     | $O(1)$     |                                          |
+| appendleft | `q.appendleft(2)` | $O(1)$     |                                          |
+| pop        | `q.pop()`         | $O(1)$     |                                          |
+| popleft    | `q.popleft()`     | $O(1)$     |                                          |
+| extend     | `q.extend(t)`     | $O(m)$     | `m = len(t)`                             |
+| extendleft | `q.extendleft(t)` | $O(m)$     |                                          |
+| rotate     | `q.rotate(m)`     | $O(m)$     | `type(m) == int`<br>move the `m` children in right to left if `m > 0`<br>otherwise move from left to right |
+| copy       | `q.copy()`        | $O(n)$     |                                          |
+| remove     | `q.remove(x)`     | $O(n)$     |                                          |
+
 ## Set
 
 `set` have many more operations that are $O(1)$ compared with lists and tuples. Not needing to keep values in a specific order in a set (which lists/tuples require) allows for faster set operations.
