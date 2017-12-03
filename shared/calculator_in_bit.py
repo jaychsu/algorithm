@@ -2,7 +2,9 @@ class Calculator:
     INT_RANGE = 0xFFFFFFFF
 
     """
-    :example: 1 + 5, that is 0001 + 0101
+    a + b
+
+    example: 1 + 5, that is 0001 + 0101
     step1/ no carry(xor): 0001 ^ 0101 == 0100
     step2/ considering carry(and + shift): (0001 & 0101) << 1 == 0010
         the carry only occurs when the same digit is 1
@@ -13,16 +15,18 @@ class Calculator:
     r2: 0100 ^ 0010 == 0110, (0100 & 0010) << 1 == 0000
     got 0110 == 6
     """
-    # a + b
-    # recursion
+    """
+    recursion
+    """
     @classmethod
     def _plus(cls, a, b):
         if not b:
             return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
-        return cls.plus((a ^ b) & cls.INT_RANGE, (a & b) << 1)
+        return cls._plus((a ^ b) & cls.INT_RANGE, (a & b) << 1)
 
-    # a + b
-    # iteration
+    """
+    iteration
+    """
     @classmethod
     def plus(cls, a, b):
         while b:
@@ -31,12 +35,12 @@ class Calculator:
         return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
 
     """
+    a - b
+
     the simplest way is `a + (-b)`
     """
-    # a - b
     @classmethod
     def minus(cls, a, b):
-
         """
         to get the complement of `b`, that is `-b`
         -b = ~b + 1
@@ -46,6 +50,8 @@ class Calculator:
         return cls.plus(a, b)
 
     """
+    a * b
+
     in oct   | in bin
       a  12  |   a  1100
     x b  10  | x b  1010
@@ -57,55 +63,66 @@ class Calculator:
              | ----------
              |   1111000
     """
-    # a * b
     @classmethod
     def times(cls, a, b):
         if not a or not b:
             return 0
 
-        # its equivalent to `abs()`
+        """
+        its equivalent to `abs()`
+        """
         _a = a if a > 0 else cls.plus(~a, 1)
         _b = b if b > 0 else cls.plus(~b, 1)
 
         product = 0
         while _b:
-
-            # check the last digit in `b`
+            """
+            check the last digit in `b`
+            """
             if _b & 1:
                 product = cls.plus(product, _a)
 
             """
-            see diagram above
-            r1/ 1100 * 0
-            r2/ 11000 * 1
-            r3/ 110000 * 0
-            r4/ 1100000 * 1
+            r1/ 1100    * 0 =    0000
+            r2/ 11000   * 1 =   11000
+            r3/ 110000  * 0 =  000000
+            r4/ 1100000 * 1 = 1100000
             """
             _a = _a << 1
 
-            # allow to check last digit
+            """
+            allow to check last digit in next iteration
+            """
             _b = _b >> 1
 
         if a ^ b < 0:
             product = cls.plus(~product, 1)
+
         return product
 
-    # a / b
+    """
+    a / b
+
+    * remove the single line comment to get `remainder`
+    """
     @classmethod
     def divide(cls, a, b):
         if not a or not b:
             return 0
 
-        # its equivalent to `abs()`
+        """
+        its equivalent to `abs()`
+        """
         _a = a if a > 0 else cls.plus(~a, 1)
         _b = b if b > 0 else cls.plus(~b, 1)
 
         quotient = 0
         # remainder = 0
 
-        # the upper limit of int: 2 ** 31
+        """
+        the upper limit of int: 2 ** 31
+        """
         for i in range(31, -1, -1):
-
             """
             avoid to `_a >= _b << i`
             it may lead to overflow
