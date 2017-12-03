@@ -5,6 +5,7 @@ class TreeNode:
         self.val = val
         self.left, self.right = None, None
 """
+from collections import deque
 
 
 class Solution:
@@ -51,10 +52,10 @@ class Solution:
             data[-1] != '}'):
             return
 
-        values = data[1:-1].split(',')
+        values = deque(data[1:-1].split(','))
         if not values:
             return
-        value = values.pop(0)
+        value = values.popleft()
         if value == self.NULL_NODE:
             return
 
@@ -64,14 +65,14 @@ class Solution:
         for node in queue:
             if not values:
                 break
-            value = values.pop(0)
+            value = values.popleft()
             if value != self.NULL_NODE:
                 node.left = TreeNode(value)
                 queue.append(node.left)
 
             if not values:
                 break
-            value = values.pop(0)
+            value = values.popleft()
             if value != self.NULL_NODE:
                 node.right = TreeNode(value)
                 queue.append(node.right)

@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class TreeNode:
     def __init__(self, val):
         self.val = val
@@ -36,10 +39,10 @@ class BinaryTree:
                 or data[-1] != '}':
             return
 
-        values = data[1:-1].split(',')
+        values = deque(data[1:-1].split(','))
         if not values:
             return
-        value = values.pop(0)
+        value = values.popleft()
         if value == cls.NULL_NODE:
             return
 
@@ -50,7 +53,7 @@ class BinaryTree:
             # add to left child
             if not values:
                 break
-            value = values.pop(0)
+            value = values.popleft()
             if value != cls.NULL_NODE:
                 node.left = TreeNode(int(value))
                 queue.append(node.left)
@@ -58,7 +61,7 @@ class BinaryTree:
             # add to right child
             if not values:
                 break
-            value = values.pop(0)
+            value = values.popleft()
             if value != cls.NULL_NODE:
                 node.right = TreeNode(int(value))
                 queue.append(node.right)

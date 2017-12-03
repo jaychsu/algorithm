@@ -1,5 +1,5 @@
 """
-% python -i _test_binary_tree.py
+% python _test_binary_tree.py
 Serialization lib is valid.
 ============
 Traversal Case: {1,2,3,4,#,#,5,#,6,#,#,7,8}
@@ -50,15 +50,15 @@ CASES = (
     '{1,#,2,#,3,#,4,#,5,#,6,#,7}',
 )
 
-result = None
-def show_result(x):
-    result.append(str(x))
-
 case = CASES[0]
 if case == BinaryTree.serialize(BinaryTree.deserialize(case)):
     print('Serialization lib is valid.')
 else:
     quit('Serialization lib is not valid.')
+
+result = None
+def show_result(x):
+    result.append(str(x))
 
 print('============')
 for case in CASES:
