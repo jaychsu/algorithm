@@ -20,25 +20,25 @@ class Solution:
 
         r0:
             head: 1
-            _head: None
-            remaining: None
+            pre: None
+            nxt: None
         r1:
             head: 2
-            _head: 1
-            remaining: 2->3
+            pre: 1
+            nxt: 2->3
         r2:
             head: 3
-            _head: 2->1
-            remaining: 3
+            pre: 2->1
+            nxt: 3
         r3:
             head: None
-            _head: 3->2->1
-            remaining: None
+            pre: 3->2->1
+            nxt: None
         """
-        _head = remaining = None
+        pre = nxt = None
         while head:
-            remaining = head.next  # save the remaining children
-            head.next = _head      # break the link
-            _head = head           # save the new head
-            head = remaining       # pointer the old head
-        return _head
+            nxt = head.next  # save the remaining children
+            head.next = pre  # break the link
+            pre = head       # save the new head
+            head = nxt       # pointer the old head
+        return pre
