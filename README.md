@@ -1,5 +1,15 @@
-LeetCode/LintCode Solutions
+Algorithm
 ======
+
+## Structure
+
+```
+.
+├── leetcode    # The solutions for problems in LeetCode
+├── lintcode    # The solutions for problems in LintCode
+├── shared      # Implementation of algorithms and data structures
+└── tips        # A similar blog post to sum up the solutions to the problems
+```
 
 ## Todos
 
