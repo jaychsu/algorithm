@@ -35,9 +35,9 @@ class Solution:
                       mp   n    m    nn
         """
         dummy = ListNode(-1, head)
-        mth_pre = self.findKth(dummy, m - 1)
+        mth_pre = self.find_kth(dummy, m - 1)
         mth = mth_pre.next
-        nth = self.findKth(dummy, n)
+        nth = self.find_kth(dummy, n)
         nth_nxt = nth.next
         nth.next = None
 
@@ -46,7 +46,7 @@ class Solution:
         mth.next = nth_nxt
         return dummy.next
 
-    def findKth(self, head, k):
+    def find_kth(self, head, k):
         for i in range(k):
             if not head:
                 return
