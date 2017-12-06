@@ -28,12 +28,16 @@ def _quick_sort(A, start, end):
     if start >= end:
         return
 
-    left, mid, right = start, (start + end) // 2, end
+    left, right = start, end
+
+    # remember to save mid value in advance
+    # since the array is changing all the time
+    pivot = A[(start + end) // 2]
 
     while left <= right:
-        while left <= right and A[left] < A[mid]:
+        while left <= right and A[left] < pivot:
             left += 1
-        while left <= right and A[mid] < A[right]:
+        while left <= right and pivot < A[right]:
             right -= 1
         if left <= right:
             A[left], A[right] = A[right], A[left]
