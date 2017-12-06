@@ -40,12 +40,12 @@ class Solution:
 
         left_tail.next = mid_tail.next = right_tail.next = None
 
-        left = self.quick_sort(left_dummy.next)
-        right = self.quick_sort(right_dummy.next)
+        left_dummy.next = self.quick_sort(left_dummy.next)
+        right_dummy.next = self.quick_sort(right_dummy.next)
 
         dummy = tail = ListNode(0)
-        for node in [left, mid_dummy.next, right]:
-            tail.next = node
+        for node in [left_dummy, mid_dummy, right_dummy]:
+            tail.next = node.next
             tail = self.get_tail(tail)
 
         return dummy.next
