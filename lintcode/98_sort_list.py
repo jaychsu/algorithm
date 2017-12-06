@@ -17,7 +17,38 @@ class Solution:
         return self.merge_sort(head)
 
     def quick_sort(self, head):
-        pass
+        if not head or not head.next:
+            return head
+
+        mid = self.find_middle(head)
+
+        left_dummy = left_tail = ListNode(0)
+        mid_dummy = mid_tail = ListNode(0)
+        right_dummy = right_tail = ListNode(0)
+
+        while head:
+            if head.val < mid.val:
+                left_tail.next = head
+                left_tail = head
+            elif head.val > mid.val:
+                right_tail.next = head
+                right_tail = head
+            else:
+                mid_tail.next = head
+                mid_tail = head
+            head = head.next
+
+        left_tail.next = mid_tail.next = right_tail.next = None
+
+        left = self.quick_sort(left_dummy.next)
+        right = self.quick_sort(right_dummy.next)
+
+        dummy = tail = ListNode(0)
+        for node in [left, mid_dummy.next, right]:
+            tail.next = node
+            tail = self.get_tail(tail)
+
+        return dummy.next
 
     def merge_sort(self, head):
         if not head or not head.next:
@@ -57,3 +88,12 @@ class Solution:
             fast = fast.next.next
 
         return slow
+
+    def get_tail(self, head):
+        if not head:
+            return
+
+        while head.next:
+            head = head.next
+
+        return head
