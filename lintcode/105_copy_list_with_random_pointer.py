@@ -17,7 +17,7 @@ class Solution:
     # @param head: A RandomListNode
     # @return: A RandomListNode
     def copyRandomList(self, head):
-        dummy = dummy_end = RandomListNode(-1)
+        dummy = tail = RandomListNode(0)
         new_node = None
         indices = {}
 
@@ -28,10 +28,10 @@ class Solution:
         while head:
             new_node = RandomListNode(head.label)
             new_node.random = head.random
-            dummy_end.next = new_node
+            tail.next = new_node
             indices[head] = new_node
 
-            dummy_end = dummy_end.next
+            tail = tail.next
             head = head.next
 
         """
@@ -98,13 +98,13 @@ class Solution:
             head = head.next.next
 
     def split_list(self, head):
-        dummy = dummy_end = head.next
+        dummy = tail = head.next
 
         while head:
-            dummy_end = head.next
-            head.next = dummy_end.next
-            if dummy_end.next:
-                dummy_end.next = dummy_end.next.next
+            tail = head.next
+            head.next = tail.next
+            if tail.next:
+                tail.next = tail.next.next
 
             head = head.next
 

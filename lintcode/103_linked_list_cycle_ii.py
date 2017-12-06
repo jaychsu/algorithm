@@ -19,22 +19,22 @@ class Solution:
                     ^  v
                     5<-4
 
-        * h: head, l: left, r: right, i: intersection node
+        * h: head, s: slow, f: fast, i: intersection node
 
         r1/
-            l    r
+            s    f
             1 -> 2 -> 3
                  ^    v
                  5 <- 4
 
         r2/
-                 l
+                 s
             1 -> 2 -> 3
                  ^    v
-                 5 <- 4  r
+                 5 <- 4  f
 
         r3/
-                 r    l
+                 f    s
             1 -> 2 -> 3
                  ^    v
                  5 <- 4
@@ -43,10 +43,10 @@ class Solution:
             h    i
             1 -> 2 -> 3
                  ^    v
-                 5 <- 4  l, r
+                 5 <- 4  s, f
 
         h->i == 1
-        l->i == 2
+        s->i == 2
         """
         if not head or not head.next:
             return
@@ -57,20 +57,20 @@ class Solution:
         will eventually meet
         otherwise its a list => at some point there will be no `node.next`
         """
-        left, right = head, head.next
-        while left != right:
-            if not right or not right.next:
+        slow, fast = head, head.next
+        while slow != fast:
+            if not fast or not fast.next:
                 return
-            left = left.next
-            right = right.next.next
+            slow = slow.next
+            fast = fast.next.next
 
         """
-        at this point, left meet right
+        at this point, slow meet fast
         and at the intersection node
         the steps from the first node is equal to from meet node plus 1
         """
-        while head != left.next:
+        while head != slow.next:
             head = head.next
-            left = left.next
+            slow = slow.next
 
         return head

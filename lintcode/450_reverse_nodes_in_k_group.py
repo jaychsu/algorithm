@@ -17,7 +17,7 @@ class Solution:
         if not head:
             return
 
-        dummy = ListNode(-1)
+        dummy = ListNode(0)
         dummy.next = head
 
         head = dummy

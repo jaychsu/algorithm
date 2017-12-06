@@ -18,7 +18,7 @@ class Solution:
         if not head:
             return
 
-        left_dummy, right_dummy = ListNode(-1), ListNode(-1)
+        left_dummy, right_dummy = ListNode(0), ListNode(0)
         left_end, right_end = left_dummy, right_dummy
 
         while head:
