@@ -17,19 +17,19 @@ class Solution:
         if not nums:
             return []
 
-        sum_to_start = {}
-        sum_to_start[0] = -1
+        sum_to_index = {}
+        sum_to_index[0] = -1
 
-        _sum = 0
+        prefix_sum = 0
         for i in range(len(nums)):
-            _sum += nums[i]
+            prefix_sum += nums[i]
 
-            if _sum in sum_to_start:
+            if prefix_sum in sum_to_index:
                 return [
-                    sum_to_start[_sum] + 1,
+                    sum_to_index[prefix_sum] + 1,
                     i
                 ]
 
-            sum_to_start[_sum] = i
+            sum_to_index[prefix_sum] = i
 
         return []
