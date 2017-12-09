@@ -2,6 +2,9 @@ class Trie:
     def __init__(self):
         self.root = self._new_node()
 
+    def __repr__(self):
+        return repr(self.root)
+
     def put(self, key):
         if not key:
             return
@@ -41,6 +44,3 @@ class Trie:
             'end_of': '',
             'children': {}
         }
-
-    def __repr__(self):
-        return repr(self.root)

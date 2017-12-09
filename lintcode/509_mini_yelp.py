@@ -174,6 +174,8 @@ class Trie:
         parent = self.root
         parent['keys'].discard(key)
         for char in key:
+            if char not in parent['children']:
+                return
             parent = parent['children'][char]
             parent['keys'].discard(key)
 

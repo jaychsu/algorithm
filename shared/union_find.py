@@ -2,6 +2,9 @@ class UnionFind:
     def __init__(self):
         self.nodes = {}
 
+    def __repr__(self):
+        return repr(self.nodes)
+
     def connect(self, a, b):
         root_a = self.find(a)
         root_b = self.find(b)
@@ -12,10 +15,7 @@ class UnionFind:
         if a not in self.nodes:
             self.nodes[a] = a
             return a
-        elif self.nodes[a] is a:
+        if self.nodes[a] is a:
             return a
         self.nodes[a] = self.find(self.nodes[a])
         return self.nodes[a]
-
-    def __repr__(self):
-        return repr(self.nodes)
