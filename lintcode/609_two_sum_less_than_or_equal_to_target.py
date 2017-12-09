@@ -5,18 +5,21 @@ class Solution:
     @return: an integer
     """
     def twoSum5(self, nums, target):
+        ans = 0
+
         if not nums or len(nums) < 2:
-            return 0
-        ans = sum = 0
-        l, r = 0, len(nums) - 1
+            return ans
+
         nums.sort()
-        while l < r:
-            sum = nums[l] + nums[r]
-            if sum <= target:
-                # the count of connections from `l` to `r`
+
+        left, right = 0, len(nums) - 1
+        while left < right:
+            if nums[left] + nums[right] <= target:
+                # the count of connections from `left` to `right`
                 # e.g, from 1 to 4, 1-2, 1-3, 1-4, got 3 connections
-                ans += r - l
-                l += 1
+                ans += right - left
+                left += 1
             else:
-                r -= 1
+                right -= 1
+
         return ans
