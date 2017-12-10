@@ -12,6 +12,8 @@ class Solution:
         if not m or not A or not V:
             return 0
 
+        # `dp[i][w]` means the maximum value
+        # with weight `w` in the former `i` items
         dp = [[0] * (m + 1) for _ in range(2)]
 
         prev = curr = 0
