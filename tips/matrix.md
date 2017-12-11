@@ -78,25 +78,48 @@ see [lintcode/132_word_search_ii.py](../lintcode/132_word_search_ii.py)
 since sometimes we need to init status from bottom-left cell, see [lintcode/136_palindrome_partitioning.py](../lintcode/136_palindrome_partitioning.py)
 
 ```python
->>> n = 4
+>>> n = 5
+>>> level = order = 0
 >>> arr = [[0] * n for _ in range(n)]
 >>> for y in range(n):
-...     arr[y][y] = 1
+...     order += 1
+...     arr[y][y] = order
 ...     if y > 0:
 ...             x = y - 1
-...             arr[x][y] = 1
+...             arr[x][y] = order
 >>> arr
-[[1, 1, 0, 0],
- [0, 1, 1, 0],
- [0, 0, 1, 1],
- [0, 0, 0, 1]]
+[[1, 2, 0, 0, 0],
+ [0, 2, 3, 0, 0],
+ [0, 0, 3, 4, 0],
+ [0, 0, 0, 4, 5],
+ [0, 0, 0, 0, 5]]
 
+>>> level = order = 0
 >>> for x in range(n - 1 - 2, -1, -1):
+...     level += 10
+...     order = 0
 ...     for y in range(x + 2, n):
-...             arr[x][y] = 2
+...             order += 1
+...             arr[x][y] = level + order
 >>> arr
-[[1, 1, 2, 2],
- [0, 1, 1, 2],
- [0, 0, 1, 1],
- [0, 0, 0, 1]]
+[[ 1,  2, 31, 32, 33],
+ [ 0,  2,  3, 21, 22],
+ [ 0,  0,  3,  4, 11],
+ [ 0,  0,  0,  4,  5],
+ [ 0,  0,  0,  0,  5]]
+
+>>> level = order = 0
+>>> for size in range(1 + 2, n + 1):
+...     level += 10
+...     order = 0
+...     for x in range(n - size + 1):
+...             order += 1
+...             y = x + size - 1
+...             arr[x][y] = level + order
+>>> arr
+[[ 1,  2, 11, 21, 31],
+ [ 0,  2,  3, 12, 22],
+ [ 0,  0,  3,  4, 13],
+ [ 0,  0,  0,  4,  5],
+ [ 0,  0,  0,  0,  5]]
 ```
