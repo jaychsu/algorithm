@@ -112,6 +112,10 @@ since sometimes we need to init status from bottom-left cell, see [lintcode/136_
 >>> for size in range(1 + 2, n + 1):
 ...     level += 10
 ...     order = 0
+        # 0, 1, 2, 3, 4; n == 5, size == 3
+        # => set == {(0,1,2),(1,2,3),(2,3,4)}
+        # => i < 3
+        # => `i < n - size + 1` or `i <= n - size`
 ...     for x in range(n - size + 1):
 ...             order += 1
 ...             y = x + size - 1
