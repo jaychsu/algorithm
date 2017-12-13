@@ -1,18 +1,23 @@
 """
 Main Concept:
 
-head <-> 2 <-> 3 <-> 8   |<- freq_list (dll)
-         &     &     &   |<- cache_list (dll)
-         a     c     d
-         &           &
-         b           e
+dummy <-> 2 <-> 3 <-> 8   |<- freq_list (dll)
+          |     |     |
+          a     c     d   |<- cache_list (dll)
+          &           &
+          b           e
 
 1. if cache is updated (set/get)
     => freq += 1
-    => move to the tail of cache_list
+    => move to the end of the cache_list in new freq_list
 2. if cache is full
-    => evict the top-left cache first, that is `a` in above diagram
-    => add the new cache to the tail of `1` in cache_list
+    => evict the most top-left in cache first,
+       that is `a` in above diagram
+    => add the new cache to the end of the cache_list in freq `0`
+
+TODO:
+
+- change the structure of cache_list from `head-tail` to `dummy-tail`
 """
 
 
@@ -23,7 +28,7 @@ class LFUCache:
     def __init__(self, capacity):
         self.cache = {}
         self.capacity = capacity
-        self.freq_dummy = None
+        self.freq_dummy = FreqNode(-1)
 
     """
     @param: key: An integer
@@ -58,76 +63,75 @@ class LFUCache:
         cache_node = CacheNode(key, val)
         self.cache[key] = cache_node
 
-        if not self.freq_dummy:
-            self.freq_dummy = FreqNode(0)
-            self.freq_dummy.append_tail(cache_node)
+        head = self.freq_dummy.nxt
+
+        # if the minimum `freq_node` is just `0`
+        if head and head.freq == 0:
+            head.append_tail(cache_node)
             return
 
-        if self.freq_dummy.freq == 0:
-            self.freq_dummy.append_tail(cache_node)
-            return
-
-        freq_node = FreqNode(0)
-        freq_node.append_tail(cache_node)
-        self.freq_dummy.before(freq_node)
-        self.freq_dummy = freq_node
+        # if the minimum `freq_node` is not `0`
+        head = FreqNode(0)
+        head.append_tail(cache_node)
+        self.freq_dummy.after(head)
 
     def _evict_item(self):
-        freq_dummy = self.freq_dummy
-        key = freq_dummy.cache_head.key
+        head = self.freq_dummy.nxt
+        key = head.cache_head.key
         self.cache.pop(key)
-        freq_dummy.pop_head()
 
-        if freq_dummy.is_empty():
-            self.freq_dummy = freq_dummy.nxt
-            freq_dummy.unlink()
+        head.pop_head()
+
+        if head.is_empty():
+            head.unlink()
 
     def _update_item(self, key, val=None):
         cache_node = self.cache[key]
-        freq_node = cache_node.cache_dummy
-        target_freq_node = None
 
         if val:
             cache_node.val = val
 
-        if (not freq_node.nxt or
-            freq_node.nxt.freq != freq_node.freq + 1):
-            target_freq_node = FreqNode(freq_node.freq + 1)
-            freq_node.after(target_freq_node)
+        from_freq = cache_node.dummy
+        to_freq = None
+
+        if from_freq.nxt and from_freq.nxt.freq == from_freq.freq + 1:
+            to_freq = from_freq.nxt
         else:
-            target_freq_node = freq_node.nxt
+            to_freq = FreqNode(from_freq.freq + 1)
+            from_freq.after(to_freq)
 
         cache_node.unlink()
-        target_freq_node.append_tail(cache_node)
+        to_freq.append_tail(cache_node)
 
-        if freq_node.is_empty():
-            if self.freq_dummy is freq_node:
-                self.freq_dummy = target_freq_node
-            freq_node.unlink()
+        if from_freq.is_empty():
+            from_freq.unlink()
 
 
 class CacheNode:
-    def __init__(self, key, val, cache_dummy=None, pre=None, nxt=None):
+    def __init__(self, key, val, dummy=None, pre=None, nxt=None):
         self.key = key
         self.val = val
-        self.cache_dummy = cache_dummy
+        self.dummy = dummy
         self.pre = pre
         self.nxt = nxt
 
     def unlink(self):
-        if self.cache_dummy.cache_head is self.cache_dummy.cache_tail:
-            self.cache_dummy.cache_head = self.cache_dummy.cache_tail = None
-        elif self.cache_dummy.cache_head is self:
-            self.cache_dummy.cache_head = self.nxt
+        head = self.dummy.cache_head
+        tail = self.dummy.cache_tail
+
+        if self is head and self is tail:
+            self.dummy.cache_head = self.dummy.cache_tail = None
+        elif self is head:
+            self.dummy.cache_head = self.nxt
             self.nxt.pre = None
-        elif self.cache_dummy.cache_tail is self:
+        elif self is tail:
             self.pre.nxt = None
-            self.cache_dummy.cache_tail = self.pre
+            self.dummy.cache_tail = self.pre
         else:
             self.pre.nxt = self.nxt
             self.nxt.pre = self.pre
 
-        self.pre = self.nxt = self.cache_dummy = None
+        self.pre = self.nxt = self.dummy = None
 
 
 class FreqNode:
@@ -150,38 +154,33 @@ class FreqNode:
         self.pre = self.nxt = self.cache_head = self.cache_tail = None
 
     def pop_head(self):
+        # no nodes
         if self.is_empty():
             return
 
-        if self.cache_head is self.cache_tail:
-            cache_node = self.cache_head
+        # 1 node
+        head = self.cache_head
+        if head is self.cache_tail:
             self.cache_head = self.cache_tail = None
-            return cache_node
+            return head
 
-        cache_node = self.cache_head
-        self.cache_head = cache_node.nxt
-        cache_node.nxt.pre = None
-        return cache_node
+        # 2+ nodes
+        self.cache_head = head.nxt
+        head.nxt.pre = None
+        return head
 
     def append_tail(self, cache_node):
-        cache_node.cache_dummy = self
+        # the passed node MUST BE no relation with other
+
+        cache_node.dummy = self
 
         if self.is_empty():
             self.cache_head = self.cache_tail = cache_node
             return
 
         cache_node.pre = self.cache_tail
-        cache_node.nxt = None
         self.cache_tail.nxt = cache_node
         self.cache_tail = cache_node
-
-    def before(self, freq_node):
-        if self.pre:
-            self.pre.nxt = freq_node
-
-        freq_node.pre = self.pre
-        freq_node.nxt = self
-        self.pre = freq_node
 
     def after(self, freq_node):
         if self.nxt:
