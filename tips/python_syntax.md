@@ -131,6 +131,38 @@ inf
 ValueError: 'z' is not in list
 ```
 
+### To reverse List
+
+```python
+>>> a = [1, 2, 3, 4]
+>>> a.sort(reverse=True)
+>>> a
+[4, 3, 2, 1]
+>>> a is a
+True
+
+>>> b = [1, 2, 3, 4]
+>>> _b = sorted(b, reverse=True)
+>>> _b
+[4, 3, 2, 1]
+>>> b is _b
+False
+
+>>> c = [1, 2, 3, 4]
+>>> _c = reversed(c)  # <list_reverseiterator object>
+>>> list(_c)
+[4, 3, 2, 1]
+>>> c is _c
+False
+
+>>> d = [1, 2, 3, 4]
+>>> _d = d[::-1]
+>>> _d
+[4, 3, 2, 1]
+>>> d is _d
+False
+```
+
 ### To extend list
 
 ```python
