@@ -134,31 +134,33 @@ ValueError: 'z' is not in list
 ### To reverse List
 
 ```python
->>> a = [1, 2, 3, 4]
+>>> origin = [100, 1, 1000, 10]
+
+>>> a = origin[:]
 >>> a.sort(reverse=True)
 >>> a
-[4, 3, 2, 1]
+[1000, 100, 10, 1]    # sorting involved
 >>> a is a
 True
 
->>> b = [1, 2, 3, 4]
+>>> b = origin[:]
 >>> _b = sorted(b, reverse=True)
 >>> _b
-[4, 3, 2, 1]
+[1000, 100, 10, 1]    # sorting involved
 >>> b is _b
 False
 
->>> c = [1, 2, 3, 4]
+>>> c = origin[:]
 >>> _c = reversed(c)  # <list_reverseiterator object>
 >>> list(_c)
-[4, 3, 2, 1]
+[10, 1000, 1, 100]    # only reversed
 >>> c is _c
 False
 
->>> d = [1, 2, 3, 4]
+>>> d = origin[:]
 >>> _d = d[::-1]
 >>> _d
-[4, 3, 2, 1]
+[10, 1000, 1, 100]    # only reversed
 >>> d is _d
 False
 ```
