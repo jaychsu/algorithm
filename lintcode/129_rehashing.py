@@ -18,29 +18,24 @@ class Solution:
             return
 
         CAPACITY = len(hash_table) * 2
-        new_hash = [None] * CAPACITY
+        _new = [None] * CAPACITY
+        tails = [None] * CAPACITY
 
-        curr = tail = i = 0
+        curr = _node = i = None
         for node in hash_table:
             curr = node
+
             while curr:
                 i = curr.val % CAPACITY
+                _node = ListNode(curr.val)
 
-                if new_hash[i]:
-                    tail = self.get_tail(new_hash[i])
-                    tail.next = ListNode(curr.val)
+                if _new[i]:
+                    tails[i].next = _node
                 else:
-                    new_hash[i] = ListNode(curr.val)
+                    _new[i] = _node
+
+                tails[i] = _node
 
                 curr = curr.next
 
-        return new_hash
-
-    def get_tail(self, head):
-        if not head:
-            return head
-
-        while head.next:
-            head = head.next
-
-        return head
+        return _new
