@@ -10,10 +10,8 @@ class Solution:
 
         MAGIC_NUMBER = 33
 
-        hashcode = 0
-
+        _code = 0
         for char in key:
-            hashcode = hashcode * MAGIC_NUMBER + ord(char)
-            hashcode %= HASH_SIZE
+            _code = (_code * MAGIC_NUMBER + ord(char)) % HASH_SIZE
 
-        return hashcode
+        return _code

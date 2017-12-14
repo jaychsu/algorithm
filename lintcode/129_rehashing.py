@@ -18,7 +18,7 @@ class Solution:
             return
 
         CAPACITY = len(hash_table) * 2
-        _new = [None] * CAPACITY
+        heads = [None] * CAPACITY
         tails = [None] * CAPACITY
 
         curr = _node = i = None
@@ -29,13 +29,13 @@ class Solution:
                 i = curr.val % CAPACITY
                 _node = ListNode(curr.val)
 
-                if _new[i]:
+                if heads[i]:
                     tails[i].next = _node
                 else:
-                    _new[i] = _node
+                    heads[i] = _node
 
                 tails[i] = _node
 
                 curr = curr.next
 
-        return _new
+        return heads
