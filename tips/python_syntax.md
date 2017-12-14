@@ -131,7 +131,21 @@ inf
 ValueError: 'z' is not in list
 ```
 
-### To reverse List
+### To sort list
+
+```python
+>>> l = [(2,3), (2,-3), (-2,3), (-2,-3)]
+
+# 1 key
+>>> sorted(l, key=lambda i: i[0])
+[(-2, 3), (-2, -3), (2, 3), (2, -3)]
+
+# 2+ keys
+>>> sorted(l, key=lambda i: (i[0], i[1]))  # that is, `key=lambda i: i`
+[(-2, -3), (-2, 3), (2, -3), (2, 3)]
+```
+
+### To reverse list
 
 ```python
 >>> origin = [100, 1, 1000, 10]
