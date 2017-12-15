@@ -25,7 +25,7 @@ steps:
 
 to reduce the space complexity by one or more dimensions.
 
-note that, remember to init the value in rolling array to reuse it.
+note that, **remember to INIT the value in rolling array to reuse it**.
 
 there are two optimizations:
 
