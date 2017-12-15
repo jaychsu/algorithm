@@ -31,10 +31,14 @@ there are two optimizations:
 
 ### if current `i` only depends on `i-k` row, just mod `k+1` to reduce size
 
+note that, if you want to optimize two dimensions at the same time,
+every child has to count twice and will lead to **high time complexity**.
+
 example:
 
 - [lintcode/515_paint_house.py](../lintcode/515_paint_house.py)
 - [lintcode/534_house_robber_ii.py](../lintcode/534_house_robber_ii.py)
+- [lintcode/119_edit_distance.py](../lintcode/119_edit_distance.py)
 
 ```python
 # `i` only depends on `i - 1`
