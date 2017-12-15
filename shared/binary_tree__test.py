@@ -1,0 +1,112 @@
+import unittest
+from _test_helper import *
+
+from binary_tree_serialization import BinaryTree
+from binary_tree_preorder_traversal import *
+from binary_tree_inorder_traversal import *
+from binary_tree_postorder_traversal import *
+
+
+class TestBinaryTree(unittest.TestCase):
+
+    CASES = {
+        '{1,2,3,4,#,#,5,#,6,#,#,7,8}': {
+            'preorder': '1,2,4,6,7,8,3,5',
+            'inorder': '4,7,6,8,2,1,3,5',
+            'postorder': '7,8,6,4,2,5,3,1',
+        },
+        '{1,#,2,#,3,#,4,#,5,#,6,#,7}': {
+            'preorder': '1,2,3,4,5,6,7',
+            'inorder': '1,2,3,4,5,6,7',
+            'postorder': '7,6,5,4,3,2,1',
+        },
+    }
+
+    trees = None
+
+    @classmethod
+    def setUpClass(cls):
+        show_msg(cls.__name__, 'starting tests...')
+
+        cls.trees = {}
+        for case in cls.CASES:
+            cls.trees[case] = BinaryTree.deserialize(case)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.CASES = cls.trees = None
+        show_msg(cls.__name__, 'finished tests.')
+
+    def test_serialize(self):
+        case = '{1,2,3,4,#,#,5,#,6,#,#,7,8}'
+        self.assertEqual(
+            case,
+            BinaryTree.serialize(BinaryTree.deserialize(case))
+        )
+
+    def test_deserialize(self):
+        case = '{1,2,3,4,#,#,5,#,6,#,#,7,8}'
+        tree = BinaryTree.deserialize(case)
+        left = right = None
+
+        self.assertEqual(1, tree.val)
+        left, right = tree.left, tree.right
+        self.assertEqual(2, left.val)
+        self.assertEqual(3, right.val)
+        left, right = left.left, right.right
+        self.assertEqual(4, left.val)
+        self.assertEqual(5, right.val)
+        tree = left.right
+        left, right = tree.left, tree.right
+        self.assertEqual(6, tree.val)
+        self.assertEqual(7, left.val)
+        self.assertEqual(8, right.val)
+
+    def _run_traversal_test(self, traverse, *, type):
+        result = None
+        for case, exp in self.CASES.items():
+            result = []
+            traverse(
+                self.trees[case],
+                callback=lambda v: result.append(str(v))
+            )
+            self.assertEqual(
+                exp[type],
+                ','.join(result)
+            )
+
+    def test_preorder_iteration_traversal(self):
+        self._run_traversal_test(
+            preorder_iteration_traversal,
+            type='preorder'
+        )
+
+    def test_preorder_recursion_traversal(self):
+        self._run_traversal_test(
+            preorder_recursion_traversal,
+            type='preorder'
+        )
+
+    def test_inorder_iteration_traversal(self):
+        self._run_traversal_test(
+            inorder_iteration_traversal,
+            type='inorder'
+        )
+
+    def test_inorder_recursion_traversal(self):
+        self._run_traversal_test(
+            inorder_recursion_traversal,
+            type='inorder'
+        )
+
+    def test_postorder_iteration_traversal(self):
+        self._run_traversal_test(
+            postorder_iteration_traversal,
+            type='postorder'
+        )
+
+    def test_postorder_recursion_traversal(self):
+        self._run_traversal_test(
+            postorder_recursion_traversal,
+            type='postorder'
+        )
