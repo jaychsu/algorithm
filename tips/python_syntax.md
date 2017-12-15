@@ -279,3 +279,29 @@ False
 >>> a, b
 ({'a': 111, 'b': 2, 'c': 3, 'd': {'e': 111}}, {'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}})
 ```
+
+## Structure
+
+### Always ensures that shared vars are **IMMUTABLE**
+
+```python
+# in class
+>>> class TestClass:
+...     x = {}
+>>> a = TestClass()
+>>> b = TestClass()
+>>> a.x
+{}
+>>> a.x[1] = 2
+>>> b.x
+{1: 2}
+
+# in func
+>>> def test_func(x=[]):
+...     x.append(1)
+...     print(x)
+>>> test_func()
+[1]
+>>> test_func()
+[1, 1]
+```
