@@ -7,7 +7,7 @@ class Calculator:
     example: 1 + 5, that is 0001 + 0101
     step1/ no carry(xor): 0001 ^ 0101 == 0100
     step2/ considering carry(and + shift): (0001 & 0101) << 1 == 0010
-        the carry only occurs when the same digit is 1
+           the carry only occurs when the same digit is 1
     step3/ repeat (1) and (2) til the result in (2) is 0
 
     1 + 5 -> 0001 + 0101
@@ -20,8 +20,8 @@ class Calculator:
     """
     @classmethod
     def _plus(cls, a, b):
-        if not b:
-            return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
+        if b == 0:
+            return a if a >> 31 <= 0 else a ^ ~cls.INT_RANGE
         return cls._plus((a ^ b) & cls.INT_RANGE, (a & b) << 1)
 
     """
@@ -29,10 +29,20 @@ class Calculator:
     """
     @classmethod
     def plus(cls, a, b):
-        while b:
+        while b != 0:
             a, b = a ^ b, (a & b) << 1
             a &= cls.INT_RANGE
-        return a if a >> 31 is 0 else a ^ ~cls.INT_RANGE
+
+        """
+        if a < 0 and b == 0,
+        => a wont be `&` (cannot enter iteration)
+        => a >> 31 == -1
+        => a ^ ~INT_RANGE got wrong number
+
+        so the simplest way is
+        `a >> 31 == 0` -> `a >> 31 <= 0`
+        """
+        return a if a >> 31 <= 0 else a ^ ~cls.INT_RANGE
 
     """
     a - b
@@ -102,12 +112,13 @@ class Calculator:
 
     """
     a / b
-
-    * remove the single line comment to get `remainder`
     """
     @classmethod
     def divide(cls, a, b):
-        if not a or not b:
+        if not b:
+            return float('inf') if a >= 0 else float('-inf')
+
+        if not a:
             return 0
 
         """
@@ -117,7 +128,7 @@ class Calculator:
         _b = b if b > 0 else cls.plus(~b, 1)
 
         quotient = 0
-        # remainder = 0
+        remainder = 0
 
         """
         the upper limit of int: 2 ** 31
@@ -131,8 +142,8 @@ class Calculator:
             """
             if _a >> i >= _b:
                 """
-                a << i: a * (2 ** i)
-                a >> i: a / (2 ** i)
+                a << i == a * (2 ** i)
+                a >> i == a / (2 ** i)
                 """
                 quotient = cls.plus(quotient, 1 << i)
                 """
@@ -141,10 +152,17 @@ class Calculator:
                 """
                 _a = cls.minus(_a, _b << i)
 
-        # remainder = _a
+        remainder = _a
 
-        if a ^ b < 0:
-            quotient = cls.plus(~quotient, 1)
-            # remainder = cls.plus(~_a, 1)
+        if a ^ b >= 0:
+            return quotient
 
-        return quotient
+        """
+        if `a ^ b < 0`, that is `a // b < 0`
+        if no remainder, just return `-quotient`, that is `~quotient + 1`
+        otherwise need to floor `quotient`, that is `~quotient`
+        """
+        if remainder == 0:
+            return cls.plus(~quotient, 1)
+        else:
+            return ~quotient
