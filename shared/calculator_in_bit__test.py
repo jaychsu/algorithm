@@ -19,11 +19,11 @@ class TestBitCalculator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        show_msg(cls.__name__, 'starting tests...')
+        show_msg(cls.__name__, msg_type='starting')
 
     @classmethod
     def tearDownClass(cls):
-        show_msg(cls.__name__, 'finished tests.')
+        show_msg(cls.__name__, msg_type='finished')
 
     def test_plus_recursion(self):
         for a, b in self.CASES:

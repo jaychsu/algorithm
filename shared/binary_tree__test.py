@@ -26,7 +26,7 @@ class TestBinaryTree(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        show_msg(cls.__name__, 'starting tests...')
+        show_msg(cls.__name__, msg_type='starting')
 
         cls.trees = {}
         for case in cls.CASES:
@@ -35,7 +35,7 @@ class TestBinaryTree(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.CASES = cls.trees = None
-        show_msg(cls.__name__, 'finished tests.')
+        show_msg(cls.__name__, msg_type='finished')
 
     def test_serialize(self):
         case = '{1,2,3,4,#,#,5,#,6,#,#,7,8}'
