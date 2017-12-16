@@ -1,4 +1,8 @@
-# https://leetcode.com/articles/jump-game/
+"""
+Greedy
+
+https://leetcode.com/articles/jump-game/
+"""
 class Solution:
     """
     @param: A: A list of integers
@@ -21,3 +25,38 @@ class Solution:
                 last_p = i
 
         return last_p == 0
+
+
+"""
+DP
+"""
+class Solution:
+    """
+    @param: A: A list of integers
+    @return: A boolean
+    """
+    def canJump(self, A):
+        if not A:
+            return False
+
+        n = len(A)
+        dp = [False] * n
+
+        """
+        `dp[i]` means `i` could be reached
+        """
+        dp[0] = True
+
+        for i in range(1, n):
+            for j in range(n):
+                """
+                backtracking
+                if `j` could be reached
+                """
+                if dp[j]:
+                    """
+                    if jump from `j` can reach `i`
+                    """
+                    dp[i] = (j + A[j] >= i)
+
+        return dp[n - 1]
