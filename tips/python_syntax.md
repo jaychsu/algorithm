@@ -250,6 +250,21 @@ False
 
 ## Dict `dict`
 
+### Multi-dimensional indexing in dict
+
+note that, since `tuple` is also **IMMUTABLE**.
+
+```python
+>>> d = {}
+>>> d[1, 2, 3] = 1
+>>> d[1, 2, 3]
+1
+>>> d[(1, 2, 3)]
+1
+>>> d
+{(1, 2, 3): 1}
+```
+
 ### To clone a dict
 
 ```python
