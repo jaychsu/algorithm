@@ -10,13 +10,17 @@ class Solution:
         prev = curr = 0
 
         for j in range(n):
-            dp[curr][j] = 1
+            if j == 0:
+                dp[curr][j] = 1
+                continue
+
+            dp[curr][j] = dp[curr][j - 1]
 
         for i in range(1, m):
             prev = curr
             curr = 1 - prev
 
-            dp[curr][0] = 1
+            dp[curr][0] = dp[prev][0]
 
             for j in range(1, n):
                 dp[curr][j] = dp[prev][j] + dp[curr][j - 1]
