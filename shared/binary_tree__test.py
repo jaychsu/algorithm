@@ -49,18 +49,38 @@ class TestBinaryTree(unittest.TestCase):
         tree = BinaryTree.deserialize(case)
         left = right = None
 
+        # level 1
         self.assertEqual(1, tree.val)
+
+        # level 2
         left, right = tree.left, tree.right
         self.assertEqual(2, left.val)
         self.assertEqual(3, right.val)
+
+        # level 3
+        self.assertIs(None, left.right)
+        self.assertIs(None, right.left)
         left, right = left.left, right.right
         self.assertEqual(4, left.val)
         self.assertEqual(5, right.val)
+
+        # level 4
+        self.assertIs(None, left.left)
+        self.assertIs(None, right.left)
+        self.assertIs(None, right.right)
         tree = left.right
-        left, right = tree.left, tree.right
         self.assertEqual(6, tree.val)
+
+        # level 5
+        left, right = tree.left, tree.right
         self.assertEqual(7, left.val)
         self.assertEqual(8, right.val)
+
+        # empty level
+        self.assertIs(None, left.left)
+        self.assertIs(None, left.right)
+        self.assertIs(None, right.left)
+        self.assertIs(None, right.right)
 
     def _run_traversal_test(self, traverse, *, type):
         result = None

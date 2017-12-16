@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import unittest
 
 
 def get_all_cases():
     suite = unittest.TestSuite()
     matched_files = unittest.defaultTestLoader.discover(
-        '../shared',
+        os.path.join(os.path.dirname(__file__), '../shared'),
         pattern='*__test.py'
     )
 
