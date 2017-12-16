@@ -9,13 +9,22 @@ class Solution:
 
         m, n = len(grid), len(grid[0])
 
-        for x in range(m):
-            for y in range(n):
-                if x == 0 and y > 0:
-                    grid[x][y] += grid[x][y - 1]
-                elif x > 0 and y == 0:
-                    grid[x][y] += grid[x - 1][y]
-                elif x > 0 and y > 0:
-                    grid[x][y] += min(grid[x - 1][y], grid[x][y - 1])
+        dp = [[0] * n for _ in range(m)]
 
-        return grid[m - 1][n - 1]
+        for j in range(n):
+            if j == 0:
+                dp[0][j] = grid[0][j]
+                continue
+
+            dp[0][j] = grid[0][j] + dp[0][j - 1]
+
+        for i in range(1, m):
+            dp[i][0] = grid[i][0] + dp[i - 1][0]
+
+            for j in range(1, n):
+                if dp[i - 1][j] < dp[i][j - 1]:
+                    dp[i][j] = grid[i][j] + dp[i - 1][j]
+                else:
+                    dp[i][j] = grid[i][j] + dp[i][j - 1]
+
+        return dp[m - 1][n - 1]
