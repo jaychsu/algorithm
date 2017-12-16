@@ -5,11 +5,20 @@ class Solution:
     @return: An integer
     """
     def uniquePaths(self, m, n):
-        mp = {}
-        for x in range(m):
-            for y in range(n):
-                if x == 0 or y == 0:
-                    mp[(x, y)] = 1
-                else:
-                    mp[(x, y)] = mp[(x-1, y)] + mp[(x, y-1)]
-        return mp[(m-1, n-1)]
+        dp = [[0] * n for _ in range(2)]
+
+        prev = curr = 0
+
+        for j in range(n):
+            dp[curr][j] = 1
+
+        for i in range(1, m):
+            prev = curr
+            curr = 1 - prev
+
+            dp[curr][0] = 1
+
+            for j in range(1, n):
+                dp[curr][j] = dp[prev][j] + dp[curr][j - 1]
+
+        return dp[curr][n - 1]
