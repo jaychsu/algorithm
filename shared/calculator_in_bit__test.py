@@ -7,23 +7,27 @@ from calculator_in_bit import Calculator
 class TestBitCalculator(unittest.TestCase):
     CASES = (
         (-1, -1), (-1, 0), (-1, 1),
-        (0, -1), (0, 0), (0, 1),
-        (1, -1), (1, 0), (1, 1),
+        ( 0, -1), ( 0, 0), ( 0, 1),
+        ( 1, -1), ( 1, 0), ( 1, 1),
 
-        (9, 7), (9, -7),
-        (-7, 9), (7, -9),
+        (-9, -7), (-9,  7),
+        ( 9, -7), ( 9,  7),
+        (-7, -9), (-7,  9),
+        ( 7, -9), ( 7,  9),
 
-        (-23, -7), (23, -7),
-        (-7, 23), (7, -23),
+        (-123,    0),
+        ( 123,    0),
+        (   0, -123),
+        (   0,  123),
     )
 
     @classmethod
     def setUpClass(cls):
-        show_msg(cls.__name__, msg_type='starting')
+        starting_test(cls.__name__)
 
     @classmethod
     def tearDownClass(cls):
-        show_msg(cls.__name__, msg_type='finished')
+        finished_test(cls.__name__)
 
     def test_plus_recursion(self):
         for a, b in self.CASES:
