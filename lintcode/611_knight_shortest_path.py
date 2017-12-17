@@ -8,48 +8,54 @@ class Point:
 
 
 class Solution:
+    V = (
+        (-2, -1),
+        ( 2,  1),
+        (-2,  1),
+        ( 2, -1),
+        (-1, -2),
+        ( 1,  2),
+        (-1,  2),
+        ( 1, -2),
+    )
+
     """
-    @param: grid: a chessboard included 0 (false) and 1 (true)
-    @param: source: a point
-    @param: destination: a point
+    @param: G: a chessboard included 0 (false) and 1 (true)
+    @param: S: a point
+    @param: T: a point
     @return: the shortest path
     """
-    def shortestPath(self, grid, source, destination):
-        ans = -1
-        if not grid or not source or not destination:
-            return ans
+    def shortestPath(self, G, S, T):
+        if not G or not S or not T:
+            return -1
 
         INFINITY = float('inf')
-        vector = (
-            (-2, -1),
-            (-2,  1),
-            (-1, -2),
-            (-1,  2),
-            ( 1, -2),
-            ( 1,  2),
-            ( 2, -1),
-            ( 2,  1),
-        )
-
-        m, n = len(grid), len(grid[0])
-        _x = _y = _step = 0
-
+        m, n = len(G), len(G[0])
         min_steps = [[INFINITY] * n for _ in range(m)]
-        queue = [source]
-        min_steps[source.x][source.y] = 0
 
-        for cell in queue:
-            for dx, dy in vector:
-                _x = cell.x + dx
-                _y = cell.y + dy
-                _step = min_steps[cell.x][cell.y] + 1
-                if 0 <= _x < m and 0 <= _y < n \
-                        and not grid[_x][_y] \
-                        and _step < min_steps[_x][_y]:
-                    min_steps[_x][_y] = _step
-                    queue.append(Point(_x, _y))
+        queue = [S]
+        _queue = None
+        _x = _y = steps = 0
 
-        if min_steps[destination.x][destination.y] < INFINITY:
-            ans = min_steps[destination.x][destination.y]
+        while queue:
+            _queue = []
+            steps += 1
 
-        return ans
+            for P in queue:
+                for dx, dy in self.V:
+                    _x = P.x + dx
+                    _y = P.y + dy
+
+                    if (0 <= _x < m and 0 <= _y < n and
+                        not G[_x][_y] and
+                        steps < min_steps[_x][_y]):
+
+                        if _x == T.x and _y == T.y:
+                            return steps
+
+                        min_steps[_x][_y] = steps
+                        _queue.append(Point(_x, _y))
+
+            queue = _queue
+
+        return -1
