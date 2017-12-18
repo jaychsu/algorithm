@@ -1,8 +1,6 @@
 Python Syntax Note
 ======
 
-## Operator
-
 ### Difference between `is` and `==`
 
 `is` will return True if two variables point to the same object,
@@ -35,24 +33,28 @@ True
 False
 ```
 
-### To override mutable variable and keep the pointer if need
+### Always ensures that shared vars are **IMMUTABLE**
 
 ```python
->>> a = b = [1, 2, 3]
->>> a is b
-True
+# in class
+>>> class TestClass:
+...     x = {}
+>>> a = TestClass()
+>>> b = TestClass()
+>>> a.x
+{}
+>>> a.x[1] = 2
+>>> b.x
+{1: 2}
 
->>> b[:] = [4, 5, 6]
->>> a
-[4, 5, 6]
->>> a is b
-True
-
->>> b = [7, 8, 9]
->>> a
-[4, 5, 6]
->>> a is b
-False
+# in func
+>>> def test_func(x=[]):
+...     x.append(1)
+...     print(x)
+>>> test_func()
+[1]
+>>> test_func()
+[1, 1]
 ```
 
 ## String `str`, `bytes`
@@ -218,6 +220,26 @@ the children must be **IMMUTABLE** in the list.
 False
 ```
 
+### To override mutable variable and keep the pointer if need
+
+```python
+>>> a = b = [1, 2, 3]
+>>> a is b
+True
+
+>>> b[:] = [4, 5, 6]
+>>> a
+[4, 5, 6]
+>>> a is b
+True
+
+>>> b = [7, 8, 9]
+>>> a
+[4, 5, 6]
+>>> a is b
+False
+```
+
 ### To clone a list
 
 ```python
@@ -293,30 +315,4 @@ note that, since `tuple` is also **IMMUTABLE**.
 >>> a['d']['e'] = 111
 >>> a, b
 ({'a': 111, 'b': 2, 'c': 3, 'd': {'e': 111}}, {'a': 99, 'b': 2, 'c': 3, 'd': {'e': 99}})
-```
-
-## Structure
-
-### Always ensures that shared vars are **IMMUTABLE**
-
-```python
-# in class
->>> class TestClass:
-...     x = {}
->>> a = TestClass()
->>> b = TestClass()
->>> a.x
-{}
->>> a.x[1] = 2
->>> b.x
-{1: 2}
-
-# in func
->>> def test_func(x=[]):
-...     x.append(1)
-...     print(x)
->>> test_func()
-[1]
->>> test_func()
-[1, 1]
 ```
