@@ -7,7 +7,7 @@
 
 - scenario: BFS
 - example:
-  - [binary_tree_serialization.py](../shared/binary_tree_serialization.py)
+  - [binary_tree_serialization.py](../module/binary_tree_serialization.py)
 - the behavior below just like `queue`
 
 ```python
@@ -24,7 +24,7 @@
 
 - scenario: BFS in level traversal
 - example:
-  - [binary_tree_preorder_traversal.py](../shared/binary_tree_preorder_traversal.py)
+  - [binary_tree_preorder_traversal.py](../module/binary_tree_preorder_traversal.py)
   - [69_binary_tree_level_order_traversal.py](../lintcode/69_binary_tree_level_order_traversal.py)
   - [598_zombie_in_matrix.py](../lintcode/598_zombie_in_matrix.py)
 

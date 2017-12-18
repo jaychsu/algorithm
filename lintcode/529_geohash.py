@@ -1,5 +1,5 @@
 """
-main concept is in `../shared/geohash.py`
+main concept is in `../module/geohash.py`
 """
 
 

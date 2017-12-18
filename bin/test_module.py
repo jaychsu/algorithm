@@ -8,7 +8,7 @@ import unittest
 def get_all_cases():
     suite = unittest.TestSuite()
     matched_files = unittest.defaultTestLoader.discover(
-        os.path.join(os.path.dirname(__file__), '../shared'),
+        os.path.join(os.path.dirname(__file__), '../module'),
         pattern='*__test.py'
     )
 
