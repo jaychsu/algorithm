@@ -1,30 +1,34 @@
+"""
+DFS
+"""
 class Solution:
-    ans = []
-
     """
-    @param: nums: A set of numbers.
+    @param: A: A set of numbers.
     @return: A list of lists. All valid subsets.
     """
-    def subsetsWithDup(self, nums):
-        if nums is None:
-            return self.ans
+    def subsetsWithDup(self, A):
+        if not A:
+            return [[]]
 
-        self.ans.append([])
-        self.dfs(sorted(nums), 0, [])
+        ans = []
+        self.dfs(sorted(A), 0, ans, [])
+        return ans
 
-        return self.ans
+    def dfs(self, A, start, ans, subset):
+        ans.append(subset[:])
 
-    def dfs(self, nums, start, combination):
-        n = len(nums)
-        if start >= n:
+        if start >= len(A):
             return
 
-        for i in range(start, n):
-            # to prevent [1, 2'] and [1, 2"]
-            # appear in result at same time
-            if i > start \
-                    and nums[i] == nums[i - 1]:
+        for i in range(start, len(A)):
+            if i - 1 >= start and A[i] == A[i - 1]:
                 continue
-            _combination = combination + [nums[i]]
-            self.ans.append(_combination)
-            self.dfs(nums, i + 1, _combination)
+
+            self.dfs(A, i + 1, ans, subset + [A[i]])
+
+            """
+            backtracking if using same list
+            """
+            # subset.append(A[i])
+            # self.dfs(A, i + 1, ans, subset)
+            # subset.pop()
