@@ -4,67 +4,66 @@ Test Case:
 [3,3,0,3]
 """
 
+
 """
-Directly pass `nums` but without `nums[i]`
+dfs with ignoring self and same num
 """
 class Solution:
-    ans = []
+    def permuteUnique(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[List[int]]
+        """
 
-    """
-    @param: :  A list of integers
-    @return: A list of unique permutations
-    """
-    def permuteUnique(self, nums):
-        if nums is None:
-            return self.ans
-        if len(nums) is 0:
-            self.ans.append([])
-            return self.ans
+        if not A:
+            return [[]]
 
-        self.dfs(sorted(nums), [])
+        ans = []
+        self.dfs(sorted(A), ans, [])
+        return ans
 
-        return self.ans
-
-    def dfs(self, nums, permutation):
-        if not nums:
-            self.ans.append(permutation)
+    def dfs(self, A, ans, permutation):
+        if not A:
+            ans.append(permutation)
             return
-        for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i - 1]:
+
+        for i in range(len(A)):
+            """
+            ignore same num
+            """
+            if i > 0 and A[i - 1] == A[i]:
                 continue
-            self.dfs(
-                nums[:i] + nums[i + 1:],
-                permutation + [nums[i]]
-            )
+
+            """
+            ignore self
+            """
+            self.dfs(A[:i] + A[i + 1:], ans, permutation + [A[i]])
+
 
 """
-Record visited index
+dfs with visited indices
 """
 class Solution:
-    ans = []
+    def permuteUnique(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[List[int]]
+        """
 
-    """
-    @param: :  A list of integers
-    @return: A list of unique permutations
-    """
-    def permuteUnique(self, nums):
-        if nums is None:
-            return self.ans
-        if len(nums) is 0:
-            self.ans.append([])
-            return self.ans
+        if not A:
+            return [[]]
 
-        visited = [False] * len(nums)
-        self.dfs(sorted(nums), [], visited)
+        ans = []
+        visited = [False] * len(A)
+        self.dfs(sorted(A), ans, [], visited)
+        return ans
 
-        return self.ans
-
-    def dfs(self, nums, permutation, visited):
-        n = len(nums)
-        if len(permutation) == n:
-            self.ans.append(permutation)
+    def dfs(self, A, ans, permutation, visited):
+        if len(permutation) >= len(A):
+            ans.append(permutation)
             return
-        for i in range(n):
+
+        for i in range(len(A)):
             if visited[i]:
                 continue
 
@@ -74,14 +73,10 @@ class Solution:
             we need to ensure `3`, `3'` is picked
             otherwise repeated result will be included
             """
-            if i > 0 and not visited[i - 1] \
-                    and nums[i] == nums[i - 1]:
+            if (i > 0 and A[i - 1] == A[i] and
+                not visited[i - 1]):
                 continue
 
             visited[i] = True
-            self.dfs(
-                nums,
-                permutation + [nums[i]],
-                visited
-            )
+            self.dfs(A, ans, permutation + [A[i]], visited)
             visited[i] = False
