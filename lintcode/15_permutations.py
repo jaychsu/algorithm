@@ -1,28 +1,28 @@
 class Solution:
-    ans = []
+    def permute(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[List[int]]
+        """
+        if not A:
+            return [[]]
 
-    """
-    @param: nums: A list of integers.
-    @return: A list of permutations.
-    """
-    def permute(self, nums):
-        if nums is None:
-            return self.ans
-        if len(nums) is 0:
-            self.ans.append([])
-            return self.ans
+        ans = []
+        self.dfs(sorted(A), ans, [])
+        return ans
 
-        self.dfs(nums, [])
-
-        return self.ans
-
-    def dfs(self, nums, permutation):
-        n = len(nums)
-        if len(permutation) >= n:
-            self.ans.append(permutation)
+    def dfs(self, A, ans, permutation):
+        if len(permutation) >= len(A):
+            ans.append(permutation)
             return
 
-        for i in range(n):
-            if nums[i] in permutation:
+        for i in range(len(A)):
+            if A[i] in permutation:
                 continue
-            self.dfs(nums, permutation + [nums[i]])
+
+            self.dfs(A, ans, permutation + [A[i]])
+
+            """
+            backtracking is not allowed,
+            since it will lead to got empty before exit
+            """
