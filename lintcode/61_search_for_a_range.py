@@ -1,23 +1,14 @@
 class Solution:
-    def totalOccurrence(self, A, target):
-        """
-        :type A: List[int]
-        :type target: int
-        :rtype: int
+    """
+    @param: A: an integer sorted array
+    @param: target: an integer to be inserted
+    @return: a list of length 2, [index1, index2]
+    """
+    def searchRange(self, A, target):
+        NOT_FOUND = [-1, -1]
 
-        given A == [a, b, b, b, c]
-                       s     e
-
-        using binary searching to find `s` and `e`
-        ans is `e - s + 1`
-
-        * s: start, e: end, l: left, r: right
-             [a, b, b, b, c]
-        r1    l  r,s
-        r2           e,l  r
-        """
         if not A:
-            return 0
+            return NOT_FOUND
 
         n = len(A)
 
@@ -31,9 +22,6 @@ class Solution:
 
         start = left if A[left] == target else right
 
-        if A[start] != target:
-            return 0
-
         left, mid, right = 0, 0, n - 1
         while left + 1 < right:
             mid = left + (right - left) // 2
@@ -44,4 +32,7 @@ class Solution:
 
         end = right if A[right] == target else left
 
-        return end - start + 1
+        if start <= end:
+            return [start, end]
+
+        return NOT_FOUND
