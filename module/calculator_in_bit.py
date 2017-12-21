@@ -128,7 +128,6 @@ class Calculator:
         _b = b if b > 0 else cls.plus(~b, 1)
 
         quotient = 0
-        remainder = 0
 
         """
         the upper limit of int: 2 ** 31
@@ -152,17 +151,17 @@ class Calculator:
                 """
                 _a = cls.minus(_a, _b << i)
 
-        remainder = _a
-
         if a ^ b >= 0:
             return quotient
 
         """
+        remainder = _a
+
         if `a ^ b < 0`, that is `a // b < 0`
         if no remainder, just return `-quotient`, that is `~quotient + 1`
         otherwise need to floor `quotient`, that is `~quotient`
         """
-        if remainder == 0:
+        if _a == 0:
             return cls.plus(~quotient, 1)
         else:
             return ~quotient

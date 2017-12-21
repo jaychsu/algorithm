@@ -1,18 +1,20 @@
 class Solution:
     """
-    @param: dividend: the dividend
-    @param: divisor: the divisor
+    @param: a: the dividend
+    @param: b: the divisor
     @return: the result
     """
-    def divide(self, dividend, divisor):
+    def divide(self, a, b):
         INT_MAX = 0x7FFFFFFF
-        if not divisor:
+
+        if not b:
             return INT_MAX
-        if not dividend:
+        if not a:
             return 0
 
-        _a = dividend if dividend > 0 else - dividend
-        _b = divisor if divisor > 0 else - divisor
+        _a = a if a > 0 else -a
+        _b = b if b > 0 else -b
+
         quotient = 0
 
         for i in range(31, -1, -1):
@@ -20,7 +22,7 @@ class Solution:
                 quotient += 1 << i
                 _a -= _b << i
 
-        if dividend ^ divisor < 0:
+        if a ^ b < 0:
             quotient = ~quotient + 1
 
         return quotient if quotient < INT_MAX else INT_MAX
