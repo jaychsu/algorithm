@@ -4,6 +4,7 @@ def postorder_iteration_traversal(root, *, callback):
 
     stack = []
     node = last_visit = root
+
     while node or stack:
         while node:
             stack.append(node)
@@ -13,8 +14,8 @@ def postorder_iteration_traversal(root, *, callback):
         # that is, back to parent
         node = stack[-1]
 
-        if not node.right \
-                or node.right is last_visit:
+        if (not node.right or
+            last_visit is node.right):
 
             # same as `stack[-1]`, so no re-assign
             stack.pop()
