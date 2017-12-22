@@ -35,8 +35,10 @@ False
 
 ### Always ensures that shared vars are **IMMUTABLE**
 
+in class
+
 ```python
-# in class
+# bad
 >>> class TestClass:
 ...     x = {}
 >>> a = TestClass()
@@ -47,14 +49,42 @@ False
 >>> b.x
 {1: 2}
 
-# in func
+# good
+>>> class TestClass:
+...     x = None
+...     def __init__(self):
+...             self.x = {}
+>>> a = TestClass()
+>>> b = TestClass()
+>>> a.x
+{}
+>>> a.x[1] = 2
+>>> b.x
+{}
+```
+
+in func
+
+```python
+# bad
 >>> def test_func(x=[]):
 ...     x.append(1)
-...     print(x)
+...     return x
 >>> test_func()
 [1]
 >>> test_func()
 [1, 1]
+
+# good
+>>> def test_func(x=None):
+...     if x is None:
+...             x = []
+...     x.append(1)
+...     return x
+>>> test_func()
+[1]
+>>> test_func()
+[1]
 ```
 
 ## String `str`, `bytes`
