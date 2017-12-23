@@ -25,11 +25,12 @@ class LFUCache:
     @param: capacity: An integer
     """
     def __init__(self, capacity):
-        self.cache = {}
         self.capacity = capacity
+        self.caches = {}
         self.D = FreqNode(-1)
         self.d = FreqNode(-1)
-        self.D.nxt, self.d.pre = self.d, self.D
+        self.D.nxt = self.d
+        self.d.pre = self.D
 
     """
     @param: key: An integer
@@ -40,11 +41,11 @@ class LFUCache:
         if self.capacity <= 0:
             return
 
-        if key in self.cache:
+        if key in self.caches:
             self._update_item(key, val)
             return
 
-        if len(self.cache) >= self.capacity:
+        if len(self.caches) >= self.capacity:
             self._evict_item()
 
         self._add_item(key, val)
@@ -54,15 +55,15 @@ class LFUCache:
     @return: An integer
     """
     def get(self, key):
-        if key not in self.cache:
+        if key not in self.caches:
             return -1
 
         self._update_item(key)
-        return self.cache[key].val
+        return self.caches[key].val
 
     def _add_item(self, key, val):
         cache_node = CacheNode(key, val)
-        self.cache[key] = cache_node
+        self.caches[key] = cache_node
 
         freq_head = self.D.nxt
         if freq_head and freq_head.freq == 0:
@@ -76,13 +77,13 @@ class LFUCache:
     def _evict_item(self):
         freq_head = self.D.nxt
         cache_node = freq_head.pop_head()
-        self.cache.pop(cache_node.key)
+        self.caches.pop(cache_node.key)
 
         if freq_head.is_empty():
             freq_head.unlink()
 
     def _update_item(self, key, val=None):
-        cache_node = self.cache[key]
+        cache_node = self.caches[key]
 
         if val:
             cache_node.val = val
@@ -115,8 +116,7 @@ class CacheNode:
     def unlink(self):
         self.pre.nxt = self.nxt
         self.nxt.pre = self.pre
-
-        self.pre = self.nxt = self.freq_node = None
+        self.freq_node = self.pre = self.nxt = None
 
 
 class FreqNode:
@@ -126,7 +126,8 @@ class FreqNode:
         self.nxt = nxt
         self.D = CacheNode(-1)
         self.d = CacheNode(-1)
-        self.D.nxt, self.d.pre = self.d, self.D
+        self.D.nxt = self.d
+        self.d.pre = self.D
 
     # to change self in freq nodes
     def unlink(self):
@@ -136,11 +137,11 @@ class FreqNode:
         self.pre = self.nxt = self.D = self.d = None
 
     # to change self in freq nodes
-    def after(self, node):
-        node.pre = self
-        node.nxt = self.nxt
-        self.nxt.pre = node
-        self.nxt = node
+    def after(self, freq_node):
+        freq_node.pre = self
+        freq_node.nxt = self.nxt
+        self.nxt.pre = freq_node
+        self.nxt = freq_node
 
     # to manage cache nodes
     def is_empty(self):
@@ -156,9 +157,9 @@ class FreqNode:
         return head
 
     # to manage cache nodes
-    def append_tail(self, node):
-        node.freq_node = self
-        node.pre = self.d.pre
-        node.nxt = self.d
-        self.d.pre.nxt = node
-        self.d.pre = node
+    def append_tail(self, cache_node):
+        cache_node.freq_node = self
+        cache_node.pre = self.d.pre
+        cache_node.nxt = self.d
+        self.d.pre.nxt = cache_node
+        self.d.pre = cache_node
