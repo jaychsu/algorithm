@@ -22,11 +22,13 @@ class Solution:
         if not node:
             return
 
-        path += [node.val]
+        path.append(node.val)
 
         remaining -= node.val
         if remaining == 0 and not node.left and not node.right:
             ans.append(path[:])
 
-        self.dfs(node.left, remaining, ans, path[:])
-        self.dfs(node.right, remaining, ans, path[:])
+        self.dfs(node.left, remaining, ans, path)
+        self.dfs(node.right, remaining, ans, path)
+
+        path.pop()

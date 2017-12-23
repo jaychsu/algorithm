@@ -15,21 +15,22 @@ class Solution:
     """
     def binaryTreePathSum2(self, root, target):
         ans = []
-        self.dfs(root, 1, target, ans, [])
+        self.dfs(root, target, ans, [])
         return ans
 
-    def dfs(self, node, depth, target, ans, path):
+    def dfs(self, node, target, ans, path):
         if not node:
             return
 
-        path += [node.val]
+        path.append(node.val)
 
         remaining = target
-        for i in range(depth - 1, -1, -1):
+        for i in range(len(path) - 1, -1, -1):
             remaining -= path[i]
             if remaining == 0:
                 ans.append(path[i:])
 
-        depth += 1
-        self.dfs(node.left, depth, target, ans, path[:])
-        self.dfs(node.right, depth, target, ans, path[:])
+        self.dfs(node.left, target, ans, path)
+        self.dfs(node.right, target, ans, path)
+
+        path.pop()
