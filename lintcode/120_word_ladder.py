@@ -41,11 +41,9 @@ class Solution:
         for word in queue:
             if word == start:
                 return distance[word]
-
             for _word in self.get_next_word(word, next_words):
                 if _word in distance:
                     continue
-
                 distance[_word] = distance[word] + 1
                 queue.append(_word)
 
