@@ -22,6 +22,8 @@
 
 ### Dynamically re-assign an iterable item
 
+1. Normal Form
+
 - scenario: BFS in level traversal
 - example:
   - [binary_tree_preorder_traversal.py](../module/binary_tree_preorder_traversal.py)
@@ -48,3 +50,11 @@
 >>> level
 2
 ```
+
+2. Dedup Form
+
+- scenario: BFS in level traversal if the node may be visited twice. e.g., graph.
+- example:
+  - [lintcode/120_word_ladder.py](../lintcode/120_word_ladder.py)
+  - [lintcode/121_word_ladder_ii.py](../lintcode/121_word_ladder_ii.py)
+  - [lintcode/531_six_degrees.py](../lintcode/531_six_degrees.py)
