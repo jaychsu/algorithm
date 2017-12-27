@@ -1,71 +1,80 @@
 """
-REF: https://leetcode.com/articles/maximum-average-subarray-ii/#approach-2-using-binary-search-accepted
+REF: https://stackoverflow.com/questions/13093602/finding-subarray-with-maximum-sum-number-of-elements#answer-13094527
 
-Assuming the answer we want is
-dividing the cumulative sum from `A[i]` to `A[j-1]` by `j - i`
-where `j - i >= k`,
-and there is a `mid`, that is max avg., between `M = max(A)` and `m = min(A)`
+You can use binary search.
 
-1. Assumption
-so that, `(A[i] + A[i+1] + ... + A[j-1]) / (j - i) >= mid`
-=> `A[i] + A[i+1] + ... + A[j-1] >= mid * (j - i)`
-=> let `S = (A[i] - mid) + ... + (A[j-1] - mid) >= 0`
+For a searched value `x`, consider the array `b[i] = a[i] - x`.
+Now find the maximum sum subarray of length at least `k`.
 
-Let `P[i] = (A[0] - mid) + ... + (A[i-1] - mid)
-          = P[i-1] + A[i-1] - mid`
+This works because the average of a subarray of length `k` is
 
-So, `S = P[j] - P[i] >= 0`
-=> For each `A[i-1]` in `P[i]`, satisfies `j - (i-1) >= k`
-=> `i <= j - k + 1`
-=> `S = P[j] - P[j-k+1] >= 0`
-=> `P[j] >= P[j-k+1]`
+`(a[p] + ... + a[p + k - 1]) / k`.
 
-2. Approaching the `mid` by Binary Search
-=> 1st round, mid = (M + m) / 2
+So we have:
+`(a[p] + ... + a[p + k - 1]) / k >= avg`
+=> `a[p] + ... + a[p + k - 1] >= avg * k`
+=> `(a[p] - avg) + ... + (a[p + k - 1] - avg) >= 0`
 
-after 1st round:
-if we find a `P[j]` that satisfies `P[j] - P[j-k+1] >= 0`,
-we can achieve an average value greater than `mid`.
-thus, in this case, we need to set the `mid` as the new minimum element and continue the approaching
-
-otherwise, if `P[j] - P[j-k+1] < 0` always truthy, we can't achieve `mid` as the average.
-thus, we need to set `mid` as the new maximum element and continue the process.
+So, if you binary search for the average, by substracting it from each element,
+if you can find a positive-sum subarray (find the maximum one and check if it's positive) of length at least k,
+then avg is a valid answer,
+continue to search in [avg, max_avg] to see if you can find a better one.
+If not, reduce search to [0, avg].
 """
 
+
 class Solution:
-    """
-    @param: nums: an array with positive and negative numbers
-    @param: k: an integer
-    @return: the maximum average
-    """
-    def maxAverage(self, nums, k):
-        if not nums or not k:
+    def maxAverage(self, A, k):
+        """
+        :type A: List[int]
+        :type k: int
+        :rtype: float
+        """
+        if not A or not k:
             return 0
-        l, r, n = min(nums), max(nums), len(nums)
-        P = [0] * (n + 1)
-        m = min_sum = is_check = 0
 
-        # eps is 1e-5
-        while r - l >= 1e-5:
-            min_sum = is_check = 0
-            m = l + (r - l) / 2.0
-            for i in range(1, n + 1):
-                P[i] = P[i - 1] + nums[i - 1] - m
+        """
+        ans MUST between `min(A)` and `max(A)`
+        """
+        left, right = float('inf'), float('-inf')
+        for num in A:
+            if num < left:
+                left = num
+            if num > right:
+                right = num
 
-                # the allowance is `i-k+1 >= 0`, so we should prevent `i-k+1 < 0`
-                # actually is `i < k-1` here
-                # but when `i == k-1`, we got `P[i-k+1] == P[0]` below
-                # so we can ignore this trivial iteration
-                if i < k:
-                    continue
+        """
+        eps is 1e-5
 
-                # if we find a `P[i]` that satisfies `P[i] - P[i-k+1] >= 0`
-                if P[i] >= min_sum:
-                    is_check = 1
-                    break
-                min_sum = min(min_sum, P[i - k + 1])
-            if is_check:
-                l = m
+              ans-2c ans-1c ans ans+1c ans+2c
+        valid    T      T    T     F      F
+        """
+        S = [0] * (len(A) + 1)  # prefix sum
+        while right - left >= 1e-5:
+            mid = left + (right - left) / 2.0
+            if self.is_valid(A, S, mid, k):
+                left = mid
             else:
-                r = m
-        return l
+                right = mid
+
+        return left
+
+    def is_valid(self, A, S, mid, k):
+        S[0] = 0
+        min_s = 0  # minimum prefix sum
+
+        for i in range(1, len(A) + 1):
+            S[i] = S[i - 1] + A[i - 1] - mid
+
+            if i < k:
+                continue
+            """
+            if there is a positive-sum subarray of length at least k
+            => it's valid
+            """
+            if S[i] >= min_s:  # S[i] - min_s >= 0
+                return True
+            if S[i - k + 1] < min_s:
+                min_s = S[i - k + 1]
+
+        return False
