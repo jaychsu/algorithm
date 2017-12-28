@@ -8,12 +8,11 @@ class Solution:
         if not A or len(A) < 3:
             return
 
+        n = len(A)
         A.sort()
 
-        INFINITY = float('inf')
-        n = len(A)
-        b = c = _sum = 0
-        ans = INFINITY
+        ans = INFINITY = float('inf')
+        _sum = b = c = 0
         for a in range(n - 2):
             b = a + 1
             c = n - 1
@@ -21,9 +20,14 @@ class Solution:
                 _sum = A[a] + A[b] + A[c]
                 if abs(_sum - target) < abs(ans - target):
                     ans = _sum
-                if _sum <= target:
+
+                """
+                continues to narrow the gap with the `target`
+                """
+                if _sum < target:
                     b += 1
                 else:
                     c -= 1
 
-        return ans if ans < INFINITY else None
+        if ans < INFINITY:
+            return ans
