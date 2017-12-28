@@ -5,13 +5,13 @@ class Solution:
     @return: an integer
     """
     def twoSum2(self, A, target):
+        ans = 0
         if not A or len(A) < 2:
-            return 0
+            return ans
 
         A.sort()
 
         left, right = 0, len(A) - 1
-        ans = 0
         while left < right:
             # if minimum + maximum still <= target
             # ignore the 2nd, 3rd maximum
