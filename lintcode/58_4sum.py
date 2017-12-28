@@ -9,10 +9,10 @@ class Solution:
         if not A or len(A) < 4:
             return ans
 
+        n = len(A)
         A.sort()
 
-        n = len(A)
-        c = d = _sum = 0
+        _sum = c = d = 0
         for a in range(n - 3):
             if a > 0 and A[a] == A[a - 1]:
                 continue
