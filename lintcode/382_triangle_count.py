@@ -4,18 +4,25 @@ class Solution:
     @return: An integer
     """
     def triangleCount(self, S):
+        ans = 0
         if not S or len(S) < 3:
-            return 0
-        ans = l = m = 0 # l: left, m: middle
+            return ans
+
+        n = len(S)
         S.sort()
-        for r in range(2, len(S)):
-            l, m = 0, r - 1
-            while l < m:
-                # if S[l] + S[m] > S[r], then S[l] ~ S[m-1] are meet the demands.
-                if S[l] + S[m] > S[r]:
-                    # from `l` to `m`, got `m - l` connections
-                    ans += m - l
-                    m -= 1
+
+        """
+        just like two sum
+        `c` is the target
+        """
+        for c in range(n - 1, 1, -1):
+            a = 0
+            b = c - 1
+            while a < b:
+                if S[a] + S[b] > S[c]:
+                    ans += b - a
+                    b -= 1
                 else:
-                    l += 1
+                    a += 1
+
         return ans
