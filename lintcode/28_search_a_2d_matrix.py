@@ -1,34 +1,29 @@
-"""
-Test Case:
-
-[[1,3,5,7],[10,11,16,20],[23,30,34,50]]
-7
-"""
 class Solution:
     """
-    @param: matrix: matrix, a list of lists of integers
+    @param: G: matrix, a list of lists of integers
     @param: target: An integer
     @return: a boolean, indicate whether matrix contains target
     """
-    def searchMatrix(self, matrix, target):
-        if not matrix or not target:
+    def searchMatrix(self, G, target):
+        if not G or not G[0] or not target:
             return False
 
-        m, n = len(matrix), len(matrix[0])
-        l, r = 0, m * n - 1
-        mid = x = y = 0
+        m, n = len(G), len(G[0])
+        left, right = 0, m * n - 1
 
-        while l + 1 < r:
-            mid = l + (r - l) // 2
+        while left + 1 < right:
+            mid = (left + right) // 2
             x, y = mid // n, mid % n
-            if matrix[x][y] > target:
-                r = mid
+            if G[x][y] == target:
+                return True
+            if G[x][y] < target:
+                left = mid
             else:
-                l = mid
+                right = mid
 
-        for end in [l, r]:
-            x, y = end // n, end % n
-            if matrix[x][y] == target:
+        for i in [left, right]:
+            x, y = i // n, i % n
+            if G[x][y] == target:
                 return True
 
         return False
