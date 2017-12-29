@@ -1,21 +1,27 @@
-from heapq import heappush, heappop
+from heapq import heappop, heappush
+
 
 class Solution:
     """
-    @param: arrays: k sorted integer arrays
+    @param: G: k sorted integer arrays
     @return: a sorted array
     """
-    def mergekSortedArrays(self, arrays):
+    def mergekSortedArrays(self, G):
         ans = []
-        if not arrays:
+        if not G:
             return ans
+
         heap = []
-        for i in range(len(arrays)):
-            if arrays[i]:
-                heappush(heap, (arrays[i][0], i, 0))
+        for i in range(len(G)):
+            if not G[i]:
+                continue
+
+            heappush(heap, (G[i][0], i, 0))
+
         while heap:
-            val, x, y = heappop(heap)
-            ans.append(val)
-            if y + 1 < len(arrays[x]):
-                heappush(heap, (arrays[x][y + 1], x, y + 1))
+            num, x, y = heappop(heap)
+            ans.append(num)
+            if y + 1 < len(G[x]):
+                heappush(heap, (G[x][y + 1], x, y + 1))
+
         return ans
