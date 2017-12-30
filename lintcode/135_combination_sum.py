@@ -1,38 +1,30 @@
 class Solution:
-    ans = []
-
     """
-    @param: candidates: A list of integers
+    @param: A: A list of integers
     @param: target: An integer
     @return: A list of lists of integers
     """
-    def combinationSum(self, candidates, target):
-        if not candidates:
-            return self.ans
+    def combinationSum(self, A, target):
+        ans = []
+        if not A:
+            return []
 
-        self.dfs(
-            sorted(list(set(candidates))),
-            target,
-            0,
-            []
-        )
+        A.sort()
+        self.dfs(A, 0, target, ans, [])
+        return ans
 
-        return self.ans
-
-    def dfs(self, candidates, remaining, start, combination):
+    def dfs(self, A, start, remaining, ans, path):
         if remaining == 0:
-            self.ans.append(combination)
+            ans.append(path[:])
             return
 
-        for i in range(start, len(candidates)):
-            if remaining < candidates[i]:
-                # since `nums[i + 1]` > `nums[i]`
-                # -> nums[i + 1]` > `nums[i]` > remaining
-                # -> no need to iterate
+        for i in range(start, len(A)):
+            if remaining < A[i]:
+                # note that, its `return` here
+                # since `remaining < A[i]` and `A[i] <= A[i + 1] <= ...`
+                # so once it continued, all iteration after i is no need
                 return
-            self.dfs(
-                candidates,
-                remaining - candidates[i],
-                i, # not `i + 1` since pick repeated one is allowed
-                combination + [candidates[i]]
-            )
+
+            path.append(A[i])
+            self.dfs(A, i, remaining - A[i], ans, path)
+            path.pop()
