@@ -8,21 +8,16 @@ class Solution:
             return [[]]
 
         ans = []
-        self.dfs(sorted(A), ans, [])
+        A.sort()
+        self.dfs(A, ans, [])
         return ans
 
-    def dfs(self, A, ans, permutation):
-        if len(permutation) >= len(A):
-            ans.append(permutation)
+    def dfs(self, A, ans, path):
+        if not A:
+            ans.append(path[:])
             return
 
         for i in range(len(A)):
-            if A[i] in permutation:
-                continue
-
-            self.dfs(A, ans, permutation + [A[i]])
-
-            """
-            backtracking is not allowed,
-            since it will lead to got empty before exit
-            """
+            path.append(A[i])
+            self.dfs(A[:i] + A[i + 1:], ans, path)
+            path.pop()
