@@ -1,42 +1,32 @@
 class Solution:
-    ans = []
-
     """
-    @param: nums: Given the candidate numbers
+    @param: A: Given the candidate numbers
     @param: target: Given the target number
     @return: All the combinations that sum to target
     """
-    def combinationSum2(self, nums, target):
-        if not nums:
-            return self.ans
+    def combinationSum2(self, A, target):
+        ans = []
+        if not A:
+            return ans
 
-        self.dfs(
-            sorted(nums),
-            target,
-            0,
-            []
-        )
+        A.sort()
+        self.dfs(A, 0, target, ans, [])
+        return ans
 
-        return self.ans
-
-    def dfs(self, nums, remaining, start, combination):
+    def dfs(self, A, start, remaining, ans, path):
         if remaining == 0:
-            self.ans.append(combination)
+            ans.append(path[:])
             return
 
-        for i in range(start, len(nums)):
-            if remaining < nums[i]:
+        for i in range(start, len(A)):
+            if remaining < A[i]:
                 return
 
             # to prevent [1', 2, 5] and [1", 2, 5]
             # appear in result at same time
-            if i > start \
-                    and nums[i] == nums[i - 1]:
+            if i > start and A[i] == A[i - 1]:
                 continue
 
-            self.dfs(
-                nums,
-                remaining - nums[i],
-                i + 1,
-                combination + [nums[i]]
-            )
+            path.append(A[i])
+            self.dfs(A, i + 1, remaining - A[i], ans, path)
+            path.pop()
