@@ -19,25 +19,28 @@ class Solution:
             return [[]]
 
         ans = []
-        self.dfs(sorted(A), ans, [])
+        A.sort()
+        self.dfs(A, ans, [])
         return ans
 
-    def dfs(self, A, ans, permutation):
+    def dfs(self, A, ans, path):
         if not A:
-            ans.append(permutation)
+            ans.append(path[:])
             return
 
         for i in range(len(A)):
             """
             ignore same num
             """
-            if i > 0 and A[i - 1] == A[i]:
+            if i > 0 and A[i] == A[i - 1]:
                 continue
 
             """
             ignore self
             """
-            self.dfs(A[:i] + A[i + 1:], ans, permutation + [A[i]])
+            path.append(A[i])
+            self.dfs(A[:i] + A[i + 1:], ans, path)
+            path.pop()
 
 
 """
@@ -55,12 +58,13 @@ class Solution:
 
         ans = []
         visited = [False] * len(A)
-        self.dfs(sorted(A), ans, [], visited)
+        A.sort()
+        self.dfs(A, visited, ans, [])
         return ans
 
-    def dfs(self, A, ans, permutation, visited):
-        if len(permutation) >= len(A):
-            ans.append(permutation)
+    def dfs(self, A, visited, ans, path):
+        if len(path) == len(A):
+            ans.append(path[:])
             return
 
         for i in range(len(A)):
@@ -73,10 +77,11 @@ class Solution:
             we need to ensure `3`, `3'` is picked
             otherwise repeated result will be included
             """
-            if (i > 0 and A[i - 1] == A[i] and
-                not visited[i - 1]):
+            if i > 0 and not visited[i - 1] and A[i] == A[i - 1]:
                 continue
 
             visited[i] = True
-            self.dfs(A, ans, permutation + [A[i]], visited)
+            path.append(A[i])
+            self.dfs(A, visited, ans, path)
             visited[i] = False
+            path.pop()
