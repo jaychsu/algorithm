@@ -4,15 +4,17 @@ class Solution:
     @return: the square root of x
     """
     def sqrt(self, x):
-        l, m = 0.0, 1.0
-        r = 1.0 if x < 1.0 else x
-        eps = 1e-12
+        if not x:
+            return x
 
-        while r - l > eps:
-            m = l + (r - l) / 2
-            if m * m < x:
-                l = m
+        left = 0
+        right = x if x > 1 else 1
+        eps = 1e-10  # the precision needs `1e-8`, check more two digits
+        while right - left > eps:
+            mid = (left + right) / 2.0
+            if mid * mid < x:
+                left = mid
             else:
-                r = m
+                right = mid
 
-        return l
+        return left
