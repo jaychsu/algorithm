@@ -4,23 +4,42 @@ class Solution:
     @param: k: An integer
     @return: The maximum length of the small pieces
     """
-    """
-    Assuming the `m` is the maximum length
-    len   | ... m-2 m-1 m m+1 m+2 ...
-    check |  T   T   T  T  F   F   F
-    * check: is it ok to cut into at least `k` pieces
-    """
     def woodCut(self, L, k):
-        if sum(L) < k:
+        """
+        Assuming the `m` is the maximum length
+        len   | ... m-2 m-1 m m+1 m+2 ...
+        check |  T   T   T  T  F   F   F
+        * check: is it ok to cut into at least `k` pieces
+        """
+        if not L or not k:
             return 0
 
-        l, m, r = 1, 1, max(L)
-        pieces = 0
-        while l + 1 < r:
-            m = l + (r - l) // 2
-            pieces = sum([h // m for h in L])
-            if pieces < k:
-                r = m
+        left = 1
+        total_len = right = L[0]
+        for i in range(1, len(L)):
+            if L[i] > right:
+                right = L[i]
+
+            total_len += L[i]
+
+        if total_len < k:
+            return 0
+
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if self.check_if_possible(L, mid, k):
+                left = mid
             else:
-                l = m
-        return r if sum([h // l for h in L]) < k else l
+                right = mid
+
+        return right if self.check_if_possible(L, right, k) else left
+
+    def check_if_possible(self, L, size, max_pieces):
+        pieces = 0
+
+        for i in range(len(L)):
+            pieces += L[i] // size
+            if pieces >= max_pieces:
+                return True
+
+        return False
