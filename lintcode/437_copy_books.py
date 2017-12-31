@@ -1,89 +1,104 @@
 """
-DP Solution: TLE
+DP: TLE
 """
 class Solution:
     """
-    @param: pages: an array of integers
+    @param: P: an array of integers
     @param: k: An integer
     @return: an integer
     """
-    def copyBooks(self, pages, k):
-        if not pages:
+    def copyBooks(self, P, k):
+        if not P or not k:
             return 0
+        n = len(P)
+        if n == 1:
+            return P[0]
 
-        INFINITY = float('inf')
-        n = len(pages)
         if k > n:
             k = n
 
-        dp = [[0] * k for _ in range(n)]
+        INFINITY = float('inf')
+
+        """
+        `dp[i][j]` means the minimum time to assign `i` books to `j` people
+        """
+        dp = [[INFINITY] * k for _ in range(n)]
 
         for j in range(k):
-            dp[0][j] = pages[0]
-
+            dp[0][j] = P[0]
         for i in range(1, n):
-            dp[i][0] = dp[i - 1][0] + pages[i]
+            dp[i][0] = dp[i - 1][0] + P[i]
 
         for i in range(1, n):
             for j in range(1, k):
                 if j > i:
+                    """
+                    if `j > i`, means books more than copiers
+                    the people after `j`th people dont have to work
+                    """
                     dp[i][j] = dp[i][j - 1]
                     continue
 
-                dp[i][j] = INFINITY
                 for h in range(j - 1, i + 1):
-                    dp[i][j] = min(
-                        dp[i][j],
-                        max(
-                            dp[h][j - 1],
-                            dp[i][0] - dp[h][0]
-                        )
-                    )
+                    """
+                    `copied_pages` is the maximum copied pages,
+                    and also means the maximum time spent
+                    by the `j - 1` people before `j`
+
+                    if the `j - 1` people can copy as much as they can
+                    then `j`th man will be able to spend less time finishing it
+                    """
+                    copied_pages = dp[i][0] - dp[h][0]
+                    if dp[h][j - 1] > copied_pages:
+                        copied_pages = dp[h][j - 1]
+                    if copied_pages < dp[i][j]:
+                        dp[i][j] = copied_pages
 
         return dp[n - 1][k - 1]
 
 
 """
-DP Solution
+DP
 """
 class Solution:
     """
-    @param: pages: an array of integers
+    @param: P: an array of integers
     @param: k: An integer
     @return: an integer
     """
-    def copyBooks(self, pages, k):
-        if not pages:
+    def copyBooks(self, P, k):
+        if not P or not k:
             return 0
+        n = len(P)
+        if n == 1:
+            return P[0]
 
-        n = len(pages)
         if k > n:
             k = n
 
-        # `dp[i][j]` means the minimum time to assign `i` books to `j` people
+        """
+        `dp[i][j]` means the minimum time to assign `i` books to `j` people
+        """
         dp = [[0] * k for _ in range(n)]
-        i = j = h = 0
 
         for j in range(k):
-            dp[0][j] = pages[0]
-
+            dp[0][j] = P[0]
         for i in range(1, n):
-            dp[i][0] = dp[i - 1][0] + pages[i]
+            dp[i][0] = dp[i - 1][0] + P[i]
 
         for j in range(1, k):
             for i in range(1, j):
-                # if i < j
-                # means books more than copiers
-                # `j`th people dont have to work
+                """
+                if `j > i`, means books more than copiers
+                the people after `j`th people dont have to work
+                """
                 dp[i][j] = dp[i][j - 1]
 
-            # `h` means the maximum books `j - 1` men copied
-            # in the shortest time
-            h = 0
+            h = copied_pages = 0
             for i in range(j, n):
-                # if i >= j
-                # 1. find the maximum books `j - 1` men copied
-                #    in the shortest time
+                """
+                `h` means the maximum books `j - 1` men copied in shortest time
+                """
                 while h < i and dp[h][j - 1] < dp[i][0] - dp[h][0]:
                     h += 1
 
@@ -92,18 +107,27 @@ class Solution:
                 if h == 0:
                     continue
 
-                # 2. check again the `h - 1` books
-                dp[i][j] = min(
-                    dp[i][j],
-                    max(dp[h - 1][j - 1], dp[i][0] - dp[h - 1][0])
-                )
+                """
+                check again the `h - 1` books
+
+                `copied_pages` is the maximum copied pages,
+                and also means the maximum time spent
+                by the `j - 1` people before `j`
+
+                if the `j - 1` people can copy as much as they can
+                then `j`th man will be able to spend less time finishing it
+                """
+                copied_pages = dp[i][0] - dp[h - 1][0]
+                if dp[h - 1][j - 1] > copied_pages:
+                    copied_pages = dp[h - 1][j - 1]
+                if copied_pages < dp[i][j]:
+                    dp[i][j] = copied_pages
 
         return dp[n - 1][k - 1]
 
 
 """
 Binary Search
-======
 
 1. the minimum spent time, that is `m`,
    locates between `max(pages)` and `sum(pages)` (1 page spent 1 min)
@@ -115,45 +139,56 @@ Binary Search
 """
 class Solution:
     """
-    @param: pages: an array of integers
+    @param: P: an array of integers
     @param: k: An integer
     @return: an integer
     """
-    def copyBooks(self, pages, k):
-        if not pages:
+    def copyBooks(self, P, k):
+        if not P or not k:
             return 0
-        n = len(pages)
+        n = len(P)
+        if n == 1:
+            return P[0]
+
         if k > n:
             k = n
 
-        l, m, r = pages[0], 0, 0
-        for i in range(n):
-            r += pages[i]
-            if l < pages[i]:
-                l = pages[i]
+        left = right = P[0]
+        for i in range(1, len(P)):
+            if P[i] > left:
+                left = P[i]
 
-        while l + 1 < r:
-            m = l + (r - l) // 2
-            if self.check_if_possible(m, k, pages):
-                r = m
+            right += P[i]
+
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if self.check_if_possible(P, mid, k):
+                right = mid
             else:
-                l = m
+                left = mid
 
-        return l if self.check_if_possible(l, k, pages) else r
+        """
+        MUST check `left` first, since we need the min spent time
+        """
+        return left if self.check_if_possible(P, left, k) else right
 
-    def check_if_possible(self, spent_time, max_copiers, pages):
+    def check_if_possible(self, P, spent_time, max_copiers):
         """
         check if possible to copy all `pages` in `spent_time`
         and participation is not more than `max_copiers`
         """
         copied_pages, copiers = 0, 1
 
-        for i in range(len(pages)):
-            if copied_pages + pages[i] > spent_time:
+        for i in range(len(P)):
+            """
+            if a copier will spend more than `spent_time`
+            add one more copier in
+            """
+            if copied_pages + P[i] > spent_time:
                 copied_pages = 0
                 copiers += 1
             if copiers > max_copiers:
                 return False
-            copied_pages += pages[i]
+            copied_pages += P[i]
 
         return True
