@@ -1,5 +1,5 @@
 """
-Test Case
+Test Case:
 
 0
 
@@ -8,28 +8,27 @@ Test Case
 999999999
 """
 
+
 class Solution:
     """
     @param: x: An integer
     @return: The sqrt of x
     """
     def sqrt(self, x):
-        if x < 2:
+        if not x or x <= 1:
             return x
 
-        l, m, r = 0, 1, x # l: start, m: middle, r: end
+        left, right = 0, x
+        while left + 1 < right:
+            mid = (left + right) // 2
+            _power = mid * mid
 
-        # `+1` to avoid the comparison at the edge case
-        while l + 1 < r:
+            if _power == x:
+                return mid
 
-            # To avoid `(l+r)/2` integer overflow
-            m = l + (r - l) // 2
-
-            if m * m < x:
-                l = m
+            if _power < x:
+                left = mid
             else:
-                r = m
-            if m * m == x:
-                return m
+                right = mid
 
-        return l
+        return left
