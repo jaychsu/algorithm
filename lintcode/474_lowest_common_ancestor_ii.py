@@ -15,6 +15,9 @@ class Solution:
         :type B: int
         :rtype: int
         """
+        if not root:
+            return root
+
         nodes = {}
 
         while A:
