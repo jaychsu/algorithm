@@ -7,38 +7,81 @@ class UndirectedGraphNode:
 """
 
 
+"""
+DFS
+"""
 class Solution:
-    def __init__(self):
-        self.nodes = {}
-
     """
-    @param {UndirectedGraphNode[]} nodes a array of undirected graph node
-    @return {int[][]} a connected set of a undirected graph
+    @param: N: a array of Undirected graph node
+    @return: a connected set of a Undirected graph
     """
-    def connectedSet(self, nodes):
-        for node in nodes:
-            for nei in node.neighbors:
-                self.connect(nei.label, node.label)
-        result = {}
-        root_label = ''
-        for node in nodes:
-            root_label = self.find(node.label)
-            if root_label not in result:
-                result[root_label] = []
-            result[root_label].append(node.label)
-        return result.values()
+    def connectedSet(self, N):
+        ans = []
+        if not N:
+            return ans
 
-    def connect(self, a, b):
-        root_a = self.find(a)
-        root_b = self.find(b)
+        visited = {}
+        for node in N:
+            visited[node] = False
+
+        for node in N:
+            if visited[node]:
+                continue
+            nodes = []
+            self.dfs(node, visited, nodes)
+            nodes.sort()
+            ans.append(nodes)
+
+        return ans
+
+    def dfs(self, node, visited, nodes):
+        visited[node] = True
+        nodes.append(node.label)
+
+        for _node in node.neighbors:
+            if visited[_node]:
+                continue
+            self.dfs(_node, visited, nodes)
+
+
+"""
+Union Found
+"""
+class Solution:
+    """
+    @param: N: a array of Undirected graph node
+    @return: a connected set of a Undirected graph
+    """
+    def connectedSet(self, N):
+        if not N:
+            return []
+
+        nodes = {}
+
+        for node in N:
+            for _node in node.neighbors:
+                self.connect(nodes, _node.label, node.label)
+
+        ans = {}
+        for node in N:
+            root = self.find(nodes, node.label)
+            if root not in ans:
+                ans[root] = []
+            ans[root].append(node.label)
+
+        return ans.values()
+
+    def connect(self, nodes, a, b):
+        root_a = self.find(nodes, a)
+        root_b = self.find(nodes, b)
         if root_a is not root_b:
-            self.nodes[root_a] = root_b
+            nodes[root_a] = root_b
 
-    def find(self, a):
-        if a not in self.nodes:
-            self.nodes[a] = a
+    def find(self, nodes, a):
+        if a not in nodes:
+            nodes[a] = a
             return a
-        elif self.nodes[a] is a:
+        if nodes[a] is a:
             return a
-        self.nodes[a] = self.find(self.nodes[a])
-        return self.nodes[a]
+        nodes[a] = self.find(nodes, nodes[a])
+        return nodes[a]
