@@ -1,4 +1,10 @@
 """
+- You can pass through house and empty.
+- You only build post office on an empty.
+"""
+
+
+"""
 Prefix Sum + Binary Searching
 http://yuanyuanzhangcs.blogspot.hk/2017/02/build-post-office.html
 
