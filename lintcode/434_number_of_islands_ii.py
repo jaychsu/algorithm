@@ -8,66 +8,60 @@ class Point:
 
 
 class Solution:
-    def __init__(self):
-        self.nodes = {}
-        self.row_vector = [1, -1, 0, 0]
-        self.col_vector = [0, 0, 1, -1]
-
-    def connect(self, a, b):
-        # means there is sea, no island
-        if a not in self.nodes \
-                or b not in self.nodes:
-            return False
-
-        root_a = self.find(a)
-        root_b = self.find(b)
-        if root_a != root_b:
-            self.nodes[root_a] = root_b
-            return True
-        else:
-            return False
-
-    def find(self, a):
-        if self.nodes[a] == a:
-            return a
-        self.nodes[a] = self.find(self.nodes[a])
-        return self.nodes[a]
+    V = (
+        (-1,  0),
+        ( 1,  0),
+        ( 0, -1),
+        ( 0,  1),
+    )
 
     """
-    @param: n: An integer
     @param: m: An integer
-    @param: operators: an array of point
+    @param: n: An integer
+    @param: P: an array of point
     @return: an integer array
     """
-    def numIslands2(self, n, m, operators):
-        if not n or not m \
-                or not operators \
-                or len(operators) < 1:
-            return []
-        cell_id = 0
-        num_of_island = 0
-        result = []
-        for op in operators:
+    def numIslands2(self, m, n, P):
+        ans = []
+        if not m or not n or not P:
+            return ans
 
-            # To convert matrix to line
-            cell_id = op.x * m + op.y
+        N = {}
+        cnt = 0
+        for p in P:
+            cell = (p.x, p.y)
 
-            # If a cell becomes an island then `count += 1`
-            # and we'll consider the adjacent island in following step
-            if cell_id not in self.nodes:
-                num_of_island += 1
-                self.nodes[cell_id] = cell_id
+            if cell not in N:
+                N[cell] = cell
+                cnt += 1
 
-            # Check the around cells
-            for d in range(4):
-                x = op.x + self.row_vector[d]
-                y = op.y + self.col_vector[d]
+            for dx, dy in self.V:
+                _x = p.x + dx
+                _y = p.y + dy
+                if not (0 <= _x < m and 0 <= _y < n):
+                    continue
+                if self.connect(N, cell, (_x, _y)):
+                    cnt -= 1
 
-                # Using UnionFind to connect the adjacent island together
-                # if successful to connect an island, then `count -= 1`
-                if 0 <= x < n \
-                        and 0 <= y < m \
-                        and self.connect(x * m + y, cell_id):
-                    num_of_island -= 1
-            result.append(num_of_island)
-        return result
+            ans.append(cnt)
+
+        return ans
+
+    def connect(self, N, a, b):
+        if a not in N or b not in N:
+            return False
+
+        root_a = self.find(N, a)
+        root_b = self.find(N, b)
+        if root_a is not root_b:
+            N[root_a] = root_b
+            return True
+
+        return False
+
+    def find(self, N, a):
+        if N[a] is a:
+            return a
+
+        N[a] = self.find(N, N[a])
+        return N[a]
