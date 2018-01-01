@@ -10,37 +10,37 @@ class Solution:
             return 0
 
         m, n = len(G), len(G[0])
+        top = self.binary_search(G, 0, x, self.is_empty_row)
+        down = self.binary_search(G, m - 1, x, self.is_empty_row)
+        left = self.binary_search(G, 0, y, self.is_empty_col)
+        right = self.binary_search(G, n - 1, y, self.is_empty_col)
 
-        left = self.binary_search(0, y, G, self.is_empty_col)
-        right = self.binary_search(n - 1, y, G, self.is_empty_col)
-        top = self.binary_search(0, x, G, self.is_empty_row)
-        down = self.binary_search(m - 1, x, G, self.is_empty_row)
+        return (down - top + 1) * (right - left + 1)
 
-        return (right - left + 1) * (down - top + 1)
-
-    def binary_search(self, start, end, G, is_empty):
-        mid = cond = None
-        if start <= end:
-            cond = lambda start, end: start + 1 < end
+    def binary_search(self, G, start, end, is_empty):
+        check = None
+        if start < end:
+            check = lambda start, end: start + 1 < end
         else:
-            cond = lambda start, end: start - 1 > end
+            check = lambda start, end: start - 1 > end
 
-        while cond(start, end):
-            mid = start + (end - start) // 2
+        while check(start, end):
+            mid = (start + end) // 2
             if is_empty(G, mid):
                 start = mid
             else:
                 end = mid
+
         return end if is_empty(G, start) else start
 
     def is_empty_row(self, G, x):
-        for y in range(len(G[x])):
-            if G[x][y] == '1':
+        for cell in G[x]:
+            if cell == '1':
                 return False
         return True
 
     def is_empty_col(self, G, y):
-        for x in range(len(G)):
-            if G[x][y] == '1':
+        for row in G:
+            if row[y] == '1':
                 return False
         return True
