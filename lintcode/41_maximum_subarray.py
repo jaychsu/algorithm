@@ -46,7 +46,7 @@ class Solution:
         that is, `S[i] - Smin`
         """
         if not A:
-            return
+            return 0
 
         n = len(A)
         ans = A[0]
