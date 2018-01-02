@@ -14,7 +14,7 @@ class Solution:
         if not A:
             return 0
 
-        ans = A[0]
+        ans = float('-inf')
         S = Smin = 0
         for i in range(len(A)):
             S += A[i]
@@ -49,7 +49,7 @@ class Solution:
             return 0
 
         n = len(A)
-        ans = A[0]
+        ans = float('-inf')
 
         Smin = 0
         S = [0] * (n + 1)
