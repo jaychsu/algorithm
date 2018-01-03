@@ -4,27 +4,33 @@ class Solution:
     @return: a string
     """
     def expressionExpand(self, s):
-        stack, strs, c = [], None, ''
-        times = number = 0
+        if not s:
+            return ''
+
+        stack = []
+        repet = 0  # repetitions
+
         for char in s:
             if char.isdigit():
-                number = number * 10 ** times + int(char)
-                times += 1
+                repet = repet * 10 + int(char)
             elif char == '[':
-                stack.append(number)
-                times = number = 0
+                stack.append(repet)
+                repet = 0
             elif char == ']':
-                # step 0/ s: '5[a2[bc]]'
-                # step 1/ stack: [5, a, 2, b, c], strs: []
-                # step 2/ stack: [5, a, 2], strs: [c, b]
-                # step 3/ stack: [5, a, bcbc], strs: []
-                strs = []
+                """
+                step 0/ s: '5[a2[bc]]'
+                step 1/ stack: [5, a, 2, b, c], strs: []
+                step 2/ stack: [5, a, 2], strs: [c, b]
+                step 3/ stack: [5, a, bcbc], strs: []
+                """
+                S = []
                 while stack:
                     c = stack.pop()
                     if isinstance(c, int):
-                        stack.append(''.join(reversed(strs)) * c)
+                        stack.append(''.join(reversed(S)) * c)
                         break
-                    strs.append(c)
+                    S.append(c)
             else:
                 stack.append(char)
+
         return ''.join(stack)
