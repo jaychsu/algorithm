@@ -302,6 +302,23 @@ False
 
 ## Dict `dict`
 
+### Immutable Dict
+
+```python
+# set
+>>> from collections import namedtuple
+>>> ImmutableDict = namedtuple('ImmutableDict', ['k1', 'k2'])
+>>> D = ImmutableDict(1, 2)
+>>> D
+ImmutableDict(k1=1, k2=2)
+
+# get
+>>> getattr(D, 'k1', -1)
+1
+>>> getattr(D, 'k3', -1)
+-1
+```
+
 ### Multi-dimensional indexing in dict
 
 note that, since `tuple` is also **IMMUTABLE**.
