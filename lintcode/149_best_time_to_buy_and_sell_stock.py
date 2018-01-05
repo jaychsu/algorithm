@@ -1,19 +1,19 @@
 class Solution:
     """
-    @param: prices: Given an integer array
+    @param: P: Given an integer array
     @return: Maximum profit
     """
-    def maxProfit(self, prices):
+    def maxProfit(self, P):
         ans = 0
-        if not prices:
+        if not P:
             return ans
 
-        minimum_price = prices[0]
+        Pmin = P[0]
 
-        for i in range(1, len(prices)):
-            if prices[i] - minimum_price > ans:
-                ans = prices[i] - minimum_price
-            if prices[i] < minimum_price:
-                minimum_price = prices[i]
+        for i in range(1, len(P)):
+            if P[i] - Pmin > ans:
+                ans = P[i] - Pmin
+            if P[i] < Pmin:
+                Pmin = P[i]
 
         return ans
