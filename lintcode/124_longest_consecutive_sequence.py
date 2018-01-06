@@ -8,22 +8,23 @@ class Solution:
         if not A:
             return ans
 
-        S = set(A)
+        C = set(A)  # candidates
 
         for a in A:
-            if a not in S:
+            if a not in C:
                 continue
 
-            S.discard(a)
+            C.discard(a)
             size = 1
             b, c = a - 1, a + 1
 
-            while b in S:
-                S.discard(b)
+            while b in C:
+                C.discard(b)
                 b -= 1
                 size += 1
-            while c in S:
-                S.discard(c)
+
+            while c in C:
+                C.discard(c)
                 c += 1
                 size += 1
 
