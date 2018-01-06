@@ -112,12 +112,18 @@ class Calculator:
 
     """
     a / b
+
+    let `ci = 1 << i = 2 ** i`
+    if `_a // _b >= ci`, that is `_a // ci >= _b`
+    => `(_a - _b * ci) // _b >= 0`, and `ans += ci`
+
+    start to approch `_a' // _b >= ci'`
+    where _a' = _a - _b * ci, i' = i - 1
     """
     @classmethod
     def divide(cls, a, b):
         if not b:
             return float('inf') if a >= 0 else float('-inf')
-
         if not a:
             return 0
 
@@ -142,7 +148,7 @@ class Calculator:
             if _a >> i >= _b:
                 """
                 a << i == a * (2 ** i)
-                a >> i == a / (2 ** i)
+                a >> i == a // (2 ** i)
                 """
                 quotient = cls.plus(quotient, 1 << i)
                 """
