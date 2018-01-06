@@ -20,7 +20,7 @@ class Solution:
             if A[i] in remaining:
                 return [
                     remaining[A[i]],
-                    i
+                    i,
                 ]
 
             remaining[target - A[i]] = i
@@ -51,13 +51,14 @@ class Solution:
 
         left, right = 0, n - 1
         while left < right:
-            if A[left][0] + A[right][0] == target:
+            _sum = A[left][0] + A[right][0]
+            if _sum == target:
                 return sorted([
                     A[left][1],
-                    A[right][1]
+                    A[right][1],
                 ])
 
-            if A[left][0] + A[right][0] < target:
+            if _sum < target:
                 left += 1
             else:
                 right -= 1
