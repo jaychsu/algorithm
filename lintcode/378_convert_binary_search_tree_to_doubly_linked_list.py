@@ -23,9 +23,9 @@ class Solution:
             return
 
         dummy = tail = DoublyListNode(-1)
-
         stack = []
         node = root
+
         while node or stack:
             while node:
                 stack.append(node)
@@ -33,8 +33,9 @@ class Solution:
 
             node = stack.pop()
 
-            tail.next = _node = DoublyListNode(node.val)
+            _node = DoublyListNode(node.val)
             _node.prev = tail
+            tail.next = _node
             tail = tail.next
 
             node = node.right
