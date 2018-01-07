@@ -10,30 +10,30 @@ from heapq import heappop, heappush
 
 class Solution:
     """
-    @param: P: a list of points
-    @param: o: a point
+    @param: A: a list of points
+    @param: O: a point
     @param: k: An integer
     @return: the k closest points
     """
-    def kClosest(self, P, o, k):
+    def kClosest(self, A, O, k):
         ans = []
-        if not P or not o:
+        if not A or not O:
             return ans
 
-        for p in P:
-            distance = self.get_distance(p, o)
-            heappush(ans, (-distance, p))
+        for P in A:
+            distance = self.get_distance(P, O)
+            heappush(ans, (-distance, P))
 
             if len(ans) > k:
                 heappop(ans)
 
         ans.sort(key=lambda a: (-a[0], a[1].x, a[1].y))
-        return [a[1] for a in ans]
+        return [P for _, P in ans]
 
-    def get_distance(self, p, o):
-        if not p or not o:
+    def get_distance(self, P, O):
+        if not P or not O:
             return float('inf')
 
-        dx = p.x - o.x
-        dy = p.y - o.y
-        return dx * dx + dy * dy
+        x = P.x - O.x
+        y = P.y - O.y
+        return x * x + y * y
