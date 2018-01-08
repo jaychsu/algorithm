@@ -28,15 +28,17 @@ class NestedIterator(object):
         if not self.hasNext():
             return
 
-        L, i = self.stack[-1]
-        self.stack[-1][1] += 1
+        S = self.stack
+        L, i = S[-1]
+        S[-1][1] += 1
         return L[i].getInteger()
 
     # @return {boolean} true if the iteration has more element or false
     def hasNext(self):
         S = self.stack
         while S:
-            L, i = self.stack[-1]
+            L, i = S[-1]
+
             if i >= len(L):
                 S.pop()
                 continue
