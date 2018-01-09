@@ -7,19 +7,23 @@ class Solution:
     def lengthOfLongestSubstringKDistinct(self, s, k):
         if not s or not k:
             return 0
-        ans = l = r = 0
-        n, freq = len(s), {}
-        while r < n:
-            while r < n and (s[r] in freq or len(freq) < k):
-                freq[s[r]] = freq.get(s[r], 0) + 1
-                r += 1
 
-            # the r here already after the legal char, since `r += 1` in above
-            ans = max(ans, r - l)
+        n = len(s)
+        F = {}
+        ans = left = right = 0
 
-            while l < r and len(freq) >= k:
-                freq[s[l]] -= 1
-                if freq[s[l]] == 0:
-                    del freq[s[l]]
-                l += 1
+        while right < n:
+            while right < n and (s[right] in F or len(F) < k):
+                F[s[right]] = F.get(s[right], 0) + 1
+                right += 1
+
+            if right - left > ans:
+                ans = right - left
+
+            while left < right and len(F) >= k:
+                F[s[left]] -= 1
+                if F[s[left]] == 0:
+                    del F[s[left]]
+                left += 1
+
         return ans
