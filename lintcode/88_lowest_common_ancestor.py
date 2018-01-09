@@ -2,6 +2,7 @@
 Notice:
 Assume two nodes are exist in tree.
 
+
 Definition of TreeNode:
 class TreeNode:
     def __init__(self, val):
