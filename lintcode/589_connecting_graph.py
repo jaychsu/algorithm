@@ -3,17 +3,19 @@ class ConnectingGraph:
     @param: n: An integer
     """
     def __init__(self, n):
-        if n < 1:
+        if not n:
             return
-        self.nodes = {}
-        for i in range(n):
-            self.nodes[i + 1] = i + 1
+
+        self.N = {}
+        for i in range(1, n + 1):
+            self.N[i] = i
 
     def find(self, a):
-        if self.nodes[a] == a:
+        if self.N[a] == a:
             return a
-        self.nodes[a] = self.find(self.nodes[a])
-        return self.nodes[a]
+
+        self.N[a] = self.find(self.N[a])
+        return self.N[a]
 
     """
     @param: a: An integer
@@ -21,10 +23,10 @@ class ConnectingGraph:
     @return: nothing
     """
     def connect(self, a, b):
-        root_a = self.find(a)
-        root_b = self.find(b)
-        if root_a != root_b:
-            self.nodes[root_a] = root_b
+        _a = self.find(a)
+        _b = self.find(b)
+        if _a != _b:
+            self.N[_a] = _b
 
     """
     @param: a: An integer
@@ -32,6 +34,6 @@ class ConnectingGraph:
     @return: A boolean
     """
     def query(self, a, b):
-        root_a = self.find(a)
-        root_b = self.find(b)
-        return root_a == root_b
+        _a = self.find(a)
+        _b = self.find(b)
+        return _a == _b
