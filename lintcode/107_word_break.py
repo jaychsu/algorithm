@@ -3,23 +3,23 @@ DP
 """
 class Solution:
     """
-    @param: S: A string
+    @param: s: A string
     @param: D: A dictionary of words dict
     @return: A boolean
     """
-    def wordBreak(self, S, D):
-        if S is None or D is None:
+    def wordBreak(self, s, D):
+        if s is None or D is None:
             return False
-
-        D = set(D)  # s in set is O(1)
-        n = len(S)
-        dp = [False] * (n + 1)
-        dp[0] = True
 
         max_size = 0
         for word in D:
             if len(word) > max_size:
                 max_size = len(word)
+
+        D = set(D)  # s in set is O(1)
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True
 
         for i in range(1, n + 1):
             end = i
@@ -28,7 +28,7 @@ class Solution:
             for j in range(1, end + 1):
                 if not dp[i - j]:
                     continue
-                if S[i - j:i] in D:
+                if s[i - j:i] in D:
                     dp[i] = True
                     break
 
