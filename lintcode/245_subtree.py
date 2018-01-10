@@ -9,28 +9,31 @@ class TreeNode:
 
 class Solution:
     """
-    @param: T1: The roots of binary tree T1.
-    @param: T2: The roots of binary tree T2.
-    @return: True if T2 is a subtree of T1, or false.
+    @param: A: The roots of binary tree A.
+    @param: B: The roots of binary tree B.
+    @return: True if B is a subtree of A, or false.
     """
-    def isSubtree(self, T1, T2):
-        if not T2:
+    def isSubtree(self, A, B):
+        if not B:
+            # Empty tree is also treated as subtree in Lintcode
             return True
-        if not T1:
+        if not A:
             return False
 
-        if self.isEqual(T1, T2):
+        return (
+            self.isEqual(A, B) or
+            self.isSubtree(A.left, B) or
+            self.isSubtree(A.right, B)
+        )
+
+    def isEqual(self, A, B):
+        if not A and not B:
             return True
-
-        return (self.isSubtree(T1.left,  T2) or
-                self.isSubtree(T1.right, T2))
-
-    def isEqual(self, T1, T2):
-        if not T1 or not T2:
-            return T1 is T2
-
-        if T1.val != T2.val:
+        if not A or not B:
             return False
 
-        return (self.isEqual(T1.left,  T2.left) and
-                self.isEqual(T1.right, T2.right))
+        return (
+            A.val == B.val and
+            self.isEqual(A.left, B.left) and
+            self.isEqual(A.right, B.right)
+        )
