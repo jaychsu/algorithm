@@ -24,8 +24,7 @@ class LRUCache:
         self.caches = {}
         self.D = CacheNode(-1)
         self.d = CacheNode(-1)
-        self.D.nxt = self.d
-        self.d.pre = self.D
+        self.D.nxt, self.d.pre = self.d, self.D
 
     """
     @param: key: An integer
