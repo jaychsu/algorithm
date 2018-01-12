@@ -4,17 +4,29 @@ class Solution:
     @return: an integer
     """
     def lengthOfLongestSubstring(self, s):
+        ans = 0
         if not s:
-            return 0
-        n, last = len(s), {}
-        ans = l = 0
-        for r in range(n):
-            # If find the repeated one and position great than before, set the valid left index
-            if s[r] in last and last[s[r]] + 1 > l: l = last[s[r]] + 1
+            return ans
 
-            # Record the last time index of each character
-            last[s[r]] = r
+        n = len(s)
+        F = {}
+        cnt = left = right = 0
 
-            # Every time if the interval between left and right is the bigger one, that's answer
-            ans = max(ans, r + 1 - l)
+        while right < n:
+            F[s[right]] = F.get(s[right], 0) + 1
+            if F[s[right]] > 1:
+                cnt += 1
+
+            right += 1
+
+            while cnt > 0:
+                if F[s[left]] > 1:
+                    cnt -= 1
+                F[s[left]] -= 1
+
+                left += 1
+
+            if right - left > ans:
+                ans = right - left
+
         return ans
