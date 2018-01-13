@@ -5,10 +5,12 @@ Algorithm
 
 ```
 .
+├── bin         # Commands
 ├── leetcode    # The solutions for problems in LeetCode
 ├── lintcode    # The solutions for problems in LintCode
 ├── module      # Implementation of algorithms and data structures
-└── tip         # A similar blog post to sum up the solutions to the problems
+├── tip         # A similar blog post to sum up the solutions to the problems
+└── wildfire    # The solutions for problems met in life
 ```
 
 ## Todos
