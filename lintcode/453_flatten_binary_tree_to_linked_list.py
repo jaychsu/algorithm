@@ -1,11 +1,5 @@
 """
-Definition of TreeNode:
-class TreeNode:
-    def __init__(self, val):
-        this.val = val
-        this.left, this.right = None, None
-"""
-"""
+Main Concept:
 For given tree:
 1-5-6
  =2-4
@@ -25,7 +19,15 @@ when visit `2`
 3. keep doing (1) and (2)
 when visit `1`
 1-2-3-4-5-6
+
+
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        this.val = val
+        this.left, this.right = None, None
 """
+
 
 class Solution:
     """
@@ -39,24 +41,14 @@ class Solution:
         self.flatten(root.left)
         self.flatten(root.right)
 
-        node = root
-        if not node.left:
+        if not root.left:
             return
 
-        # to pointer the most left node
         node = root.left
 
-        # preparation to receive the `root.right`
         while node.right:
             node = node.right
 
-        # to straighten the curve
-        """
-          1          1      1
-         / \        /        \
-        2   3  =>  2    =>    2
-                    \          \
-                     3          3
-        """
-        node.right, root.right, root.left = \
-        root.right, root.left,  None
+        node.right = root.right
+        root.right = root.left
+        root.left = None
