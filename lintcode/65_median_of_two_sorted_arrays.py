@@ -1,6 +1,4 @@
 class Solution:
-    INFINITY = float('inf')
-
     """
     @param: A: An integer array
     @param: B: An integer array
@@ -16,7 +14,7 @@ class Solution:
         _median = self.find_kth(A, 0, B, 0, n // 2)
         return (median + _median) / 2.0
 
-    def find_kth(self, A, A_start, B, B_start, k):
+    def find_kth(self, A, i, B, j, k):
         """
         example: A: [1, 2, 3, 4, 5, 6]
                  B: [2, 3, 4, 5]
@@ -47,19 +45,19 @@ class Solution:
             since k == 1
             return min(4, 4) = `4`
         """
-        if A_start >= len(A):
-            return B[B_start + k - 1]
-        if B_start >= len(B):
-            return A[A_start + k - 1]
+        if i >= len(A):
+            return B[j + k - 1]
+        if j >= len(B):
+            return A[i + k - 1]
         if k == 1:
-            return min(A[A_start], B[B_start])
+            return min(A[i], B[j])
 
-        _a = A_start + k // 2 - 1
-        _b = B_start + k // 2 - 1
-        a = A[_a] if _a < len(A) else self.INFINITY
-        b = B[_b] if _b < len(B) else self.INFINITY
+        _a = i + k // 2 - 1
+        _b = j + k // 2 - 1
+        a = A[_a] if _a < len(A) else float('inf')
+        b = B[_b] if _b < len(B) else float('inf')
 
         if a < b:
-            return self.find_kth(A, A_start + k // 2, B, B_start, k - k // 2)
+            return self.find_kth(A, i + k // 2, B, j, k - k // 2)
         else:
-            return self.find_kth(A, A_start, B, B_start + k // 2, k - k // 2)
+            return self.find_kth(A, i, B, j + k // 2, k - k // 2)
