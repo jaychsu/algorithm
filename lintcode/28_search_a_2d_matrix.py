@@ -5,7 +5,7 @@ class Solution:
     @return: a boolean, indicate whether matrix contains target
     """
     def searchMatrix(self, G, target):
-        if not G or not G[0] or not target:
+        if not G or target is None:
             return False
 
         m, n = len(G), len(G[0])
@@ -13,16 +13,20 @@ class Solution:
 
         while left + 1 < right:
             mid = (left + right) // 2
-            x, y = mid // n, mid % n
+            x = mid // n
+            y = mid % n
+
             if G[x][y] == target:
                 return True
+
             if G[x][y] < target:
                 left = mid
             else:
                 right = mid
 
-        for i in [left, right]:
-            x, y = i // n, i % n
+        for mid in (left, right):
+            x = mid // n
+            y = mid % n
             if G[x][y] == target:
                 return True
 
