@@ -8,14 +8,13 @@ class Solution:
         if not s or not t:
             return ''
 
-        n = len(s)
         F = {}
         for c in t:
             F[c] = F.get(c, 0) + 1
 
-        min_size = INFINITY = float('inf')
-        min_start = 0
+        n = len(s)
         cnt = len(F)
+        min_start = min_size = INFINITY = float('inf')
         left = right = 0
 
         while right < n:
@@ -38,4 +37,4 @@ class Solution:
 
                 left += 1
 
-        return s[min_start:min_start + min_size] if min_size < INFINITY else ''
+        return s[min_start:min_start + min_size] if min_start < INFINITY else ''
