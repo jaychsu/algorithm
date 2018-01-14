@@ -1,7 +1,6 @@
 """
 Definition of ListNode
 class ListNode(object):
-
     def __init__(self, val, next=None):
         self.val = val
         self.next = next
@@ -23,10 +22,12 @@ class Solution:
         if not head or not head.next:
             return False
 
-        slow, fast = head, head.next
+        slow = head
+        fast = head.next
         while slow != fast:
-            if not fast or not fast.next:
+            if not fast.next or not fast.next.next:
                 return False
+
             slow = slow.next
             fast = fast.next.next
 
