@@ -8,38 +8,38 @@ class ListNode:
 
 
 class Solution:
-    """
-    @param: A: the first list
-    @param: B: the second list
-    @return: the sum list of A and B
-    """
     def addLists(self, A, B):
+        """
+        :type A: ListNode
+        :type B: ListNode
+        :rtype: ListNode
+        """
         dummy = tail = ListNode(-1)
-        _carry = _sum = 0
+        carry = 0
 
         while A and B:
-            _sum = A.val + B.val + _carry
-            _carry = _sum // 10 if _sum >= 10 else 0
-            tail.next = ListNode(_sum % 10)
+            carry += A.val + B.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
+            tail = tail.next
             A = A.next
             B = B.next
-            tail = tail.next
 
         while A:
-            _sum = A.val + _carry
-            _carry = _sum // 10 if _sum >= 10 else 0
-            tail.next = ListNode(_sum % 10)
-            A = A.next
+            carry += A.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
             tail = tail.next
+            A = A.next
 
         while B:
-            _sum = B.val + _carry
-            _carry = _sum // 10 if _sum >= 10 else 0
-            tail.next = ListNode(_sum % 10)
-            B = B.next
+            carry += B.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
             tail = tail.next
+            B = B.next
 
-        if _carry > 0:
-            tail.next = ListNode(_carry)
+        if carry:
+            tail.next = ListNode(carry)
 
         return dummy.next
