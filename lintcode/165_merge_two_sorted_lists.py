@@ -8,27 +8,31 @@ class ListNode(object):
 
 
 class Solution:
-    """
-    @param: l1: ListNode l1 is the head of the linked list
-    @param: l2: ListNode l2 is the head of the linked list
-    @return: ListNode head of linked list
-    """
-    def mergeTwoLists(self, l1, l2):
-        dummy = ListNode(0)
-        tail = dummy
+    def mergeTwoLists(self, A, B):
+        """
+        :type A: ListNode
+        :type B: ListNode
+        :rtype: ListNode
+        """
+        dummy = tail = ListNode(-1)
 
-        while l1 and l2:
-            if l1.val < l2.val:
-                tail.next = l1
-                l1 = l1.next
+        while A and B:
+            if A.val < B.val:
+                tail.next = ListNode(A.val)
+                A = A.next
             else:
-                tail.next = l2
-                l2 = l2.next
+                tail.next = ListNode(B.val)
+                B = B.next
             tail = tail.next
 
-        if l1:
-            tail.next = l1
-        else:
-            tail.next = l2
+        while A:
+            tail.next = ListNode(A.val)
+            A = A.next
+            tail = tail.next
+
+        while B:
+            tail.next = ListNode(B.val)
+            B = B.next
+            tail = tail.next
 
         return dummy.next
