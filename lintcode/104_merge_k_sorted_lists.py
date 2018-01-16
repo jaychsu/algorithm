@@ -1,35 +1,33 @@
-"""
-Definition of ListNode
-class ListNode(object):
-
-    def __init__(self, val, next=None):
-        self.val = val
-        self.next = next
-"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 from heapq import heappop, heappush
 
 
 class Solution:
-    """
-    @param lists: a list of ListNode
-    @return: The head of one sorted list.
-    """
-    def mergeKLists(self, lists):
-        if not lists:
+    def mergeKLists(self, L):
+        """
+        :type L: List[ListNode]
+        :rtype: ListNode
+        """
+        if not L:
             return
 
+        heap = []
+        for i in range(len(L)):
+            if not L[i]:
+                continue
+            heappush(heap, (L[i].val, i))
+
         dummy = tail = ListNode(-1)
-        candidates = []
-        for node in lists:
-            if node:
-                heappush(candidates, (node.val, node))
-
-        while candidates:
-            _, node = heappop(candidates)
-            tail.next = node
+        while heap:
+            val, i = heappop(heap)
+            tail.next = ListNode(val)
             tail = tail.next
-
-            if node.next:
-                heappush(candidates, (node.next.val, node.next))
+            L[i] = L[i].next
+            if L[i]:
+                heappush(heap, (L[i].val, i))
 
         return dummy.next
