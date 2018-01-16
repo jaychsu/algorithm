@@ -7,7 +7,7 @@ class Solution:
     def combinationSum(self, A, target):
         ans = []
         if not A:
-            return []
+            return ans
 
         A.sort()
         self.dfs(A, 0, target, ans, [])
