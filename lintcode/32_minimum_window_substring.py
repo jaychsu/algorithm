@@ -1,10 +1,10 @@
 class Solution:
-    """
-    @param: s: A string
-    @param: t: A string
-    @return: A string denote the minimum window, return "" if there is no such a string
-    """
     def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
         if not s or not t:
             return ''
 
@@ -12,9 +12,8 @@ class Solution:
         for c in t:
             F[c] = F.get(c, 0) + 1
 
-        n = len(s)
-        cnt = len(F)
-        min_start = min_size = INFINITY = float('inf')
+        n, cnt = len(s), len(F)
+        start = size = INFINITY = float('inf')
         left = right = 0
 
         while right < n:
@@ -28,13 +27,13 @@ class Solution:
             while cnt == 0:
                 if s[left] in F:
                     F[s[left]] += 1
-                    if F[s[left]] > 0:
+                    if F[s[left]] == 1:
                         cnt += 1
 
-                if right - left < min_size:
-                    min_size = right - left
-                    min_start = left
+                if right - left < size:
+                    size = right - left
+                    start = left
 
                 left += 1
 
-        return s[min_start:min_start + min_size] if min_start < INFINITY else ''
+        return s[start:start + size] if size < INFINITY else ''
