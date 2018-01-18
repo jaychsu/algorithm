@@ -4,38 +4,32 @@ Greedy
 https://leetcode.com/articles/jump-game/
 """
 class Solution:
-    """
-    @param: A: A list of integers
-    @return: A boolean
-    """
     def canJump(self, A):
+        """
+        :type A: List[int]
+        :rtype: bool
+        """
         if not A:
             return False
 
-        # the last position to get to the destination
-        _last = len(A) - 1
+        last_at = len(A) - 1
 
-        for i in range(_last, -1, -1):
-            # if:
-            # `i` (the distance from the starting position)
-            # + `A[i]` (the maximum jump length)
-            # is great than `_last` (the last position to get to the destination)
-            # and then we can reach the `_last` if we at `i`
-            if i + A[i] >= _last:
-                _last = i
+        for i in range(last_at, -1, -1):
+            if i + A[i] >= last_at:
+                last_at = i
 
-        return _last == 0
+        return last_at == 0
 
 
 """
 DP
 """
 class Solution:
-    """
-    @param: A: A list of integers
-    @return: A boolean
-    """
     def canJump(self, A):
+        """
+        :type A: List[int]
+        :rtype: bool
+        """
         if not A:
             return False
 
