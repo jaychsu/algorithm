@@ -1,28 +1,14 @@
 class Solution:
-    """
-    @param: m: positive integer (1 <= m <= 100)
-    @param: n: positive integer (1 <= n <= 100)
-    @return: An integer
-    """
     def uniquePaths(self, m, n):
-        dp = [[0] * n for _ in range(2)]
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        dp = [[1] * n for _ in range(m)]
 
-        prev = curr = 0
+        for x in range(1, m):
+            for y in range(1, n):
+                dp[x][y] = dp[x - 1][y] + dp[x][y - 1]
 
-        for j in range(n):
-            if j == 0:
-                dp[curr][j] = 1
-                continue
-
-            dp[curr][j] = dp[curr][j - 1]
-
-        for i in range(1, m):
-            prev = curr
-            curr = 1 - prev
-
-            dp[curr][0] = dp[prev][0]
-
-            for j in range(1, n):
-                dp[curr][j] = dp[prev][j] + dp[curr][j - 1]
-
-        return dp[curr][n - 1]
+        return dp[m - 1][n - 1]
