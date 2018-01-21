@@ -14,34 +14,26 @@ time: O(2n) => O(n)
 space: O(n)
 """
 class Solution:
-    # @param head: A RandomListNode
-    # @return: A RandomListNode
     def copyRandomList(self, head):
-        dummy = tail = RandomListNode(0)
-        new_node = None
-        indices = {}
+        """
+        :type head: RandomListNode
+        :rtype: RandomListNode
+        """
+        N = {}
+        dummy = tail = RandomListNode(-1)
 
-        """
-        copy the origin main list
-        and temply save origin random node
-        """
         while head:
-            new_node = RandomListNode(head.label)
-            new_node.random = head.random
-            tail.next = new_node
-            indices[head] = new_node
-
+            node = RandomListNode(head.label)
+            node.random = head.random
+            tail.next = node
+            N[head] = node
             tail = tail.next
             head = head.next
 
-        """
-        iterate the new list
-        and replace the random node in new list
-        """
         head = dummy.next
         while head:
             if head.random:
-                head.random = indices[head.random]
+                head.random = N[head.random]
             head = head.next
 
         return dummy.next
@@ -51,61 +43,50 @@ class Solution:
 temply save in n.next
 time: O(3n) => O(n)
 space: O(1)
+
+
+example: 1->2->3
+
+copy_next/
+    |--------->|
+    1 -> 1' -> 2 -> 2' -> 3 -> 3'
+replace_random/
+         |--------->|
+    |----+---->|    |
+    1 -> 1' -> 2 -> 2' -> 3 -> 3'
+split_list/
+    |--------->|
+    1    ->    2    ->    3
+         1'   ->    2'   ->    3'
+         |--------->|
 """
 class Solution:
-    # @param head: A RandomListNode
-    # @return: A RandomListNode
     def copyRandomList(self, head):
         """
-        example: 1->2->3
-
-        copy_next/
-            |--------->|
-            1 -> 1' -> 2 -> 2' -> 3 -> 3'
-        replace_random/
-                 |--------->|
-            |----+---->|    |
-            1 -> 1' -> 2 -> 2' -> 3 -> 3'
-        split_list/
-            |--------->|
-            1    ->    2    ->    3
-                 1'   ->    2'   ->    3'
-                 |--------->|
+        :type head: RandomListNode
+        :rtype: RandomListNode
         """
         if not head:
             return
 
-        self.copy_next(head)
-        self.replace_random(head)
-        return self.split_list(head)
+        tail = head
+        node = None
+        while tail:
+            node = RandomListNode(tail.label)
+            node.random = tail.random
+            node.next = tail.next
+            tail.next = node
+            tail = tail.next.next
 
-    def copy_next(self, head):
-        new_node = None
+        tail = head
+        while tail:
+            if tail.next and tail.random:
+                tail.next.random = tail.random.next
+            tail = tail.next.next
 
-        while head:
-            new_node = RandomListNode(head.label)
-            new_node.random = head.random
-            new_node.next = head.next
-            head.next = new_node
+        node = tail = head.next
+        while tail and tail.next:
+            tail.next = tail.next.next
+            tail = tail.next
 
-            head = head.next.next
-
-    def replace_random(self, head):
-        while head:
-            if head.next and head.random:
-                head.next.random = head.random.next
-
-            head = head.next.next
-
-    def split_list(self, head):
-        dummy = tail = head.next
-
-        while head:
-            tail = head.next
-            head.next = tail.next
-            if tail.next:
-                tail.next = tail.next.next
-
-            head = head.next
-
-        return dummy
+        return node
