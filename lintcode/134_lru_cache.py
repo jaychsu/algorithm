@@ -39,7 +39,7 @@ class LRUCache:
             self._update_item(key, val)
             return
 
-        if len(self.caches) >= self.capacity:
+        while len(self.caches) >= self.capacity:
             self._evict_item()
 
         self._add_item(key, val)
