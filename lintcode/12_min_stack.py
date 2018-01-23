@@ -1,34 +1,43 @@
 class MinStack:
-    """
-    @param: a: An integer
-    """
     def __init__(self):
         self.stack = []
-        self.minstack = []
+        self.mins = []
 
-    """
-    @param: number: An integer
-    @return: nothing
-    """
-    def push(self, number):
-        self.stack.append(number)
-        if not self.minstack or number <= self.minstack[-1]:
-            self.minstack.append(number)
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: void
+        """
+        if not self.mins or x <= self.mins[-1]:
+            self.mins.append(x)
 
-    """
-    @param: a: An integer
-    @return: An integer
-    """
+        self.stack.append(x)
+
     def pop(self):
-        if not self.stack:
-            return
-        if self.minstack and self.stack[-1] == self.minstack[-1]:
-            self.minstack.pop()
-        return self.stack.pop()
+        """
+        :rtype: void
+        """
+        if self.stack[-1] == self.mins[-1]:
+            self.mins.pop()
 
-    """
-    @param: a: An integer
-    @return: An integer
-    """
+        self.stack.pop()
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        return self.stack[-1]
+
     def min(self):
-        return self.minstack[-1]
+        """
+        :rtype: int
+        """
+        return self.mins[-1]
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(x)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.min()
