@@ -1,11 +1,6 @@
 """
-Test Case
+Main Concept:
 
-[3,6,4]
-
-[1,3,2,1,5]
-"""
-"""
 if we insist on not stealing one of the houses
 => the remaining houses become a sequence
 => the problem becomes `./lintcode/392_house_robber.py`
@@ -20,7 +15,16 @@ we pick the first and last houses
    that is, the range becomes `[0, n - 2]`
 
 and choose the maximum amount as the answer
+
+
+Test Case:
+
+[3,6,4]
+
+[1,3,2,1,5]
 """
+
+
 class Solution:
     """
     @param: A: An array of non-negative integers.
@@ -92,3 +96,35 @@ class Solution:
             dp[curr] = max(dp[prev1], dp[prev2] + A[i])
 
         return dp[curr]
+
+
+class Solution:
+    def houseRobber2(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        if not A:
+            return 0
+        n = len(A)
+        if n < 2:
+            return A[0]
+
+        return max(
+            self.rob_in_line(A, 0, n - 2),
+            self.rob_in_line(A, 1, n - 1)
+        )
+
+    def rob_in_line(self, A, start, end):
+        n = end - start + 1
+        dp = [0] * (n + 1)
+        dp[0] = 0
+        dp[1] = A[start]
+
+        for i in range(2, n + 1):
+            dp[i] = max(
+                dp[i - 2] + A[start + i - 1],
+                dp[i - 1]
+            )
+
+        return dp[n]
