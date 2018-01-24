@@ -60,3 +60,25 @@ class Solution:
             dp[curr] = max(dp[prev1], dp[prev2] + A[i])
 
         return dp[curr]
+
+
+class Solution:
+    def houseRobber(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        if not A:
+            return 0
+
+        n = len(A)
+        dp = [0] * (n + 1)
+        dp[1] = A[0]
+
+        for i in range(2, n + 1):
+            dp[i] = max(
+                dp[i - 2] + A[i - 1],
+                dp[i - 1]
+            )
+
+        return dp[n]
