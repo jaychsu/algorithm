@@ -1,34 +1,36 @@
 class Solution:
-    """
-    @param: grid: a boolean 2D matrix
-    @return: an integer
-    """
-    def numIslands(self, grid):
+    V = (
+        (-1,  0),
+        ( 1,  0),
+        ( 0, -1),
+        ( 0,  1),
+    )
+
+    def numIslands(self, G):
+        """
+        :type G: List[List[str]]
+        :rtype: int
+        """
         ans = 0
-        if not grid:
+        if not G or not G[0]:
             return ans
-        self.m, self.n = len(grid), len(grid[0])
-        self.dx, self.dy = [1, -1, 0, 0], [0, 0, 1, -1]
-        self.visited = [[0 for _ in range(self.n)] for _ in range(self.m)]
-        for x in range(self.m):
-            for y in range(self.n):
-                # Once found an island, search for the cells around it
-                # to mark the around island as visited
-                # this ensures the count will not be repeated in later iterations
-                if not self.visited[x][y] and grid[x][y] == 1:
-                    self.visited[x][y] = 1
-                    self.check_around(x, y, grid)
-                    ans += 1
+
+        for x in range(len(G)):
+            for y in range(len(G[x])):
+                if G[x][y] == '0':
+                    continue
+                ans += 1
+                self.dfs(G, x, y)
+
         return ans
 
-    # To iterate all the around cell
-    def check_around(self, x, y, grid):
-        for i in range(4):
-            _x, _y = x + self.dx[i], y + self.dy[i]
-            if 0 <= _x < self.m and 0 <= _y < self.n \
-                    and not self.visited[_x][_y] \
-                    and grid[_x][_y] == 1:
-                self.visited[_x][_y] = 1
-
-                # Continue to visit the adjacent cell if its an island
-                self.check_around(_x, _y, grid)
+    def dfs(self, G, x, y):
+        G[x][y] = '0'
+        for dx, dy in self.V:
+            _x = x + dx
+            _y = y + dy
+            if not (0 <= _x < len(G) and 0 <= _y < len(G[_x])):
+                continue
+            if G[_x][_y] == '0':
+                continue
+            self.dfs(G, _x, _y)
