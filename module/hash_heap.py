@@ -1,39 +1,37 @@
 # TODO
 # class HashHeap:
 
-
 from heapq import heappush, heappop
+
 
 class HashHeapq:
     def __init__(self):
         self.heap = []
         self.deleted = {}
-        self._len = 0
-
-    def __len__(self):
-        return self._len
 
     def __repr__(self):
         return repr(self.heap)
 
     def push(self, val):
         heappush(self.heap, val)
-        self._len += 1
 
     def pop(self):
-        self._clean_top()
-        self._len -= 1
+        if self.is_empty():
+            return
         return heappop(self.heap)
 
     def remove(self, val):
+        if self.is_empty():
+            return
         self.deleted[val] = self.deleted.get(val, 0) + 1
-        self._len -= 1
 
     def top(self):
-        self._clean_top()
+        if self.is_empty():
+            return
         return self.heap[0]
 
-    def _clean_top(self):
+    def is_empty(self):
         while self.heap and self.deleted.get(self.heap[0]):
             self.deleted[self.heap[0]] -= 1
             heappop(self.heap)
+        return not self.heap

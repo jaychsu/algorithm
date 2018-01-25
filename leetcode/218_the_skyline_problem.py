@@ -34,7 +34,7 @@ class HashHeapq:
         while self.heap and self.deleted.get(self.heap[0]):
             self.deleted[self.heap[0]] -= 1
             heappop(self.heap)
-        return not bool(self.heap)
+        return not self.heap
 
 
 class Solution:
