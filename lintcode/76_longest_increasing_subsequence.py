@@ -23,30 +23,29 @@ class Solution:
             return 0
 
         INFINITY = float('inf')
-        _INFINITY = float('-inf')
         n = len(A)
-        B = [_INFINITY] + [INFINITY] * n
+        P = [-INFINITY] + [INFINITY] * n
 
         for i in range(n):
-            b = self.binary_search(B, A[i])
-            B[b] = A[i]
-            # print(B)
+            j = self.binary_search(P, A[i])
+            P[j] = A[i]
 
         for i in range(n, -1, -1):
-            if B[i] < INFINITY:
+            if P[i] < INFINITY:
                 return i
 
         return 0
 
-    def binary_search(self, B, num):
-        left, right = 0, len(B) - 1
-        mid = None
+    def binary_search(self, P, a):
+        left, right = 0, len(P) - 1
+
         while left + 1 < right:
-            mid = left + (right - left) // 2
-            if B[mid] < num:
+            mid = (left + right) // 2
+            if P[mid] < a:
                 left = mid
             else:
                 right = mid
+
         return right
 
 
