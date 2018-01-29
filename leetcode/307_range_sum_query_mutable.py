@@ -36,9 +36,9 @@ class NumArray:
         :type j: int
         :rtype: int
         """
-        return self.get_sum(j + 1) - self.get_sum(i)
+        return self.sum(j + 1) - self.sum(i)
 
-    def get_sum(self, i):
+    def sum(self, i):
         res = 0
 
         while i > 0:
