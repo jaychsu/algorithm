@@ -1,31 +1,56 @@
-# REF: https://leetcode.com/articles/coin-change/
 """
-Test Case:
-
-[21,31,51]
-91
--> P[amount] > amount
-
+BFS
 """
 class Solution:
-    """
-    @param: coins: a list of integer
-    @param: amount: a total amount of money amount
-    @return: the fewest number of coins that you need to make up
-    """
-    def coinChange(self, coins, amount):
-        if not coins or not amount:
-            return 0
-        m, n = amount + 1, len(coins)
-        P = [m for _ in range(m)]
-        P[0] = 0
+    def coinChange(self, C, amount):
+        """
+        :type C: List[int]
+        :type amount: int
+        :rtype: int
+        """
+        ans = 0
+        if not amount:
+            return ans
 
-        for total in range(m):
-            for deno in range(n):
-                if coins[deno] <= total \
-                        and P[total - coins[deno]] + 1 < P[total]:
-                    P[total] = P[total - coins[deno]] + 1
+        queue, _queue = [0], []
+        visited = [False] * (amount + 1)
+        visited[0] = True
 
-        # since the init value of each child in `P` is `m == amount + 1`
-        # so if `P[amount] > amount` means it not changed -> not valid
-        return -1 if P[amount] > amount else P[amount]
+        while queue:
+            ans += 1
+            for x in queue:
+                for c in C:
+                    _x = x + c
+
+                    if _x == amount:
+                        return ans
+                    if _x > amount or visited[_x]:
+                        continue
+
+                    visited[_x] = True
+                    _queue.append(_x)
+
+            queue, _queue = _queue, []
+
+        return -1
+
+
+"""
+DP: TLE
+"""
+class Solution:
+    def coinChange(self, C, amount):
+        """
+        :type C: List[int]
+        :type amount: int
+        :rtype: int
+        """
+        INFINITY = float('inf')
+        dp = [INFINITY] * (amount + 1)
+        dp[0] = 0
+
+        for c in C:
+            for x in range(c, amount + 1):
+                dp[x] = min(dp[x], dp[x - c] + 1)
+
+        return dp[amount] if dp[amount] < INFINITY else -1
