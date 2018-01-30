@@ -87,6 +87,41 @@ in func
 [1]
 ```
 
+### Hoisting
+
+```python
+# hoisting is in `for`, `if`, `while`
+>>> a
+NameError: name 'a' is not defined
+>>> i
+NameError: name 'i' is not defined
+>>> for i in range(10):
+...     a = 123
+>>> a
+123
+>>> i
+9
+
+# hoisting is NOT in list comprehensions
+>>> b
+NameError: name 'b' is not defined
+>>> [b for b in range(10)]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> b
+NameError: name 'b' is not defined
+
+# hoisting is NOT in `class`, `function`
+>>> c
+NameError: name 'c' is not defined
+>>> def test(a = 1):
+...     c = 2
+>>> test()
+>>> a
+NameError: name 'a' is not defined
+>>> c
+NameError: name 'c' is not defined
+```
+
 ## String `str`, `bytes`
 
 ### To find index
