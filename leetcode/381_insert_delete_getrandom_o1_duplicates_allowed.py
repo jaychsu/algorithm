@@ -33,9 +33,8 @@ class RandomizedCollection:
         i = I[val].pop()
         _val = A[-1]
 
-        if _val in I:
-            I[_val].add(i)
-            I[_val].discard(len(A) - 1)
+        I[_val].add(i)
+        I[_val].discard(len(A) - 1)
 
         A[i] = _val
         A.pop()
