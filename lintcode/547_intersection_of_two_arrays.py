@@ -1,4 +1,25 @@
 class Solution:
+    def intersection(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        ans = []
+        if not A or not B:
+            return ans
+
+        A = set(A)
+        B = set(B)
+
+        for a in A:
+            if a in B:
+                ans.append(a)
+
+        return ans
+
+
+class Solution:
     """
     @param: A: an integer array
     @param: B: an integer array
