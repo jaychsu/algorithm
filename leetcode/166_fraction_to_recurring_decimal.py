@@ -20,13 +20,14 @@ class Solution:
             b = -b
 
         ans.append(str(a // b))
+
         a %= b
         if a == 0:
             return ''.join(ans)
 
         ans.append('.')
-        D = {a: len(ans)}  # digit
-        while a != 0:
+        D = {a: len(ans)}  # the index of first occurrence of `a`
+        while a:
             a *= 10
             ans.append(str(a // b))
             a %= b
@@ -35,7 +36,7 @@ class Solution:
                 ans.insert(D[a], '(')
                 ans.append(')')
                 break
-            else:
-                D[a] = len(ans)
+
+            D[a] = len(ans)
 
         return ''.join(ans)
