@@ -21,12 +21,11 @@ class Solution:
         Returns a random node's value.
         :rtype: int
         """
-        res = self.head
-        node = res.next
-        i = 1
+        res = node = self.head
+        i = 0
 
         while node:
-            if randint(0, i) == 0:
+            if randint(0, i) == i:
                 res = node
             node = node.next
             i += 1
