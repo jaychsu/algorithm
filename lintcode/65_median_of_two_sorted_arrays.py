@@ -1,3 +1,49 @@
+"""
+Heap
+"""
+from heapq import heappop, heappush
+
+
+class Solution:
+    def findMedianSortedArrays(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: float
+        """
+        ans = []
+        heap = []
+        n = 0
+
+        for L in (A, B):
+            if not L:
+                continue
+
+            n += len(L)
+            heappush(heap, (L[0], L, 0))
+
+        k = (n + 1) >> 1
+
+        while k:
+            a, L, i = heappop(heap)
+
+            k -= 1
+            if k == 0:
+                ans.append(a)
+
+            i += 1
+            if i < len(L):
+                heappush(heap, (L[i], L, i))
+
+        if n & 1 == 0:
+            ans.append(heappop(heap)[0])
+
+        return sum(ans) * 1.0 / len(ans)
+
+
+"""
+Decreasing Approaching
+"""
 class Solution:
     """
     @param: A: An integer array
