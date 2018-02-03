@@ -8,12 +8,16 @@ class Solution:
             return ''
 
         start = size = 0
+
         for i in range(len(s)):
             _start, _size = self.check_palindrome(s, i, i)
-            __start, __size = self.check_palindrome(s, i, i + 1)
-            if __size > _size:
-                _size = __size
-                _start = __start
+
+            if _size > size:
+                size = _size
+                start = _start
+
+            _start, _size = self.check_palindrome(s, i, i + 1)
+
             if _size > size:
                 size = _size
                 start = _start
@@ -22,7 +26,9 @@ class Solution:
 
     def check_palindrome(self, s, left, right):
         n = len(s)
+
         while left >= 0 and right < n and s[left] == s[right]:
             left -= 1
             right += 1
-        return (left + 1, right - left - 1)
+
+        return left + 1, right - left - 1
