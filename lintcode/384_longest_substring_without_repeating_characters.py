@@ -8,22 +8,21 @@ class Solution:
         if not s:
             return ans
 
-        F = {}
         n = len(s)
-        cnt = left = right = 0
+        F = {}  # frequency for every char between `left`, `right`
+        rep = 0  # contained repeated char between `left`, `right`
 
+        left = right = 0
         while right < n:
             F[s[right]] = F.get(s[right], 0) + 1
             if F[s[right]] == 2:
-                cnt += 1
-
+                rep += 1
             right += 1
 
-            while cnt > 0:
+            while rep > 0:
                 if F[s[left]] == 2:
-                    cnt -= 1
+                    rep -= 1
                 F[s[left]] -= 1
-
                 left += 1
 
             if right - left > ans:
