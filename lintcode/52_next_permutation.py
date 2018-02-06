@@ -13,16 +13,17 @@ REF: [Next Permutation](https://leetcode.com/articles/next-permutation/)
 
 
 class Solution:
-    """
-    @param: A: A list of integers
-    @return: A list of integers
-    """
     def nextPermutation(self, A):
+        """
+        :type A: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
         if not A or len(A) < 2:
-            return A
+            return
 
         n = len(A)
         i = n - 2
+
         while i >= 0 and A[i] >= A[i + 1]:
             i -= 1
 
@@ -38,5 +39,3 @@ class Solution:
             A[i], A[j] = A[j], A[i]
             i += 1
             j -= 1
-
-        return A
