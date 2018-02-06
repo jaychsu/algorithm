@@ -13,6 +13,7 @@ class Solution:
             area = min(H[left], H[right]) * (right - left)
             if area > ans:
                 ans = area
+
             if H[left] < H[right]:
                 left += 1
             else:
