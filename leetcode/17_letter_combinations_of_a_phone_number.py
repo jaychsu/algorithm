@@ -4,24 +4,26 @@ class Solution:
         :type s: str
         :rtype: List[str]
         """
-        ans = []
         if not s:
-            return ans
-        for c in s:
-            if c == '0' or c == '1':
-                return ans
+            return []
 
-        C = {
+        L = {
             '2': 'abc', '3': 'def',  '4': 'ghi', '5': 'jkl',
             '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz',
         }
 
-        ans.extend(list(C[s[0]]))
-        for i in range(1, len(s)):
-            _queue = []
-            for char in ans:
-                for _char in C[s[i]]:
-                    _queue.append(char + _char)
-            ans = _queue
+        queue, _queue = [], []
+        for d in s:
+            if d not in L:
+                return []
+            if not queue:
+                queue.extend(list(L[d]))
+                continue
 
-        return ans
+            for c in L[d]:
+                for _c in queue:
+                    _queue.append(_c + c)
+            queue, _queue = _queue, []
+
+        queue.sort()
+        return queue
