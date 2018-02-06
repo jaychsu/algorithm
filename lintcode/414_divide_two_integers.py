@@ -1,10 +1,10 @@
 class Solution:
-    """
-    @param: a: the dividend
-    @param: b: the divisor
-    @return: the result
-    """
     def divide(self, a, b):
+        """
+        :type a: int
+        :type b: int
+        :rtype: int
+        """
         INT_MAX = 0x7FFFFFFF
         ans = 0
 
@@ -31,6 +31,10 @@ class Solution:
             _a -= _b << i
 
         if a ^ b < 0:
-            ans = ~ans + 1
+            ans = -ans
 
-        return ans if ans < INT_MAX else INT_MAX
+        if ans > INT_MAX:
+            return INT_MAX
+        if ans < ~INT_MAX:
+            return ~INT_MAX
+        return ans
