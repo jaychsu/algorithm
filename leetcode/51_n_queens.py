@@ -4,15 +4,17 @@ class Solution:
         :type n: int
         :rtype: List[List[str]]
         """
-        G = [['.'] * n for _ in range(n)]
-
         ans = []
+        if not n:
+            return ans
+
+        G = [['.'] * n for _ in range(n)]
         self.dfs(G, 0, ans)
         return ans
 
     def dfs(self, G, y, ans):
         if y == len(G):
-            ans.append(self.get_board(G))
+            ans.append(self.clone_board(G))
             return
 
         for x in range(len(G)):
@@ -32,12 +34,15 @@ class Solution:
         """
         for i in range(len(G)):
             for j in range(y):
-                if (G[i][j] == 'Q' and
-                   (x + j == y + i or x + y == i + j or x == i)):
+                if G[i][j] != 'Q':
+                    continue
+                if (x + j == y + i or
+                    x + y == i + j or
+                    x == i):
                     return False
         return True
 
-    def get_board(self, G):
+    def clone_board(self, G):
         res = []
         for R in G:
             res.append(''.join(R))
