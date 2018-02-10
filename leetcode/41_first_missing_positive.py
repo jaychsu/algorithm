@@ -22,7 +22,8 @@ class Solution:
             if i == left:
                 left += 1
             elif i < 0 or i > right or A[i] == A[left]:
-                A[left] = A[right]
+                A[left], A[right] = A[right], A[left]
+                # `A[left] = A[right]` is also ok, since no need to visit `A[right]` again
                 right -= 1
             else:
                 A[left], A[i] = A[i], A[left]
