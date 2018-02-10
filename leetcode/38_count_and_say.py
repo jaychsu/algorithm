@@ -4,22 +4,20 @@ class Solution:
         :type n: int
         :rtype: str
         """
-        s = '1'
+        ans = '1'
 
         for _ in range(n - 1):
-            S = []
-            _s = s[0]
+            res = []
             cnt = 0
-            for c in s:
-                if c == _s:
+            c = ans[0]
+            for _c in ans:
+                if _c == c:
                     cnt += 1
                     continue
-                S.append(str(cnt))
-                S.append(_s)
-                _s = c
+                res.extend((str(cnt), c))
+                c = _c
                 cnt = 1
-            S.append(str(cnt))
-            S.append(_s)
-            s = ''.join(S)
+            res.extend((str(cnt), c))
+            ans = ''.join(res)
 
-        return s
+        return ans
