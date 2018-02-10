@@ -4,14 +4,14 @@ class Solution:
         :type n: int
         :rtype: int
         """
-        Ys = set()  # ys
+        Xs = set()
         DLs = set()  # left diagonal lines
         DRs = set()  # right diagonal lines
-        return self.divide_conquer(n, 0, 0, Ys, DLs, DRs)
+        return self.divide_conquer(n, 0, 0, Xs, DLs, DRs)
 
-    def divide_conquer(self, n, x, cnt, Ys, DLs, DRs):
-        for y in range(n):
-            if y in Ys:
+    def divide_conquer(self, n, y, cnt, Xs, DLs, DRs):
+        for x in range(n):
+            if x in Xs:
                 continue
 
             dl = x - y
@@ -22,15 +22,15 @@ class Solution:
             if dr in DRs:
                 continue
 
-            if x == n - 1:
+            if y == n - 1:
                 cnt += 1
                 continue
 
-            Ys.add(y)
+            Xs.add(x)
             DLs.add(dl)
             DRs.add(dr)
-            cnt = self.divide_conquer(n, x + 1, cnt, Ys, DLs, DRs)
-            Ys.discard(y)
+            cnt = self.divide_conquer(n, y + 1, cnt, Xs, DLs, DRs)
+            Xs.discard(x)
             DLs.discard(dl)
             DRs.discard(dr)
 
