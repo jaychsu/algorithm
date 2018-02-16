@@ -1,36 +1,41 @@
 class Solution:
-    """
-    @param: matrix: a boolean 2D matrix
-    @return: an integer
-    """
-    def maximalRectangle(self, matrix):
+    def maximalRectangle(self, G):
+        """
+        :type G: List[List[str]]
+        :rtype: int
+        """
         ans = 0
-        if not matrix or len(matrix) < 1:
+        if not G or not G[0]:
             return ans
-        m, n = len(matrix), len(matrix[0])
-        l, r, h = {}, {}, {}
-        curr = 0
-        for i in range(m):
 
-            curr = 0
+        m, n = len(G), len(G[0])
+        L, R, H = {}, {}, {}
+
+        for i in range(m):
+            curr = 0  # left boundary
             for j in range(n):
-                if int(matrix[i][j]) > 0:
-                    h[j] = h.get(j, 0) + 1
-                    l[j] = max(l.get(j, 0), curr)
+                if G[i][j] == '1':
+                    H[j] = H.get(j, 0) + 1
+                    L[j] = max(L.get(j, 0), curr)
                 else:
-                    h[j] = l[j] = 0
+                    H[j] = L[j] = 0
                     curr = j + 1
 
-            curr = n
+            curr = n  # right boundary
             for j in range(n - 1, -1, -1):
-                if int(matrix[i][j]) > 0:
-                    r[j] = min(r.get(j, n), curr)
+                if G[i][j] == '1':
+                    R[j] = min(R.get(j, n), curr)
                 else:
-                    r[j] = n
+                    R[j] = n
                     curr = j
-                ans = max(ans, (r[j] - l[j]) * h[j])
+
+                ans = max(
+                    ans,
+                    H[j] * (R[j] - L[j])
+                )
 
         return ans
+
 
 """
 Assuming matrix: [
@@ -82,45 +87,51 @@ max = 6 = (5 - 2) * 2
 # Mono Stack
 # This problem could be treated as histogram, see lintcode#122
 class Solution:
-    """
-    @param: matrix: a boolean 2D matrix
-    @return: an integer
-    """
-    def maximalRectangle(self, matrix):
+    def maximalRectangle(self, G):
+        """
+        :type G: List[List[str]]
+        :rtype: int
+        """
         ans = 0
-        if not matrix or len(matrix) < 1:
+        if not G or not G[0]:
             return ans
-        height = [0] * len(matrix[0])
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                if int(matrix[i][j]) == 0:
-                    height[j] = 0
+
+        m, n = len(G), len(G[0])
+        H = [0] * n
+
+        for i in range(m):
+            for j in range(n):
+                if G[i][j] == '1':
+                    H[j] += 1
                 else:
-                    height[j] += 1
-            ans = max(ans, self.largestRectangleArea(height))
+                    H[j] = 0
+
+            ans = max(ans, self.largestRectangleArea(H))
 
             # To remove the trick `0`
-            height.pop()
+            H.pop()
 
         return ans
 
-    def largestRectangleArea(self, height):
-        ans = 0
-        if not height or len(height) < 1:
-            return ans
+    def largestRectangleArea(self, H):
+        area = 0
+        if not H:
+            return area
 
         # To ensure the last element in monostack will be handled
-        height.append(0)
+        H.append(0)
 
-        indices = []
-        top = l = h = 0
+        I = []
+        left = height = 0
 
-        # https://goo.gl/nLfT99
-        for r in range(len(height)):
-            while indices and height[indices[-1]] >= height[r]:
-                top = indices.pop()
-                h = height[top]
-                l = indices[-1] if indices else -1
-                ans = max(ans, h * (r - l - 1))
-            indices.append(r)
-        return ans
+        for right in range(len(H)):
+            while I and H[I[-1]] >= H[right]:
+                height = H[I.pop()]
+                left = I[-1] if I else -1
+                area = max(
+                    area,
+                    height * (right - left - 1)
+                )
+            I.append(right)
+
+        return area

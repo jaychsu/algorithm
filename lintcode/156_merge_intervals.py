@@ -1,9 +1,16 @@
+# Definition for an interval.
+# class Interval:
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+
 class Solution:
-    """
-    @param: A: interval list.
-    @return: A new interval list.
-    """
     def merge(self, A):
+        """
+        :type A: List[Interval]
+        :rtype: List[Interval]
+        """
         ans = []
         if not A:
             return ans
@@ -13,9 +20,7 @@ class Solution:
         for I in A:
             if not ans or ans[-1].end < I.start:
                 ans.append(I)
-                continue
-
-            if I.end > ans[-1].end:
+            elif I.end > ans[-1].end:
                 ans[-1].end = I.end
 
         return ans
