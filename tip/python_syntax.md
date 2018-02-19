@@ -1,6 +1,8 @@
 Python Syntax Note
 ======
 
+## General
+
 ### Difference between `is` and `==`
 
 `is` will return True if two variables point to the same object,
@@ -188,6 +190,19 @@ inf
 ```
 
 ## List `list`
+
+## Iteration
+
+```python
+>>> A = [['a', 'b'], ['c', 'd']]
+>>> A
+[['a', 'b'], ['c', 'd']]
+>>> B = map(''.join, A)
+>>> B
+<map object at 0x10e901da0>
+>>> list(B)
+['ab', 'cd']
+```
 
 ### To find index
 
