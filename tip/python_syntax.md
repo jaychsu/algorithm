@@ -89,6 +89,28 @@ in func
 [1]
 ```
 
+### Private prop in `class`
+
+```python
+>>> class Test:
+...     def __init__(self):
+...             self.a = 1
+...             self._b = 2
+...             self.__c = 3
+...
+...     def get_c(self):
+...             return self.__c
+>>> t = Test()
+>>> t.a
+1
+>>> t._b
+2
+>>> t.__c
+AttributeError: 'Test' object has no attribute '__c'
+>>> t.get_c()
+3
+```
+
 ### Hoisting
 
 ```python
