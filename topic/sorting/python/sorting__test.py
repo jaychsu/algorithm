@@ -1,8 +1,6 @@
 import unittest
-from _test_helper import *
-
-from quick_sort import quick_sort
-from merge_sort import merge_sort
+from _test.python import *
+from sorting.python import *
 
 
 class TestSorting(unittest.TestCase):

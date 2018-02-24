@@ -1,10 +1,6 @@
 import unittest
-from _test_helper import *
-
-from binary_tree_serialization import BinaryTree
-from binary_tree_preorder_traversal import *
-from binary_tree_inorder_traversal import *
-from binary_tree_postorder_traversal import *
+from _test.python import *
+from binary_tree.python import *
 
 
 class TestBinaryTree(unittest.TestCase):
