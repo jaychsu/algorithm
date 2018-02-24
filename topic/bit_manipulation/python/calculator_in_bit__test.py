@@ -1,6 +1,6 @@
 import unittest
 from _test.python import *
-from bitwise_operation.python import *
+from bit_manipulation.python import *
 
 
 class TestBitCalculator(unittest.TestCase):
