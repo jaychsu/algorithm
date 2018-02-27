@@ -12,10 +12,10 @@ class Solution:
         if not nums:
             return ans
 
-        exists = {}
+        exists = set()
         for i in range(len(nums)):
             if nums[i] not in exists:
-                exists[nums[i]] = True
+                exists.add(nums[i])
                 ans += 1
 
         return ans

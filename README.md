@@ -8,9 +8,11 @@ Algorithm
 ```
 .
 ├── bin         # Commands
-├── leetcode    # The solutions for problems in LeetCode
-├── lintcode    # The solutions for problems in LintCode
+├── codeforces  # for Codeforces
+├── leetcode    # for LeetCode
+├── lintcode    # for LintCode
 ├── other       # The solutions for problems met in life
+├── topcoder    # for Topcoder
 └── topic       # Implementation and summaries of algorithms and data structures
 ```
 
