@@ -4,7 +4,4 @@ class Solution:
         :type s: str
         :rtype: str
         """
-        if not s:
-            return ''
-
-        return ''.join(reversed(list(s)))
+        return ''.join(reversed(s))

@@ -1,23 +1,29 @@
 class Solution:
-    def countAndSay(self, n):
+    def countAndSay(self, N):
         """
-        :type n: int
+        :type N: int
         :rtype: str
         """
-        ans = '1'
+        queue = '1'
 
-        for _ in range(n - 1):
-            res = []
+        if not N:
+            return queue
+
+        _queue = []
+
+        for _ in range(N - 1):
             cnt = 0
-            c = ans[0]
-            for _c in ans:
-                if _c == c:
+            char = queue[0]
+
+            for c in queue:
+                if c == char:
                     cnt += 1
                     continue
-                res.extend((str(cnt), c))
-                c = _c
+                _queue.extend((str(cnt), char))
                 cnt = 1
-            res.extend((str(cnt), c))
-            ans = ''.join(res)
+                char = c
 
-        return ans
+            _queue.extend((str(cnt), char))
+            queue, _queue = ''.join(_queue), []
+
+        return queue
