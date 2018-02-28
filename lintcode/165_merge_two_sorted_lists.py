@@ -1,38 +1,36 @@
-"""
-Definition of ListNode
-class ListNode(object):
-    def __init__(self, val, next=None):
-        self.val = val
-        self.next = next
-"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 
 class Solution:
-    def mergeTwoLists(self, A, B):
+    def mergeTwoLists(self, a, b):
         """
-        :type A: ListNode
-        :type B: ListNode
+        :type a: ListNode
+        :type b: ListNode
         :rtype: ListNode
         """
         dummy = tail = ListNode(-1)
 
-        while A and B:
-            if A.val < B.val:
-                tail.next = ListNode(A.val)
-                A = A.next
+        while a and b:
+            if a.val < b.val:
+                tail.next = ListNode(a.val)
+                a = a.next
             else:
-                tail.next = ListNode(B.val)
-                B = B.next
+                tail.next = ListNode(b.val)
+                b = b.next
             tail = tail.next
 
-        while A:
-            tail.next = ListNode(A.val)
-            A = A.next
+        while a:
+            tail.next = ListNode(a.val)
+            a = a.next
             tail = tail.next
 
-        while B:
-            tail.next = ListNode(B.val)
-            B = B.next
+        while b:
+            tail.next = ListNode(b.val)
+            b = b.next
             tail = tail.next
 
         return dummy.next
