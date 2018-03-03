@@ -15,30 +15,28 @@ class TreeNode:
 
 
 class Solution:
-    """
-    @param: root: A Tree
-    @return: Level order a list of lists of integer
-    """
     def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
         ans = []
+
         if not root:
             return ans
 
-        queue = [root]
+        queue, _queue = [root], []
 
         while queue:
-            _queue = []
-            path = []
+            ans.append([])
 
             for node in queue:
                 if node.left:
                     _queue.append(node.left)
                 if node.right:
                     _queue.append(node.right)
+                ans[-1].append(node.val)
 
-                path.append(node.val)
-
-            ans.append(path)
-            queue = _queue
+            queue, _queue = _queue, []
 
         return ans

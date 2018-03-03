@@ -1,16 +1,46 @@
 """
+Main Concept:
+since the fact,
+if we said a tree is NOT a binary search tree,
+and then the values we got by inorder traversal
+is must be a non-descending sequence, that is, A[i+1] >= A[i].
+
+
 Definition of TreeNode:
 class TreeNode:
     def __init__(self, val):
         self.val = val
         self.left, self.right = None, None
 """
-"""
-since the fact:
-if we said a tree is NOT a binary search tree,
-and then the values we got by inorder traversal
-is must be a non-descending sequence, that is, A[i+1] >= A[i].
-"""
+
+
+class Solution:
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        stack = []
+        node = root
+
+        val = None
+
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+
+            node = stack.pop()
+
+            if val is not None and val >= node.val:
+                return False
+            else:
+                val = node.val
+
+            node = node.right
+
+        return True
+
 
 class Solution:
     is_valid = True
