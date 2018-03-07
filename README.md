@@ -7,13 +7,13 @@ Algorithm
 
 ```
 .
-├── bin         # Commands
+├── bin         # commands
 ├── codeforces  # for Codeforces
 ├── leetcode    # for LeetCode
 ├── lintcode    # for LintCode
-├── other       # The solutions for problems met in life
+├── other       # for problems met in life
 ├── topcoder    # for Topcoder
-└── topic       # Implementation and summaries of algorithms and data structures
+└── topic       # implementation and summaries of algorithms and data structures
 ```
 
 ## Testing

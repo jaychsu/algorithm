@@ -1,4 +1,8 @@
 """
+Main Concept
+    ver. | 1 2 3 4 5
+    good | T T F F F
+
 class SVNRepo:
     @classmethod
     def isBadVersion(cls, id)
@@ -10,22 +14,20 @@ bad version.
 
 
 class Solution:
-    """
-    @param: n: An integer
-    @return: An integer which is the first bad version.
-    """
     def findFirstBadVersion(self, n):
         """
-        ver. | 1 2 3 4 5
-        good | T T F F F
+        :type n: int
+        :rtype: int
         """
         if not n:
-            return
-        l, m, r = 1, 1, n
-        while l + 1 < r:
-            m = l + (r - l) / 2
-            if SVNRepo.isBadVersion(m):
-                r = m
+            return 0
+
+        left, right = 1, n
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if isBadVersion(mid):
+                right = mid
             else:
-                l = m
-        return l if SVNRepo.isBadVersion(l) else r
+                left = mid
+
+        return left if isBadVersion(left) else right
