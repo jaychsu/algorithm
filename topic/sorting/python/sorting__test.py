@@ -1,10 +1,8 @@
-import unittest
 from _test.python import *
 from sorting.python import *
 
 
-class TestSorting(unittest.TestCase):
-
+class TestSorting(TestBase):
     CASES = (
         (-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
         (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -17,25 +15,16 @@ class TestSorting(unittest.TestCase):
         (70, 91, 92, -42, -4, 13, -12, -94, -56, -70, 34, -97, 58, -14, -75),
     )
 
-    @classmethod
-    def setUpClass(cls):
-        starting_test(cls.__name__)
-
-    @classmethod
-    def tearDownClass(cls):
-        finished_test(cls.__name__)
-
     def _run_sorting_test(self, _sort):
-        A = B = None
         for case in self.CASES:
-            A = list(case)
-            B = list(case)
+            a = list(case)
+            b = list(case)
 
-            B.sort()
-            _sort(A)
+            _sort(a)
+            b.sort()
 
-            self.assertIsNot(B, A)
-            self.assertEqual(B, A)
+            self.assertIsNot(a, b)
+            self.assertEqual(a, b)
 
     def test_quick_sort(self):
         self._run_sorting_test(quick_sort)

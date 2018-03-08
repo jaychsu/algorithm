@@ -1,9 +1,8 @@
-import unittest
 from _test.python import *
 from bit_manipulation.python import *
 
 
-class TestBitCalculator(unittest.TestCase):
+class TestBitCalculator(TestBase):
     CASES = (
         (-1, -1), (-1, 0), (-1, 1),
         ( 0, -1), ( 0, 0), ( 0, 1),
@@ -29,14 +28,6 @@ class TestBitCalculator(unittest.TestCase):
         (   0,  123),
     )
 
-    @classmethod
-    def setUpClass(cls):
-        starting_test(cls.__name__)
-
-    @classmethod
-    def tearDownClass(cls):
-        finished_test(cls.__name__)
-
     def test_plus_recursion(self):
         for a, b in self.CASES:
             self.assertEqual(a + b, Calculator._plus(a, b))
@@ -54,7 +45,6 @@ class TestBitCalculator(unittest.TestCase):
             self.assertEqual(a * b, Calculator.times(a, b))
 
     def test_divide(self):
-        c = None
         for a, b in self.CASES:
             if not b:
                 c = float('inf') if a >= 0 else float('-inf')

@@ -1,10 +1,8 @@
-import unittest
 from _test.python import *
 from binary_tree.python import *
 
 
-class TestBinaryTree(unittest.TestCase):
-
+class TestBinaryTree(TestBase):
     CASES = {
         '{1,2,3,4,#,#,5,#,6,#,#,7,8}': {
             'preorder': '1,2,4,6,7,8,3,5',
@@ -22,16 +20,12 @@ class TestBinaryTree(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        starting_test(cls.__name__)
+        super(TestBinaryTree, cls).setUpClass()
 
-        cls.trees = {}
-        for case in cls.CASES:
-            cls.trees[case] = BinaryTree.deserialize(case)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.CASES = cls.trees = None
-        finished_test(cls.__name__)
+        cls.trees = {
+            case: BinaryTree.deserialize(case)
+            for case in cls.CASES
+        }
 
     def test_serialization(self):
         case = '{1,2,3,4,#,#,5,#,6,#,#,7,8}'
@@ -79,15 +73,14 @@ class TestBinaryTree(unittest.TestCase):
         self.assertIs(None, right.right)
 
     def _run_traversal_test(self, traverse, *, type):
-        result = None
-        for case, exp in self.CASES.items():
+        for _in, _out in self.CASES.items():
             result = []
             traverse(
-                self.trees[case],
-                callback=lambda v: result.append(str(v))
+                self.trees[_in],
+                callback=lambda val: result.append(str(val))
             )
             self.assertEqual(
-                exp[type],
+                _out[type],
                 ','.join(result)
             )
 
