@@ -6,10 +6,11 @@ class UnionFind:
         return repr(self.nodes)
 
     def connect(self, a, b):
-        root_a = self.find(a)
-        root_b = self.find(b)
-        if root_a is not root_b:
-            self.nodes[root_a] = root_b
+        _a = self.find(a)
+        _b = self.find(b)
+        if _a is not _b:
+            self.nodes[_a] = _b
+        return _b
 
     def find(self, a):
         if a not in self.nodes:
