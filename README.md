@@ -18,8 +18,6 @@ Algorithm
 
 ## Testing
 
-### Python
-
-```
-./bin/test_topic.py
-```
+| Language | Command |
+| :--- | :--- |
+| Python | ./bin/test_python.py |
