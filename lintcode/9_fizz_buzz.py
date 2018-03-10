@@ -1,9 +1,33 @@
 class Solution:
-    """
-    @param: n: An integer
-    @return: A list of strings.
-    """
     def fizzBuzz(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        ans = []
+
+        if not n:
+            return ans
+
+        for i in range(1, n + 1):
+            if i % 3 == 0 and i % 5 == 0:
+                ans.append('FizzBuzz')
+            elif i % 3 == 0:
+                ans.append('Fizz')
+            elif i % 5 == 0:
+                ans.append('Buzz')
+            else:
+                ans.append(str(i))
+
+        return ans
+
+
+class Solution:
+    def fizzBuzz(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
         ans = []
         if not n:
             return ans

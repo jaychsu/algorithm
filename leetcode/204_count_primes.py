@@ -1,5 +1,7 @@
 """
 REF: https://discuss.leetcode.com/topic/14036/fast-python-solution
+
+Count the number of prime numbers LESS THAN a non-negative number, n.
 """
 
 
@@ -9,6 +11,9 @@ class Solution:
         :type n: int
         :rtype: int
         """
+        # note that 2 is prime
+        # but there is no prime less than 2
+        # so return 0 if n == 2
         if not n or n < 3:
             return 0
 

@@ -8,19 +8,22 @@ class MinStack:
         :type x: int
         :rtype: void
         """
+        self.stack.append(x)
+
         if not self.mins or x <= self.mins[-1]:
             self.mins.append(x)
-
-        self.stack.append(x)
 
     def pop(self):
         """
         :rtype: void
         """
-        if self.stack[-1] == self.mins[-1]:
-            self.mins.pop()
+        if not self.stack:
+            return
 
-        self.stack.pop()
+        x = self.stack.pop()
+
+        if self.mins and x == self.mins[-1]:
+            self.mins.pop()
 
     def top(self):
         """

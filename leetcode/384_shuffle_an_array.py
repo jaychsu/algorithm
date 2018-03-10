@@ -2,35 +2,34 @@ from random import randrange
 
 
 class Solution:
-    def __init__(self, A):
+    def __init__(self, nums):
         """
-        :type A: List[int]
+        :type nums: List[int]
         """
-        self.A = A
-        self.B = A[:]
+        self.origin = nums[:]
+        self.nums = nums
 
     def reset(self):
         """
         Resets the array to its original configuration and return it.
         :rtype: List[int]
         """
-        self.A = self.B
-        self.B = self.B[:]
-        return self.A
+        self.nums = self.origin[:]
+        return self.nums
 
     def shuffle(self):
         """
         Returns a random shuffling of the array.
         :rtype: List[int]
         """
-        A = self.A
-        n = len(A)
+        a = self.nums
+        n = len(a)
 
         for i in range(n):
             _i = randrange(i, n)
-            A[i], A[_i] = A[_i], A[i]
+            a[i], a[_i] = a[_i], a[i]
 
-        return A
+        return a
 
 
 # Your Solution object will be instantiated and called as such:

@@ -1,13 +1,13 @@
 class Solution:
-    """
-    @param: s: Roman representation
-    @return: an integer
-    """
     def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
         if not s:
             return 0
 
-        R = {
+        symb = {
             'I': 1,
             'V': 5,
             'X': 10,
@@ -17,11 +17,12 @@ class Solution:
             'M': 1000,
         }
 
-        ans = R[s[-1]]
+        ans = symb[s[-1]]
+
         for i in range(len(s) - 2, -1, -1):
-            if R[s[i]] < R[s[i + 1]]:
-                ans -= R[s[i]]
+            if symb[s[i]] < symb[s[i + 1]]:
+                ans -= symb[s[i]]
             else:
-                ans += R[s[i]]
+                ans += symb[s[i]]
 
         return ans
