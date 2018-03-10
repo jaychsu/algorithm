@@ -19,11 +19,14 @@ r2: [1, 2, 4, 5, 3, 6, 7]
 
 r3: [1, 2, 3, 4, 5, 6, 7]
 """
+
+
 def merge_sort(A):
     n = len(A)
     tmp = [0] * n
     _merge_sort(A, 0, n - 1, tmp)
     return A
+
 
 def _merge_sort(A, start, end, tmp):
     if start >= end:
@@ -35,6 +38,7 @@ def _merge_sort(A, start, end, tmp):
     _merge_sort(A, right, end, tmp)
 
     index = start
+
     while left <= mid and right <= end:
         if A[left] < A[right]:
             tmp[index] = A[left]
@@ -43,10 +47,12 @@ def _merge_sort(A, start, end, tmp):
             tmp[index] = A[right]
             right += 1
         index += 1
+
     while left <= mid:
         tmp[index] = A[left]
         left += 1
         index += 1
+
     while right <= end:
         tmp[index] = A[right]
         right += 1

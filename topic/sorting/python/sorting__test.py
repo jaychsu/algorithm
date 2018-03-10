@@ -20,10 +20,11 @@ class TestSorting(TestBase):
             a = list(case)
             b = list(case)
 
-            _sort(a)
+            c = _sort(a)
             b.sort()
 
             self.assertIsNot(a, b)
+            self.assertIs(a, c)
             self.assertEqual(a, b)
 
     def test_quick_sort(self):
