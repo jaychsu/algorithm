@@ -6,12 +6,12 @@ D --> x --> y --> z
 D <-> x <-> y <-> z
 """
 
+from linked_list.python._helper import *
 
-class LinkedList:
-    # TODO
+
+class DTLinkedList(ListBase):
     pass
 
 
-class DoublyLinkedList:
-    # TODO
+class DTDoublyLinkedList(ListBase):
     pass
