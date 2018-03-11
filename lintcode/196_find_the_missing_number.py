@@ -1,18 +1,33 @@
 class Solution:
-    """
-    @param: A: An array of integers
-    @return: An integer
-    """
-    def findMissing(self, A):
-        if not A:
+    def findMissing(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
             return 0
 
-        A.sort()
-        i = 0
+        ans = n = len(nums)
 
-        for j in range(len(A)):
-            if i != A[j]:
+        for i in range(n):
+            ans ^= i ^ nums[i]
+
+        return ans
+
+
+class Solution:
+    def findMissing(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+
+        nums.sort()
+
+        for i in range(len(nums)):
+            if i != nums[i]:
                 return i
-            i += 1
 
-        return i
+        return i + 1

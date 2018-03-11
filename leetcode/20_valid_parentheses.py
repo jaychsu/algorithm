@@ -4,21 +4,18 @@ class Solution:
         :type s: str
         :rtype: bool
         """
-        if s is '':
-            return True
         if not s:
-            return False
+            return True
 
-        P = {')': '(', ']': '[', '}': '{'}
         stack = []
+        right2left = {')': '(', ']': '[', '}': '{'}
 
-        for c in s:
-            if c in ('(', '[', '{'):
-                stack.append(c)
-                continue
-            if c not in (')', ']', '}'):
+        for char in s:
+            if char in ('(', '[', '{'):
+                stack.append(char)
+            elif char not in (')', ']', '}'):
                 return False
-            if not stack or P[c] != stack.pop():
+            elif not stack or stack.pop() != right2left[char]:
                 return False
 
         return len(stack) == 0
