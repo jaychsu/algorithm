@@ -1,4 +1,11 @@
-from linked_list.python.cyclic_list import CCLinkedList, CCDoublyLinkedList
-from linked_list.python.dummy_tail_list import DTLinkedList, DTDoublyLinkedList
-from linked_list.python.head_tail_list import HTLinkedList, HTDoublyLinkedList
-from linked_list.python.two_dummy_list import TDLinkedList, TDDoublyLinkedList
+from linked_list.python.cyclic_list import CyclicList
+from linked_list.python.cyclic_doubly_list import CyclicDoublyList
+
+from linked_list.python.dummy_tail_list import DummyTailList
+from linked_list.python.dummy_tail_doubly_list import DummyTailDoublyList
+
+from linked_list.python.head_tail_list import HeadTailList
+from linked_list.python.head_tail_doubly_list import HeadTailDoublyList
+
+from linked_list.python.two_dummy_list import TwoDummyList
+from linked_list.python.two_dummy_doubly_list import TwoDummyDoublyList

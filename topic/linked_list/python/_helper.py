@@ -2,8 +2,6 @@
 api doc of Class java.util.LinkedList
 https://courses.cs.washington.edu/courses/cse341/98au/java/jdk1.2beta4/docs/api/java/util/LinkedList.html
 """
-
-
 from abc import ABC, abstractmethod
 
 

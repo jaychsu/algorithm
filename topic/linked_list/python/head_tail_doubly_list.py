@@ -1,9 +1,9 @@
 """
 h           t
-x --> y --> z
+x <-> y <-> z
 """
 from linked_list.python._helper import *
 
 
-class HeadTailList(ListBase):
+class HeadTailDoublyList(ListBase):
     pass
