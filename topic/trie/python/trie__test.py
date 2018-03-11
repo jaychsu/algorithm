@@ -69,3 +69,21 @@ class TestTrie(TestBase):
         self.assertEqual(trie.root.end_of, '')
         self.assertTrue(trie.has_word(''))
         self.assertTrue(trie.has_prefix(''))
+
+    def test_invalid_put(self):
+        trie = Trie()
+
+        for word, cnt, end_of in (
+            (None, 0, None),
+            ({}, 0, None),
+            ({'a': 1}, 0, None),
+            ([], 0, None),
+            ([1, 2, 3], 0, None),
+            ('a', 1, None),
+            (u'b', 2, None),
+            (b'c', 3, None),
+            ('', 3, ''),
+        ):
+            trie.put(word)
+            self.assertTrue(len(trie.root.children) == cnt)
+            self.assertTrue(trie.root.end_of == end_of)

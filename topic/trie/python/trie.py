@@ -62,4 +62,4 @@ class Trie:
         return node.end_of
 
     def _is_string(self, word):
-        return type(word) in (str, bytes)
+        return isinstance(word, (str, bytes))
