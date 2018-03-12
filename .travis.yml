@@ -1,8 +1,7 @@
 matrix:
   include:
     - language: python
-      python:
-        - "3.6"
+      python: "3.6"
       script:
         - $TRAVIS_BUILD_DIR/bin/test_python.py
     - language: node_js
