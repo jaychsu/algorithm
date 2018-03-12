@@ -7,14 +7,16 @@ class Solution:
         if not s:
             return -1
 
-        F = {}
-        for c in s:
-            F[c] = F.get(c, 0) + 1
+        freq = {}
 
-        i = 0
         for c in s:
-            if F[c] == 1:
+            if c not in freq:
+                freq[c] = 0
+
+            freq[c] += 1
+
+        for i in range(len(s)):
+            if freq[s[i]] == 1:
                 return i
-            i += 1
 
         return -1
