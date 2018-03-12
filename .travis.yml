@@ -1,5 +1,18 @@
-language: python
-python:
-  - "3.6"
-script:
-  - $TRAVIS_BUILD_DIR/bin/test_python.py
+matrix:
+  include:
+    - language: python
+      python:
+        - "3.6"
+      script:
+        - $TRAVIS_BUILD_DIR/bin/test_python.py
+
+    - language: node_js
+      node_js:
+        - "lts/carbon"
+      before_script:
+        - npm install -g jest
+      script: jest --config=$TRAVIS_BUILD_DIR/bin/test_javascript.js
+
+notifications:
+  email:
+    - app@jaych.su
