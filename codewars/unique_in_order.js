@@ -3,7 +3,7 @@ function uniqueInOrder(iterable) {
     return []
   }
 
-  ans = [iterable[0]]
+  const ans = [iterable[0]]
 
   for (let i = 1; i < iterable.length; i++) {
     if (iterable[i] != ans[ans.length - 1]) {
