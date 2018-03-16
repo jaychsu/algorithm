@@ -1,7 +1,6 @@
 """
 D <-> x <-> y <-> z <-> D
 """
-import collections
 from linked_list.python._helper import *
 
 
@@ -11,22 +10,37 @@ class CyclicDoublyList(ListBase):
 
     def __iter__(self):
         node = self.__dummy[2]
+
         while node is not self.__dummy:
             obj, _, nxt = node
             yield obj
             node = nxt
 
     def set(self, obj, index=-1):
+        """
+        :type obj: any
+        :type index: int
+        :rtype: any
+        """
         self._check_index(index, raise_error=True)
         target = self._get_node(index)
         target[0] = obj
         return obj
 
     def get(self, index=-1):
+        """
+        :type index: int
+        :rtype: any
+        """
         self._check_index(index, raise_error=True)
         return self._get_node(index)[0]
 
     def add(self, obj, index=-1):
+        """
+        :type obj: any
+        :type index: int
+        :rtype: void
+        """
         if not self._check_index(index):
             index = -1
 
@@ -43,8 +57,12 @@ class CyclicDoublyList(ListBase):
         self.__size += 1
 
     def add_all(self, objs, index=-1):
-        if not isinstance(objs, collections.Iterable):
-            raise ValueError('Oops! passed-in objs was not iterable.')
+        """
+        :type objs: Iterable
+        :type index: int
+        :rtype: void
+        """
+        super(CyclicDoublyList, self).add_all(objs, index)
 
         if not self._check_index(index):
             index = -1
@@ -69,6 +87,10 @@ class CyclicDoublyList(ListBase):
         self.__size += len(objs)
 
     def remove(self, index=-1):
+        """
+        :type index: int
+        :rtype: any
+        """
         self._check_index(index, raise_error=True)
         obj, pre, nxt = self._get_node(index)
         pre[2] = nxt
@@ -77,62 +99,86 @@ class CyclicDoublyList(ListBase):
         self.__size -= 1
         return obj
 
-    def contains(self, obj):
-        for node in self.__iter__():
-            if node is obj:
-                return True
-
-        return False
-
     def index(self, obj):
+        """
+        :type obj: any
+        :rtype: int
+
+        return -1 if not found
+        """
         i = 0
         node = self.__dummy[2]
+
         while node is not self.__dummy:
             if node[0] is obj:
                 return i
             node = node[2]
             i += 1
+
         return -1
 
     def last_index(self, obj):
+        """
+        :type obj: any
+        :rtype: int
+
+        return -1 if not found
+        """
         i = 1
         node = self.__dummy[1]
+
         while node is not self.__dummy:
             if node[0] is obj:
                 return i
             node = node[1]
             i += 1
+
         return -1
 
     def clear(self):
+        """
+        :rtype: void
+        """
         dummy = []
         dummy[:] = self._new_node(None, dummy, dummy)
         self.__dummy = dummy
         self.__size = 0
 
     def clone(self):
+        """
+        :rtype: LinkedList
+        """
         pass
 
     def sort(self, key=None):
+        """
+        :type key: function
+        :rtype: void
+        """
         pass
 
     def _get_size(self):
+        """
+        :rtype: int
+        """
         return self.__size
 
     def _get_node(self, index=-1):
+        """
+        :type index: int
+        :rtype: ListNode
+        """
         node = None
 
         if index < 0:
-            i = -index
             node = self.__dummy
-            while i != 0:
-                i -= 1
+            while index != 0:
+                index += 1
                 node = node[1]
         else:
-            i = index
             node = self.__dummy[2]
-            while i != 0:
-                i -= 1
+            while index != 0:
+                index -= 1
                 node = node[2]
 
         return node

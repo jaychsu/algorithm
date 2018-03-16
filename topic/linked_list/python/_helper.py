@@ -3,6 +3,7 @@ api doc of Class java.util.LinkedList
 https://courses.cs.washington.edu/courses/cse341/98au/java/jdk1.2beta4/docs/api/java/util/LinkedList.html
 """
 from abc import ABC, abstractmethod
+import collections
 
 
 class ListNode:
@@ -20,10 +21,10 @@ class DoublyListNode:
 
 class ListBase(ABC):
     def __repr__(self):
-        return repr(self.to_array())
+        return repr(self.to_list())
 
     def __str__(self):
-        return str(self.to_array())
+        return str(self.to_list())
 
     def __bool__(self):
         return bool(self._get_size())
@@ -32,11 +33,22 @@ class ListBase(ABC):
         return self._get_size()
 
 
-    def to_array(self):
+    def to_list(self):
         """
         :rtype: List[any]
         """
-        return [obj for obj in self.__iter__()]
+        return list(self.__iter__())
+
+    def contains(self, obj):
+        """
+        :type obj: any
+        :rtype: bool
+        """
+        for node in self.__iter__():
+            if node is obj:
+                return True
+
+        return False
 
     def get_first(self):
         """
@@ -83,8 +95,8 @@ class ListBase(ABC):
         :rtype: bool
 
         return True if index is valid
-        return False if invalid and need silence
-        raise IndexError if invalid and no need silence
+        return False if invalid and NO need raise_error
+        raise IndexError if invalid and need raise_error
         """
         size = self._get_size()
 
@@ -103,13 +115,6 @@ class ListBase(ABC):
 
     @abstractmethod
     def __iter__(self):
-        pass
-
-    @abstractmethod
-    def _get_size(self):
-        """
-        :rtype: int
-        """
         pass
 
     @abstractmethod
@@ -145,22 +150,14 @@ class ListBase(ABC):
         :type index: int
         :rtype: void
         """
-        pass
+        if not isinstance(objs, collections.Iterable):
+            raise ValueError('Oops! passed-in objs was not iterable.')
 
     @abstractmethod
     def remove(self, index=-1):
         """
         :type index: int
         :rtype: any
-        """
-        pass
-
-
-    @abstractmethod
-    def contains(self, obj):
-        """
-        :type obj: any
-        :rtype: bool
         """
         pass
 
@@ -203,5 +200,20 @@ class ListBase(ABC):
         """
         :type key: function
         :rtype: void
+        """
+        pass
+
+    @abstractmethod
+    def _get_size(self):
+        """
+        :rtype: int
+        """
+        pass
+
+    @abstractmethod
+    def _get_node(self, index=-1):
+        """
+        :type index: int
+        :rtype: ListNode
         """
         pass

@@ -183,8 +183,8 @@ class TestLinkedList(TestBase):
         self._test_clone(LinkedList)
         self._test_sort(LinkedList)
 
-    # def test_cyclic_list(self):
-    #     self._run_list_test(CyclicList)
+    def test_cyclic_list(self):
+        self._run_list_test(CyclicList)
 
     def test_cyclic_doubly_list(self):
         self._run_list_test(CyclicDoublyList)
