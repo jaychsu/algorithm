@@ -1,39 +1,37 @@
-from heapq import heappush, heappop
+import heapq
 
 
 class Solution:
-    """
-    @param: A: A list of integers
-    @return: the median of numbers
-    """
-    def medianII(self, A):
+    def medianII(self, nums):
+        """
+        :type nums: list[int]
+        :rtype: list[int]
+        """
         ans = []
-        if not A:
+        if not nums:
             return ans
 
         minheap = []
         maxheap = []
         median = 0
 
-        for a in A:
-            if a < median:
-                heappush(maxheap, -a)
+        for num in nums:
+            if num < median:
+                heapq.heappush(maxheap, -num)
             else:
-                heappush(minheap, a)
+                heapq.heappush(minheap, num)
 
             while len(minheap) > len(maxheap):
-                heappush(maxheap, -heappop(minheap))
+                heapq.heappush(maxheap, -heapq.heappop(minheap))
 
             while len(maxheap) > len(minheap) + 1:
-                heappush(minheap, -heappop(maxheap))
+                heapq.heappush(minheap, -heapq.heappop(maxheap))
 
-            median = -self.find_median(maxheap)
+            if maxheap:
+                median = -maxheap[0]
+            else:
+                median = 0
+
             ans.append(median)
 
         return ans
-
-    def find_median(self, maxheap):
-        if not maxheap:
-            return 0
-
-        return maxheap[0]

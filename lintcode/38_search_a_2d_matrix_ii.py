@@ -1,3 +1,42 @@
+"""
+Heap
+"""
+import heapq
+
+
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: list[list[int]]
+        :type target: int
+        :rtype: int
+        """
+        ans = 0
+        if not matrix or not matrix[0]:
+            return ans
+
+        heap = []
+        m, n = len(matrix), len(matrix[0])
+
+        for i in range(m):
+            heapq.heappush(heap, (matrix[i][0], i, 0))
+
+        while heap and heap[0][0] <= target:
+            num, x, y = heapq.heappop(heap)
+
+            if num == target:
+                ans += 1
+
+            y += 1
+            if y < n:
+                heapq.heappush(heap, (matrix[x][y], x, y))
+
+        return ans
+
+
+"""
+Iteration
+"""
 class Solution:
     """
     @param: G: A list of lists of integers

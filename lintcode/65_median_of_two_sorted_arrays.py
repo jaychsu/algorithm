@@ -1,40 +1,42 @@
 """
 Heap
 """
-from heapq import heappush, heappop
+import heapq
 
 
 class Solution:
-    def findMedianSortedArrays(self, A, B):
+    def findMedianSortedArrays(self, a, b):
         """
-        :type A: List[int]
-        :type B: List[int]
+        :type a: list
+        :type b: list
         :rtype: float
         """
-        n = 0
         heap = []
-        for L in (A, B):
-            if not L:
+        n = 0
+
+        for nums in (a, b):
+            if not nums:
                 continue
-            n += len(L)
-            heappush(heap, (L[0], L, 0))
+
+            n += len(nums)
+            heapq.heappush(heap, (nums[0], nums, 0))
 
         if n == 0:
             return 0.0
 
-        a = 0
+        num = 0
         for _ in range((n + 1) // 2):
-            a, L, i = heappop(heap)
+            num, nums, i = heapq.heappop(heap)
 
             i += 1
-            if i < len(L):
-                heappush(heap, (L[i], L, i))
+            if i < len(nums):
+                heapq.heappush(heap, (nums[i], nums, i))
 
-        if n % 2 == 1:
-            return a * 1.0
+        if n & 1 == 1:
+            return num * 1.0
 
-        b = heappop(heap)[0]
-        return (a + b) / 2.0
+        _num = heapq.heappop(heap)[0]
+        return (num + _num) / 2.0
 
 
 """

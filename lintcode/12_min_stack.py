@@ -15,26 +15,34 @@ class MinStack:
 
     def pop(self):
         """
-        :rtype: void
+        :rtype: int
         """
         if not self.stack:
-            return
+            return -1
 
         x = self.stack.pop()
 
         if self.mins and x == self.mins[-1]:
             self.mins.pop()
 
+        return x
+
     def top(self):
         """
         :rtype: int
         """
+        if not self.stack:
+            return -1
+
         return self.stack[-1]
 
     def min(self):
         """
         :rtype: int
         """
+        if not self.mins:
+            return -1
+
         return self.mins[-1]
 
 

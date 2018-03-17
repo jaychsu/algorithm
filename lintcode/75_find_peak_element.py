@@ -1,18 +1,20 @@
 class Solution:
-    """
-    @param: A: An integers array.
-    @return: return any of peek positions.
-    """
-    def findPeak(self, A):
-        if not A:
+    def findPeak(self, nums):
+        """
+        :type nums: list
+        :rtype: int
+        """
+        if not nums:
             return -1
 
-        left, right = 0, len(A) - 1
+        left, right = 0, len(nums) - 1
+
         while left + 1 < right:
             mid = (left + right) // 2
-            if A[mid] < A[mid + 1]:
+
+            if nums[mid] < nums[mid + 1]:
                 left = mid
             else:
                 right = mid
 
-        return right if A[left] < A[right] else left
+        return right if nums[left] < nums[right] else left
