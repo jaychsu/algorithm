@@ -1,36 +1,40 @@
 class Solution:
-    V = (
-        (-1,  0),
-        ( 1,  0),
-        ( 0, -1),
-        ( 0,  1),
-    )
-
-    def numIslands(self, G):
+    def numIslands(self, grid):
         """
-        :type G: List[List[str]]
+        :type grid: list[list[int]]
         :rtype: int
         """
         ans = 0
-        if not G or not G[0]:
+        if not grid or not grid[0]:
             return ans
 
-        for x in range(len(G)):
-            for y in range(len(G[x])):
-                if G[x][y] == '0':
-                    continue
-                ans += 1
-                self.dfs(G, x, y)
+        m, n = len(grid), len(grid[0])
+
+        for x in range(m):
+            for y in range(n):
+                if grid[x][y] == 1:
+                    ans += 1
+                    self.dfs(grid, x, y)
 
         return ans
 
-    def dfs(self, G, x, y):
-        G[x][y] = '0'
-        for dx, dy in self.V:
+    def dfs(self, grid, x, y):
+        if not (
+            0 <= x < len(grid) and
+            0 <= y < len(grid[0])
+        ):
+            return
+        if grid[x][y] == 0:
+            return
+
+        grid[x][y] = 0
+
+        for dx, dy in (
+            ( 0, -1),
+            ( 0,  1),
+            (-1,  0),
+            ( 1,  0),
+        ):
             _x = x + dx
             _y = y + dy
-            if not (0 <= _x < len(G) and 0 <= _y < len(G[_x])):
-                continue
-            if G[_x][_y] == '0':
-                continue
-            self.dfs(G, _x, _y)
+            self.dfs(grid, _x, _y)

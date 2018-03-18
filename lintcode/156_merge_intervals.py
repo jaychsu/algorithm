@@ -1,26 +1,28 @@
-# Definition for an interval.
-# class Interval:
-#     def __init__(self, s=0, e=0):
-#         self.start = s
-#         self.end = e
+"""
+Definition of Interval.
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+"""
 
 
 class Solution:
-    def merge(self, A):
+    def merge(self, intvs):
         """
-        :type A: List[Interval]
+        :type intvs: List[Interval]
         :rtype: List[Interval]
         """
         ans = []
-        if not A:
+        if not intvs:
             return ans
 
-        A.sort(key=lambda I: (I.start, I.end))
+        intvs.sort(key=lambda intv: (intv.start, intv.end))
 
-        for I in A:
-            if not ans or ans[-1].end < I.start:
-                ans.append(I)
-            elif I.end > ans[-1].end:
-                ans[-1].end = I.end
+        for intv in intvs:
+            if not ans or intv.start > ans[-1].end:
+                ans.append(intv)
+            elif intv.end > ans[-1].end:
+                ans[-1].end = intv.end
 
         return ans

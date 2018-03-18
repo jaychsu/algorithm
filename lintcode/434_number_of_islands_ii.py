@@ -8,60 +8,61 @@ class Point:
 
 
 class Solution:
-    V = (
-        (-1,  0),
-        ( 1,  0),
-        ( 0, -1),
-        ( 0,  1),
-    )
-
-    """
-    @param: m: An integer
-    @param: n: An integer
-    @param: P: an array of point
-    @return: an integer array
-    """
-    def numIslands2(self, m, n, P):
+    def numIslands2(self, m, n, operators):
+        """
+        :type m: int
+        :type n: int
+        :type operators: list[Point]
+        :rtype list[int]:
+        """
         ans = []
-        if not m or not n or not P:
+        if not m or not n or not operators:
             return ans
 
-        N = {}
+        nodes = {}
         cnt = 0
-        for p in P:
-            cell = (p.x, p.y)
 
-            if cell not in N:
-                N[cell] = cell
+        for p in operators:
+            node = (p.x, p.y)
+
+            if node not in nodes:
+                nodes[node] = node
                 cnt += 1
 
-            for dx, dy in self.V:
+            for dx, dy in (
+                ( 0, -1),
+                ( 0,  1),
+                (-1,  0),
+                ( 1,  0),
+            ):
                 _x = p.x + dx
                 _y = p.y + dy
+
                 if not (0 <= _x < m and 0 <= _y < n):
                     continue
-                if self.connect(N, cell, (_x, _y)):
+                if self.connect(nodes, node, (_x, _y)):
                     cnt -= 1
 
             ans.append(cnt)
 
         return ans
 
-    def connect(self, N, a, b):
-        if a not in N or b not in N:
+    def connect(self, nodes, a, b):
+        if a not in nodes or b not in nodes:
             return False
 
-        root_a = self.find(N, a)
-        root_b = self.find(N, b)
-        if root_a is not root_b:
-            N[root_a] = root_b
-            return True
+        _a = self.find(nodes, a)
+        _b = self.find(nodes, b)
 
-        return False
+        if _a is _b:
+            return False
 
-    def find(self, N, a):
-        if N[a] is a:
+        nodes[_a] = _b
+        return True
+
+    def find(self, nodes, a):
+        if nodes[a] is a:
             return a
 
-        N[a] = self.find(N, N[a])
-        return N[a]
+        nodes[a] = self.find(nodes, nodes[a])
+        return nodes[a]

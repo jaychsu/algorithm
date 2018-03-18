@@ -1,23 +1,29 @@
 class Solution:
-    """
-    @param: n: An integer
-    @param: edges: a list of undirected edges
-    @return: true if it's a valid tree, or false
-    """
     def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: list[int]
+        :rtype: bool
+        """
+        if len(edges) != n - 1:
+            return False
+
         nodes = [i for i in range(n)]
+
         for a, b in edges:
-            root_a = self.find(nodes, a)
-            root_b = self.find(nodes, b)
-            if root_a == root_b:
-                # If the node pair has the same root node, then the incoming edge will make a closed area
+            _a = self.find(nodes, a)
+            _b = self.find(nodes, b)
+
+            if _a is _b:
                 return False
-            else:
-                nodes[root_a] = root_b
-        return len(edges) == n - 1
+
+            nodes[_a] = _b
+
+        return True
 
     def find(self, nodes, a):
-        if nodes[a] == a:
+        if nodes[a] is a:
             return a
+
         nodes[a] = self.find(nodes, nodes[a])
         return nodes[a]

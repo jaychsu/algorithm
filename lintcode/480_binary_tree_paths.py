@@ -6,32 +6,33 @@ class TreeNode:
         self.left, self.right = None, None
 """
 
+
 class Solution:
-    res = []
-
-    """
-    @param: root: the root of the binary tree
-    @return: all root-to-leaf paths
-    """
     def binaryTreePaths(self, root):
+        """
+        :type root: TreeNode
+        :rtype: list[str]
+        """
+        ans = []
         if not root:
-            return []
-        self._traversal(root, [])
-        return self.res
+            return ans
 
-    def _traversal(self, node, parents):
-        parents.append(str(node.val))
+        self.dfs(root, ans, [])
+
+        return ans
+
+    def dfs(self, node, ans, path):
+        path.append(str(node.val))
 
         if not node.left and not node.right:
-            self.res.append('->'.join(parents))
-            # remove the leaf node in parent
-            parents.pop()
+            ans.append('->'.join(path))
+            path.pop()
             return
 
         if node.left:
-            self._traversal(node.left, parents)
+            self.dfs(node.left, ans, path)
+
         if node.right:
-            self._traversal(node.right, parents)
-        # after visited both child node, remove current node
-        # and will continue to visit the siblings node
-        parents.pop()
+            self.dfs(node.right, ans, path)
+
+        path.pop()

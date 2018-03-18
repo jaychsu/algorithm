@@ -1,5 +1,6 @@
 """
-REF: https://briangordon.github.io/2014/08/the-skyline-problem.html
+this problem familiar with `leetcode/218_the_skyline_problem.py`
+with different output
 """
 import heapq
 
@@ -42,7 +43,7 @@ class HashHeapq:
 
 
 class Solution:
-    def getSkyline(self, buildings):
+    def buildingOutline(self, buildings):
         """
         :type buildings: List[List[int]]
         :rtype: List[List[int]]
@@ -59,6 +60,7 @@ class Solution:
 
         time.sort()
         heap = HashHeapq()
+        tmp = []
 
         for x, height, is_start in time:
             if is_start:
@@ -68,10 +70,19 @@ class Solution:
 
             max_h = -heap.top() if not heap.is_empty() else 0
 
-            if ans and ans[-1][0] == x:
-                ans.pop()
-            if ans and ans[-1][1] == max_h:
+            if tmp and tmp[-1][0] == x:
+                tmp.pop()
+            if tmp and tmp[-1][1] == max_h:
                 continue
-            ans.append([x, max_h])
+            tmp.append([x, max_h])
+
+        _x = pre_h = 0
+
+        for x, height in tmp:
+            if pre_h > 0:
+                ans.append([_x, x, pre_h])
+
+            _x = x
+            pre_h = height
 
         return ans

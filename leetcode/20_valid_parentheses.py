@@ -4,18 +4,15 @@ class Solution:
         :type s: str
         :rtype: bool
         """
-        if not s:
-            return True
-
         stack = []
-        right2left = {')': '(', ']': '[', '}': '{'}
+        pairs = {')': '(', ']': '[', '}': '{'}
 
-        for char in s:
-            if char in ('(', '[', '{'):
-                stack.append(char)
-            elif char not in (')', ']', '}'):
+        for c in s:
+            if c in '([{':
+                stack.append(c)
+            elif c not in ')]}':
                 return False
-            elif not stack or stack.pop() != right2left[char]:
+            elif not stack or pairs[c] != stack.pop():
                 return False
 
-        return len(stack) == 0
+        return not stack

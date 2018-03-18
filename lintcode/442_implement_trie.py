@@ -1,16 +1,8 @@
-"""
-Your Trie object will be instantiated and called as such:
-trie = Trie()
-trie.insert("lintcode")
-trie.search("lint") will return false
-trie.startsWith("lint") will return true
-"""
-
-
 class TrieNode:
     def __init__(self):
-        self._end = False
+        self.end_of = None
         self.children = {}
+
 
 class Trie:
     def __init__(self):
@@ -21,41 +13,51 @@ class Trie:
     @return: nothing
     """
     def insert(self, word):
-        if not word:
+        if word is None:
             return
-        parent = self.root
-        for char in word:
-            if char in parent.children:
-                parent = parent.children[char]
-            else:
-                parent.children[char] = TrieNode()
-                parent = parent.children[char]
-        parent._end = True
+
+        node = self.root
+
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+
+            node = node.children[c]
+
+        node.end_of = word
 
     """
     @param: word: A string
     @return: if the word is in the trie.
     """
     def search(self, word):
-        if not word:
+        if word is None:
             return False
-        parent = self.root
-        for char in word:
-            if char not in parent.children:
+
+        node = self.root
+
+        for c in word:
+            if c not in node.children:
                 return False
-            parent = parent.children[char]
-        return parent._end
+
+            node = node.children[c]
+
+        return node.end_of == word
 
     """
     @param: prefix: A string
     @return: if there is any word in the trie that starts with the given prefix.
     """
     def startsWith(self, prefix):
-        if not prefix:
+        if prefix is None:
             return False
-        parent = self.root
-        for char in prefix:
-            if char not in parent.children:
+
+        node = self.root
+
+        for c in prefix:
+            if c not in node.children:
                 return False
-            parent = parent.children[char]
+
+            node = node.children[c]
+
         return True

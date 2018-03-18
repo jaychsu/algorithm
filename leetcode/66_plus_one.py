@@ -7,17 +7,18 @@ class Solution:
         if not digits:
             return []
 
-        n = len(digits)
-        ans = [0] * n
-        carry = 1
+        carry = 0
+        digits[-1] += 1
 
-        for i in range(n - 1, -1, -1):
+        for i in range(len(digits) - 1, -1, -1):
             carry += digits[i]
-
-            ans[i] = carry % 10
-            carry = carry // 10
+            digits[i] = carry % 10
+            carry //= 10
 
         if carry:
-            ans[:] = [1] + ans
+            # that is just insert `carry` at `0`
+            digits.append(carry)
+            for i in range(len(digits) - 1, 0, -1):
+                digits[i], digits[i - 1] = digits[i - 1], digits[i]
 
-        return ans
+        return digits
