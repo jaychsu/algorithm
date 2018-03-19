@@ -2,28 +2,26 @@ class Solution:
     def generateParenthesis(self, n):
         """
         :type n: int
-        :rtype: List[str]
+        :rtype: list[str]
         """
         ans = []
         if not n:
             return ans
 
         self.dfs(n, 1, 0, ans, ['('])
-
-        ans.sort()
         return ans
 
-    def dfs(self, n, left, right, ans, path):
+    def dfs(self, n, lcnt, rcnt, ans, path):
         if len(path) == 2 * n:
             ans.append(''.join(path))
             return
 
-        if right < left:
+        if rcnt < lcnt:
             path.append(')')
-            self.dfs(n, left, right + 1, ans, path)
+            self.dfs(n, lcnt, rcnt + 1, ans, path)
             path.pop()
 
-        if left < n:
+        if lcnt < n:
             path.append('(')
-            self.dfs(n, left + 1, right, ans, path)
+            self.dfs(n, lcnt + 1, rcnt, ans, path)
             path.pop()

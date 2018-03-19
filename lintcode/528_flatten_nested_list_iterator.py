@@ -1,4 +1,9 @@
 """
+Your NestedIterator object will be instantiated and called as such:
+i, v = NestedIterator(nestedList), []
+while i.hasNext(): v.append(i.next())
+
+
 This is the interface that allows for creating nested lists.
 You should not implement it, or speculate about its implementation
 
@@ -20,36 +25,33 @@ class NestedInteger(object):
 
 
 class NestedIterator(object):
-    def __init__(self, L):
-        self.stack = [[L, 0]]
+    def __init__(self, nestedList):
+        self.stack = [[nestedList, 0]]
 
     # @return {int} the next element in the iteration
     def next(self):
         if not self.hasNext():
-            return
+            return -1
 
-        S = self.stack
-        L, i = S[-1]
-        S[-1][1] += 1
-        return L[i].getInteger()
+        lst, i = self.stack[-1]
+        self.stack[-1][1] += 1
+
+        return lst[i].getInteger()
 
     # @return {boolean} true if the iteration has more element or false
     def hasNext(self):
-        S = self.stack
-        while S:
-            L, i = S[-1]
+        stack = self.stack
 
-            if i >= len(L):
-                S.pop()
-                continue
+        while stack:
+            lst, i = stack[-1]
 
-            if L[i].isInteger():
+            if i >= len(lst):
+                stack.pop()
+            elif lst[i].isInteger():
                 return True
+            else:
+                # lst[i] is list
+                stack[-1][1] += 1
+                stack.append([lst[i].getList(), 0])
 
-            S[-1][1] += 1
-            S.append([L[i].getList(), 0])
-
-
-# Your NestedIterator object will be instantiated and called as such:
-# i, v = NestedIterator(nestedList), []
-# while i.hasNext(): v.append(i.next())
+        return False

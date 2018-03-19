@@ -1,15 +1,16 @@
 class Solution:
-    def wiggleSort(self, A):
+    def wiggleSort(self, nums):
         """
-        :type A: List[int]
-        :rtype: void Do not return anything, modify A in-place instead.
+        :type nums: list[int]
+        :rtype: void, Do not return anything, modify A in-place instead.
         """
-        if not A:
+        if not nums:
             return
 
-        for i in range(1, len(A)):
-            if i & 1 == 1 and A[i] >= A[i - 1]:
+        for i in range(1, len(nums)):
+            if i & 1 == 1 and nums[i] >= nums[i - 1]:
                 continue
-            if i & 1 == 0 and A[i] <= A[i - 1]:
+            if i & 1 == 0 and nums[i] <= nums[i - 1]:
                 continue
-            A[i], A[i - 1] = A[i - 1], A[i]
+
+            nums[i], nums[i - 1] = nums[i - 1], nums[i]

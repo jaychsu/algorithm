@@ -1,20 +1,9 @@
 """
-Test Case:
-
-[[0,1,0,0,0],
- [1,0,0,2,1],
- [0,1,0,0,0]]
-
-[[0,1,0,0],
- [1,0,2,1],
- [0,1,0,0]]
-: self.visited_time[_x][_y] < count -> and not visited[_x][_y]:
-
-
+Note:
 - You cannot pass through wall and house, but can pass through empty.
 - You only build post office on an empty.
 
-
+Main Concept:
 1. for each house, use `BFS` in level traversal
    to count the distance if the cell is empty and reachable
 2. find the minimum of the total distance in each empty cell,
@@ -22,70 +11,144 @@ Test Case:
 """
 
 
+"""
+BFS
+"""
+import collections
+
+
 class Solution:
     EMPTY = 0
     HOUSE = 1
     WALL = 2
 
-    V = (
-        ( 0, -1),
-        ( 0,  1),
-        (-1,  0),
-        ( 1,  0),
-    )
-
     """
-    @param: G: a 2D grid
+    @param grid: a 2D grid
     @return: An integer
     """
-    def shortestDistance(self, G):
-        if not G or not G[0]:
+    def shortestDistance(self, grid):
+        if not grid or not grid[0]:
             return -1
 
-        m, n = len(G), len(G[0])
-        houses = []
+        m, n = len(grid), len(grid[0])
+        cnt = 0
+        times = collections.defaultdict(int)
+        dists = collections.defaultdict(int)
+
         for x in range(m):
             for y in range(n):
-                if G[x][y] == self.HOUSE:
-                    houses.append((x, y))
+                if grid[x][y] == self.HOUSE:
+                    cnt += 1
+                    self.bfs(grid, x, y, times, dists)
 
-        C = [[0] * n for _ in range(m)]  # C: visited count
-        D = [[0] * n for _ in range(m)]  # D: distance
-        for x, y in houses:
-            self.bfs(G, x, y, C, D)
+        ans = INF = float('inf')
 
-        h = len(houses)
-        ans = INFINITY = float('inf')
-        for x in range(m):
-            for y in range(n):
-                if G[x][y] != self.EMPTY or C[x][y] != h:
-                    continue
-                if D[x][y] < ans:
-                    ans = D[x][y]
+        for (x, y), time in times.items():
+            if time == cnt and dists[x, y] < ans:
+                ans = dists[x, y]
 
-        return ans if ans < INFINITY else -1
+        return ans if ans < INF else -1
 
-    def bfs(self, G, x, y, C, D):
-        m, n = len(G), len(G[0])
-        visited = [[False] * n for _ in range(m)]
+    def bfs(self, grid, x, y, times, dists):
+        m, n = len(grid), len(grid[0])
+        queue, _queue = [(x, y)], []
+        visited = set(queue)
+        dist = 0
 
-        queue = [(x, y)]
-        distance = 0
         while queue:
-            _queue = []
-            distance += 1
+            dist += 1
 
             for x, y in queue:
-                for dx, dy in self.V:
+                for dx, dy in (
+                    ( 0, -1),
+                    ( 0,  1),
+                    (-1,  0),
+                    ( 1,  0),
+                ):
                     _x = x + dx
                     _y = y + dy
+
                     if not (0 <= _x < m and 0 <= _y < n):
                         continue
-                    if visited[_x][_y] or G[_x][_y] != self.EMPTY:
+                    if grid[_x][_y] != self.EMPTY:
                         continue
-                    visited[_x][_y] = True
-                    C[_x][_y] += 1
-                    D[_x][_y] += distance
+                    if (_x, _y) in visited:
+                        continue
+
+                    visited.add((_x, _y))
                     _queue.append((_x, _y))
 
-            queue = _queue
+                    times[_x, _y] += 1
+                    dists[_x, _y] += dist
+
+            queue, _queue = _queue, []
+
+
+"""
+DFS: TLE
+
+If use DFS, need to consider update min dist
+so may visit a node many times
+"""
+import collections
+
+
+class Solution:
+    EMPTY = 0
+    HOUSE = 1
+    WALL = 2
+
+    """
+    @param grid: a 2D grid
+    @return: An integer
+    """
+    def shortestDistance(self, grid):
+        if not grid or not grid[0]:
+            return -1
+
+        m, n = len(grid), len(grid[0])
+        cnt = 0
+        ids = collections.defaultdict(set)
+        dists = collections.defaultdict(int)
+
+        for x in range(m):
+            for y in range(n):
+                if grid[x][y] == self.HOUSE:
+                    cnt += 1
+                    steps = collections.defaultdict(int)
+                    self.dfs(grid, x, y, cnt, ids, dists, steps)
+
+        ans = INF = float('inf')
+
+        for (x, y), hids in ids.items():
+            if len(hids) == cnt and dists[x, y] < ans:
+                ans = dists[x, y]
+
+        return ans if ans < INF else -1
+
+    def dfs(self, grid, x, y, id, ids, dists, steps):
+        m, n = len(grid), len(grid[0])
+
+        for dx, dy in (
+            ( 0, -1),
+            ( 0,  1),
+            (-1,  0),
+            ( 1,  0),
+        ):
+            _x = x + dx
+            _y = y + dy
+
+            if not (0 <= _x < m and 0 <= _y < n):
+                continue
+            if grid[_x][_y] != self.EMPTY:
+                continue
+            if steps[x, y] + 1 >= steps[_x, _y] > 0:
+                continue
+
+            ids[_x, _y].add(id)
+
+            dists[_x, _y] -= steps[_x, _y]
+            steps[_x, _y] = steps[x, y] + 1
+            dists[_x, _y] += steps[_x, _y]
+
+            self.dfs(grid, _x, _y, id, ids, dists, steps)
