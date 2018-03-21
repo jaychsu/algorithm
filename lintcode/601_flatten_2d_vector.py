@@ -1,29 +1,37 @@
-class Vector2D(object):
-    # @param G {List[List[int]]}
-    def __init__(self, G):
-        self.x = self.y = 0
-        self.G = G
+"""
+Your Vector2D object will be instantiated and called as such:
+i, v = Vector2D(vec2d), []
+while i.hasNext(): v.append(i.next())
+"""
+
+
+class Vector2D:
+    # @param vec2d {List[List[int]]}
+    def __init__(self, vec2d):
+        self.g = vec2d
+        self.x = 0
+        self.y = 0
 
     # @return {int} a next element
     def next(self):
         if not self.hasNext():
-            return
+            return -1
 
-        res = self.G[self.x][self.y]
+        x = self.x
+        y = self.y
+
         self.y += 1
-        return res
+
+        return self.g[x][y]
 
     # @return {boolean} true if it has next element
     # or false
     def hasNext(self):
-        # if `y` get to end or new `x` is empty
-        while (self.x < len(self.G) and
-               self.y >= len(self.G[self.x])):
+        while self.x < len(self.g):
+            if self.y < len(self.g[self.x]):
+                return True
+
             self.x += 1
             self.y = 0
 
-        return self.x < len(self.G)
-
-# Your Vector2D object will be instantiated and called as such:
-# i, v = Vector2D(vec2d), []
-# while i.hasNext(): v.append(i.next())
+        return False

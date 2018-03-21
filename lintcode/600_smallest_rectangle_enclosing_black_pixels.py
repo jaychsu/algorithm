@@ -1,24 +1,26 @@
 class Solution:
-    """
-    @param: G: a binary matrix with '0' and '1'
-    @param: x: the location of one of the black pixels
-    @param: y: the location of one of the black pixels
-    @return: an integer
-    """
-    def minArea(self, G, x, y):
-        if not G or not G[0]:
+    def minArea(self, image, x, y):
+        """
+        :type image: list[str]
+        :type x: int
+        :type y: int
+        :rtype: int
+        """
+        if not image or not image[0]:
             return 0
 
-        m, n = len(G), len(G[0])
-        top = self.binary_search(G, 0, x, self.is_empty_row)
-        down = self.binary_search(G, m - 1, x, self.is_empty_row)
-        left = self.binary_search(G, 0, y, self.is_empty_col)
-        right = self.binary_search(G, n - 1, y, self.is_empty_col)
+        m, n = len(image), len(image[0])
 
-        return (down - top + 1) * (right - left + 1)
+        top = self.binary_search(image, 0, x, self.is_empty_row)
+        bottom = self.binary_search(image, m - 1, x, self.is_empty_row)
+        left = self.binary_search(image, 0, y, self.is_empty_col)
+        right = self.binary_search(image, n - 1, y, self.is_empty_col)
 
-    def binary_search(self, G, start, end, is_empty):
+        return (bottom - top + 1) * (right - left + 1)
+
+    def binary_search(self, image, start, end, is_empty):
         check = None
+
         if start < end:
             check = lambda start, end: start + 1 < end
         else:
@@ -26,21 +28,22 @@ class Solution:
 
         while check(start, end):
             mid = (start + end) // 2
-            if is_empty(G, mid):
+
+            if is_empty(image, mid):
                 start = mid
             else:
                 end = mid
 
-        return end if is_empty(G, start) else start
+        return end if is_empty(image, start) else start
 
-    def is_empty_row(self, G, x):
-        for cell in G[x]:
-            if cell == '1':
+    def is_empty_row(self, image, x):
+        for col in image[x]:
+            if col == '1':
                 return False
         return True
 
-    def is_empty_col(self, G, y):
-        for row in G:
+    def is_empty_col(self, image, y):
+        for row in image:
             if row[y] == '1':
                 return False
         return True

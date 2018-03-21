@@ -1,7 +1,7 @@
 class TrieNode:
     def __init__(self):
-        self.children = {}
         self.end_of = None
+        self.children = {}
 
 
 class Trie:
@@ -14,30 +14,33 @@ class Trie:
 
         node = self.root
 
-        for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
-            node = node.children[char]
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+
+            node = node.children[c]
 
         node.end_of = word
 
 
 class Solution:
-    """
-    @param: S: a set of stirngs
-    @param: target: a target string
-    @param: K: An integer
-    @return: output all the strings that meet the requirements
-    """
-    def kDistance(self, S, target, K):
+    def kDistance(self, words, target, k):
+        """
+        :type words: list[str]
+        :type target: str
+        :type k: int
+        :rtype: list[str]
+        """
         trie = Trie()
-        for word in S:
+
+        for word in words:
             trie.put(word)
 
         ans = []
         dp = [i for i in range(len(target) + 1)]
 
-        self.dfs(trie.root, K, target, ans, dp)
+        self.dfs(trie.root, k, target, ans, dp)
+
         return ans
 
     def dfs(self, node, k, target, ans, pre):
@@ -48,11 +51,11 @@ class Solution:
 
         dp = [0] * (n + 1)
 
-        for char in node.children:
+        for c in node.children:
             dp[0] = pre[0] + 1
 
             for i in range(1, n + 1):
-                if target[i - 1] == char:
+                if target[i - 1] == c:
                     dp[i] = min(
                         dp[i - 1] + 1,
                         pre[i] + 1,
@@ -65,4 +68,4 @@ class Solution:
                         pre[i - 1] + 1
                     )
 
-            self.dfs(node.children[char], k, target, ans, dp)
+            self.dfs(node.children[c], k, target, ans, dp)

@@ -1,10 +1,17 @@
+"""
+Your RandomizedSet object will be instantiated and called as such:
+obj = RandomizedSet()
+param = obj.insert(val)
+param = obj.remove(val)
+param = obj.getRandom()
+"""
 import random
 
 
 class RandomizedSet:
     def __init__(self):
-        self.A = []  # store vals
-        self.I = {}  # store index of each val
+        self.nums = []
+        self.val2idx = {}
 
     def insert(self, val):
         """
@@ -12,13 +19,8 @@ class RandomizedSet:
         :type val: int
         :rtype: bool
         """
-        A, I = self.A, self.I
-        if val in I:
-            return False
-
-        A.append(val)
-        I[val] = len(A) - 1
-        return True
+        self.val2idx[val] = len(self.nums)
+        self.nums.append(val)
 
     def remove(self, val):
         """
@@ -26,18 +28,17 @@ class RandomizedSet:
         :type val: int
         :rtype: bool
         """
-        A, I = self.A, self.I
-        if val not in I:
+        if val not in self.val2idx:
             return False
 
-        i = I[val]
-        _val = A[-1]
+        i = self.val2idx[val]
+        key = self.nums[-1]
 
-        I[_val] = i
-        I.pop(val)
+        self.val2idx[key] = i
+        self.nums[i] = self.nums[-1]
 
-        A[i] = _val
-        A.pop()
+        self.nums.pop()
+        del self.val2idx[val]
         return True
 
     def getRandom(self):
@@ -45,11 +46,5 @@ class RandomizedSet:
         Get a random element from the set.
         :rtype: int
         """
-        return random.choice(self.A)
-
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
+        i = random.randrange(len(self.nums))
+        return self.nums[i]

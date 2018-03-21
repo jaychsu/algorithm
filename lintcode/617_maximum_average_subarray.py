@@ -30,43 +30,42 @@ valid    T      T    T    F     F
 
 
 class Solution:
-    def maxAverage(self, A, k):
+    def maxAverage(self, nums, k):
         """
-        :type A: List[int]
+        :type nums: list[int]
         :type k: int
         :rtype: float
         """
-        if not A or not k:
-            return 0
+        if not nums or not k:
+            return 0.0
 
         EPS = 1e-5
 
-        """
-        ans MUST between `min(A)` and `max(A)`
-        """
-        left = right = A[0]
-        for num in A:
+        # ans MUST between `min(nums)` and `max(nums)`
+        left = right = nums[0]
+        for num in nums:
             if num < left:
                 left = num
             if num > right:
                 right = num
 
-        S = [0] * (len(A) + 1)  # prefix sum
+        # prefix sum
+        s = [0] * (len(nums) + 1)
         while right - left > EPS:
             mid = (left + right) / 2.0
-            if self.is_valid(A, k, mid, S):
+
+            if self.is_valid(nums, k, mid, s):
                 left = mid
             else:
                 right = mid
 
         return left
 
-    def is_valid(self, A, k, mid, S):
-        S[0] = 0
-        Smin = 0
+    def is_valid(self, nums, k, mid, s):
+        s[0] = smin = 0
 
-        for i in range(1, len(A) + 1):
-            S[i] = S[i - 1] + A[i - 1] - mid
+        for i in range(1, len(nums) + 1):
+            s[i] = s[i - 1] + nums[i - 1] - mid
 
             if i < k:
                 continue
@@ -75,10 +74,10 @@ class Solution:
             if there is a non-negative sum subarray of length at least k
             => it's valid even if just only one, return True immediately
             """
-            if S[i] >= Smin:  # S[i] - Smin >= 0
+            if s[i] >= smin:  # s[i] - smin >= 0
                 return True
 
-            if S[i - k + 1] < Smin:
-                Smin = S[i - k + 1]
+            if s[i - k + 1] < smin:
+                smin = s[i - k + 1]
 
         return False

@@ -8,12 +8,12 @@ Topological Sort
 
 
 class Solution:
-    """
-    @param: org: a permutation of the integers from 1 to n
-    @param: seqs: a list of sequences
-    @return: true if it can be reconstructed only one or false
-    """
     def sequenceReconstruction(self, org, seqs):
+        """
+        :type org: list[int]
+        :type seqs: list[list[int]]
+        :rtype: bool
+        """
         if org is None or seqs is None:
             return False
 
@@ -21,14 +21,15 @@ class Solution:
         edges = dict.fromkeys(org)
         indeg = dict.fromkeys(org, 0)
 
-        count = 0
+        cnt = 0
         for seq in seqs:
             if not seq:
                 continue
-            count += len(seq)
+
+            cnt += len(seq)
 
             for i in range(len(seq)):
-                if seq[i] < 1 or seq[i] > n:
+                if not (1 <= seq[i] <= n):
                     return False
                 if not edges[seq[i]]:
                     edges[seq[i]] = set()
@@ -39,7 +40,7 @@ class Solution:
                     edges[seq[i - 1]].add(seq[i])
 
         # for case: org == [1], seqs == [[], []]
-        if count < n:
+        if cnt < n:
             return False
 
         for i in range(n - 1):
