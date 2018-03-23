@@ -1,4 +1,11 @@
-class Solution(object):
+"""
+Main Concept:
+
+in product case, needs to remove product in last recursion, and adds the product in current.
+"""
+
+
+class Solution:
     def addOperators(self, s, target):
         """
         :type s: str
@@ -9,29 +16,34 @@ class Solution(object):
         if not s:
             return ans
 
-        self.dfs(s, target, 0, 0, 0, ans, [])
-        ans.sort()
+        self.dfs(s, 0, target, 0, 0, ans, [])
 
         return ans
 
-    def dfs(self, s, target, start, val, product, ans, path):
-        if start == len(s):
-            if target == val:
-                ans.append(''.join(path))
+    def dfs(self, s, start, target, val, multi, ans, path):
+        n = len(s)
+
+        if start == n and val == target:
+            ans.append(''.join(path))
+            return
+        if start >= n:
             return
 
-        for i in range(start, len(s)):
+        for i in range(start, n):
             if i > start and s[start] == '0':
                 break
-            a = int(s[start:i + 1])
+
+            j = i + 1
+            num = int(s[start:j])
 
             if start == 0:
-                self.dfs(s, target, i + 1, a, a, ans, path + [str(a)])
-                continue
-
-            """
-            in product case, needs to remove product in last recursion, and adds the product in current.
-            """
-            self.dfs(s, target, i + 1, val + a,  a, ans, path + ['+', str(a)])
-            self.dfs(s, target, i + 1, val - a, -a, ans, path + ['-', str(a)])
-            self.dfs(s, target, i + 1, val - product + product * a, product * a, ans, path + ['*', str(a)])
+                self.dfs(s, j, target, num, num, ans, [str(num)])
+            else:
+                self.dfs(s, j, target, val + num,  num, ans, path + ['+', str(num)])
+                self.dfs(s, j, target, val - num, -num, ans, path + ['-', str(num)])
+                self.dfs(
+                    s, j, target,
+                    val - multi + num * multi,
+                    num * multi,
+                    ans, path + ['*', str(num)]
+                )
