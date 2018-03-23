@@ -1,20 +1,29 @@
+"""
+Your NumMatrix object will be instantiated and called as such:
+obj = NumMatrix(matrix)
+param_1 = obj.sumRegion(x1, y1, x2, y2)
+"""
+
+
 class NumMatrix:
-    def __init__(self, G):
+    def __init__(self, matrix):
         """
-        :type G: List[List[int]]
+        :type matrix: List[List[int]]
         """
-        if not G or not G[0]:
+        if not matrix or not matrix[0]:
             return
 
-        m, n = len(G), len(G[0])
-        self.P = [[0] * (n + 1) for _ in range(m + 1)]
+        m, n = len(matrix), len(matrix[0])
+        self.ps = [[0] * (n + 1) for _ in range(m + 1)]
 
         for x in range(1, m + 1):
             for y in range(1, n + 1):
-                self.P[x][y] = (self.P[x - 1][y] +
-                                self.P[x][y - 1] -
-                                self.P[x - 1][y - 1] +
-                                G[x - 1][y - 1])
+                self.ps[x][y] = sum((
+                    self.ps[x - 1][y],
+                    self.ps[x][y - 1],
+                    - self.ps[x - 1][y - 1],
+                    matrix[x - 1][y - 1],
+                ))
 
     def sumRegion(self, x1, y1, x2, y2):
         """
@@ -24,15 +33,12 @@ class NumMatrix:
         :type y2: int
         :rtype: int
         """
-        if not self.P:
+        if not self.ps or not self.ps[0]:
             return -1
 
-        return (self.P[x2 + 1][y2 + 1] -
-                self.P[x1][y2 + 1] -
-                self.P[x2 + 1][y1] +
-                self.P[x1][y1])
-
-
-# Your NumMatrix object will be instantiated and called as such:
-# obj = NumMatrix(matrix)
-# param_1 = obj.sumRegion(x1,y1,x2,y2)
+        return sum((
+            self.ps[x2 + 1][y2 + 1],
+            - self.ps[x1][y2 + 1],
+            - self.ps[x2 + 1][y1],
+            self.ps[x1][y1],
+        ))

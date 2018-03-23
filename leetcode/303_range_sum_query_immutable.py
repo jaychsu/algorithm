@@ -1,13 +1,20 @@
+"""
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# param_1 = obj.sumRange(i,j)
+"""
+
+
 class NumArray:
-    def __init__(self, A):
+    def __init__(self, nums):
         """
-        :type A: List[int]
+        :type nums: List[int]
         """
-        n = len(A)
-        self.P = [0] * (n + 1)  # prefix sum
+        n = len(nums)
+        self.ps = [0] * (n + 1)  # prefix sum
 
         for i in range(1, n + 1):
-            self.P[i] = self.P[i - 1] + A[i - 1]
+            self.ps[i] = self.ps[i - 1] + nums[i - 1]
 
     def sumRange(self, i, j):
         """
@@ -15,9 +22,4 @@ class NumArray:
         :type j: int
         :rtype: int
         """
-        return self.P[j + 1] - self.P[i]
-
-
-# Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# param_1 = obj.sumRange(i,j)
+        return self.ps[j + 1] - self.ps[i]
