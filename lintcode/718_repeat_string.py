@@ -1,22 +1,22 @@
 class Solution:
-    """
-    @param: : string A to be repeated
-    @param: : string B
-    @return: the minimum number of times A has to be repeated
-    """
-    def repeatedString(self, A, B):
-        if len(B) <= len(A) and B in A:
+    def repeatedString(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: int
+        """
+        if len(b) <= len(a) and b in a:
             return 1
-        if not A or not B:
+        if not a or not b:
             return -1
 
-        ans = B.count(A)
-        S = B.split(A)
+        ans = b.count(a)
+        c = b.split(a)
 
-        if S[-1] and A.startswith(S[-1]):
+        if c[0] and a.endswith(c[0]):
             ans += 1
 
-        if S[0] and A.endswith(S[0]):
+        if c[-1] and a.startswith(c[-1]):
             ans += 1
 
-        return ans if A.startswith(S[-1]) and A.endswith(S[0]) else -1
+        return ans if a.startswith(c[-1]) and a.endswith(c[0]) else -1
