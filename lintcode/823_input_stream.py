@@ -1,24 +1,29 @@
 class Solution:
-    """
-    @param inputA: Input stream A
-    @param inputB: Input stream B
-    @return: The answer
-    """
     def inputStream(self, a, b):
-        A = []
+        """
+        :type a: str
+        :type b: str
+        :rtype: str, 'YES' or 'NO'
+        """
+        if a is None or b is None:
+            return 'NO'
+
+        stack = []
 
         for c in a:
-            if c == '<':
-                if A: A.pop()
-            else:
-                A.append(c)
+            if c != '<':
+                stack.append(c)
+            elif stack:
+                # c == '<'
+                stack.pop()
 
-        B = []
+        _stack = []
 
         for c in b:
-            if c == '<':
-                if B: B.pop()
-            else:
-                B.append(c)
+            if c != '<':
+                _stack.append(c)
+            elif _stack:
+                # c == '<'
+                _stack.pop()
 
-        return 'YES' if A == B else 'NO'
+        return 'YES' if stack == _stack else 'NO'

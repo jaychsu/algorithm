@@ -2,28 +2,33 @@
 BFS
 """
 class Solution:
-    """
-    @param: S: a list of stones' positions in sorted ascending order
-    @return: true if the frog is able to cross the river or false
-    """
-    def canCross(self, S):
-        if not S:
+    def canCross(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: bool
+        """
+        if not stones:
             return False
-        if len(S) < 2:
+        if len(stones) < 2:
             return True
+        if stones[1] != 1:
+            return False
 
-        _S = set(S)  # x in set is O(1)
+        xs = set(stones)  # to check in O(1)
+        queue = [(stones[0], 0)]
+        visited = set(queue)
 
-        queue = [(S[0], 0)]
-        visited = {(S[0], 0): True}
         for pos, k in queue:
             for x in (k - 1, k, k + 1):
-                if (x > 0 and pos + x in _S and
-                    not visited.get((pos + x, x))):
-                    if pos + x == S[-1]:
-                        return True
-                    visited[pos + x, x] = True
-                    queue.append((pos + x, x))
+                if x <= 0 or pos + x not in xs:
+                    continue
+                if (pos + x, x) in visited:
+                    continue
+                if pos + x == stones[-1]:
+                    return True
+
+                visited.add((pos + x, x))
+                queue.append((pos + x, x))
 
         return False
 
@@ -32,22 +37,24 @@ class Solution:
 DP
 """
 class Solution:
-    """
-    @param: S: a list of stones' positions in sorted ascending order
-    @return: true if the frog is able to cross the river or false
-    """
-    def canCross(self, S):
-        if not S:
+    def canCross(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: bool
+        """
+        if not stones:
+            return False
+        if len(stones) < 2:
+            return True
+        if stones[1] != 1:
             return False
 
-        dp = {}
-        for pos in S:
-            dp[pos] = set()
+        dp = {pos: set() for pos in stones}
+        dp[stones[0]].add(0)
 
-        dp[S[0]].add(0)
-
-        for pos in S:
+        for pos in stones:
             for k in dp[pos]:
+                # k - 1 > 0
                 if k > 1 and pos + k - 1 in dp:
                     dp[pos + k - 1].add(k - 1)
                 if pos + k in dp:
@@ -55,4 +62,4 @@ class Solution:
                 if pos + k + 1 in dp:
                     dp[pos + k + 1].add(k + 1)
 
-        return len(dp[S[-1]]) > 0
+        return bool(dp[stones[-1]])
