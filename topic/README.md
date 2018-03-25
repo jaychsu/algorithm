@@ -42,10 +42,10 @@ The time and space complexity of common algorithms and data-structures
 
 | Vertex / Edge Management | 中文 | Storage | Add Vertex | Add Edge | Remove Vertex | Remove Edge | Search |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Adjacency List | 邻接表 | $O(\|V\|+\|E\|)$ | $O(1)$ | $O(1)$ | $O(\|V\|+\|E\|)$ | $O(\|E\|)$ | $O(\|V\|)$ |
-| Incidence List | 关联表 | $O(\|V\|+\|E\|)$ | $O(1)$ | $O(1)$ | $O(\|E\|)$ | $O(\|E\|)$ | $O(\|E\|)$ |
-| Adjacency Matrix | 邻接矩阵 | $O(\|V\|^2)$ | $O(\|V\|^2)$ | $O(1)$ | $O(\|V\|^2)$ | $O(1)$ | $O(1)$ |
-| Incidence Matrix | 关联矩阵 | $O(\|V\|\cdot\|E\|)$ | $O(\|V\|\cdot\|E\|)$ | $O(\|V\|\cdot\|E\|)$ | $O(\|V\|\cdot\|E\|)$ | $O(\|V\|\cdot\|E\|)$ | $O(\|E\|)$ |
+| Adjacency List | 邻接表 | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $O(1)$ | $O(1)$ | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $O(\lvert{E}\rvert)$ | $O(\lvert{V}\rvert)$ |
+| Incidence List | 关联表 | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $O(1)$ | $O(1)$ | $O(\lvert{E}\rvert)$ | $O(\lvert{E}\rvert)$ | $O(\lvert{E}\rvert)$ |
+| Adjacency Matrix | 邻接矩阵 | $O(\lvert{V}\rvert^2)$ | $O(\lvert{V}\rvert^2)$ | $O(1)$ | $O(\lvert{V}\rvert^2)$ | $O(1)$ | $O(1)$ |
+| Incidence Matrix | 关联矩阵 | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | $O(\lvert{E}\rvert)$ |
 
 ## Algorithms
 
@@ -71,9 +71,10 @@ The time and space complexity of common algorithms and data-structures
 
 | Name | 算法名 | Space | Time | Note |
 | --- | --- | --- | --- | --- |
-| Depth First Search | 深度优先搜索 | $O(\|V\|)$ | - / $O(\|V\|+\|E\|)$ | Graph of \|V\|vertices and \|E\|edges |
-| Breadth First Search | 广度优先搜索 | $O(\|V\|)$ | - / $O(\|V\|+\|E\|)$ | Graph of \|V\|vertices and \|E\|edges |
+| Depth First Search | 深度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
+| Breadth First Search | 广度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
 | Binary Search | 二分搜索 | $O(1)$ | $O(\log{n})$ / $O(\log{n})$ | Sorted array of n elements |
-| Brute Force | 暴风算法 | $O(1)$ | $O(n)$ / $O(n)$ | Array |
-| Shortest path by Bellman-Ford | | $O(\|V\|)$ | $O(\|V\|\cdot\|E\|)$ / $O(\|V\|\cdot\|E\|)$ | Graph of \|V\|vertices and \|E\|edges |
-| Shortest path by Dijkstra | | | | Graph of \|V\|vertices and \|E\|edges |
+| Brute Force | 穷举 | $O(1)$ | $O(n)$ / $O(n)$ | Array |
+| Shortest path by Bellman-Ford | | $O(\lvert{V}\rvert)$ | $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ / $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
+| Shortest path by Dijkstra (Min Heap) | | $O(\lvert{V}\rvert)$ | $O((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ / $O((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
+| Shortest path by Dijkstra (Unordered Array) | | $O(\lvert{V}\rvert)$ | $O(\lvert{V}\rvert^2)$ / $O(\lvert{V}\rvert^2)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
