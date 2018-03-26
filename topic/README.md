@@ -14,8 +14,8 @@ The time and space complexity of common algorithms and data-structures
 | Array | 数组 | $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | Swap with `a[-1]` => $O(1)$ in insert, delete |
 | Queue | 队列 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
 | Stack | 栈 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
-| Heap | 堆 | Check it in [Heap](./#heap) Section | | | | | |
-| Graph | 图 | Check it in [Graph](./#graph) Section | | | | | |
+| Heap | 堆 | | | | | | Check it in [Heap](./#heap) Section |
+| Graph | 图 | | | | | | Check it in [Graph](./#graph) Section |
 | Singly-Linked List | 单向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
 | Doubly-Linked List | 双向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
 | Skip List | 跳跃表 | $O(n\log{n})$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
@@ -30,7 +30,7 @@ The time and space complexity of common algorithms and data-structures
 
 ### Heap
 
-| Implementation | 中文 | Heapify | Access Top | Pop Top | Increase Key | Insert | Delete | Merge |
+| Implementation | 结构名 | Heapify | Access Top | Pop Top | Increase Key | Insert | Delete | Merge |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Linked List (Sorted) | 链表（已排序） | - | $\Theta(1)$ | $\Theta(1)$ | $\Theta(n)$ | $\Theta(n)$ | $\Theta(1)$ | $\Theta(m+n)$ |
 | Linked List (Unsorted) | 链表（未排序） | - | $\Theta(n)$ | $\Theta(n)$ | $\Theta(1)$ | $\Theta(1)$ | $\Theta(1)$ | $\Theta(1)$ |
@@ -40,7 +40,7 @@ The time and space complexity of common algorithms and data-structures
 
 ### Graph
 
-| Vertex / Edge Management | 中文 | Storage | Add Vertex | Add Edge | Remove Vertex | Remove Edge | Search |
+| Vertex / Edge Management | 结构名 | Storage | Add Vertex | Add Edge | Remove Vertex | Remove Edge | Search |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Adjacency List | 邻接表 | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $\Theta(1)$ | $\Theta(1)$ | $\Theta(\lvert{V}\rvert+\lvert{E}\rvert)$ | $\Theta(\lvert{E}\rvert)$ | $\Theta(\lvert{V}\rvert)$ |
 | Incidence List | 关联表 | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $\Theta(1)$ | $\Theta(1)$ | $\Theta(\lvert{E}\rvert)$ | $\Theta(\lvert{E}\rvert)$ | $\Theta(\lvert{E}\rvert)$ |
@@ -74,7 +74,7 @@ The time and space complexity of common algorithms and data-structures
 | Depth First Search | 深度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
 | Breadth First Search | 广度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
 | Binary Search | 二分搜索 | $O(1)$ | $\Theta(\log{n})$ / $O(\log{n})$ | Sorted array of n elements |
-| Brute Force | 穷举 | $O(1)$ | $\Theta(n)$ / $O(n)$ | Array |
+| Brute Force | 穷举搜索 | $O(1)$ | $\Theta(n)$ / $O(n)$ | Array |
 | Shortest path by Bellman-Ford | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ / $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
 | Shortest path by Dijkstra (Min Heap) | | $O(\lvert{V}\rvert)$ | $\Theta((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ / $O((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
 | Shortest path by Dijkstra (Unordered Array) | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert^2)$ / $O(\lvert{V}\rvert^2)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |

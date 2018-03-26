@@ -23,3 +23,4 @@ The challenges for algorithm contests, and summary the implementation.
 | Language | Command |
 | :--- | :--- |
 | Python | [./bin/test_python.py](./bin/test_python.py) |
+| Javascript | |
