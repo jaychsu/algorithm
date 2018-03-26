@@ -14,6 +14,9 @@ class NumArray:
         """
         :type nums: List[int]
         """
+        if not nums:
+            return
+
         n = len(nums)
         self.bits = [0] * (n + 1)  # bits
         self.incr = [0] * (n + 1)  # increments
@@ -30,13 +33,13 @@ class NumArray:
         It must increase `i` here, since this api is public,
         so look from outside, the `i` is just the index of `nums`
         """
-        i += 1
-        delta = val - self.incr[i]
-        self.incr[i] = val
+        j = i + 1
+        delta = val - self.incr[j]
+        self.incr[j] = val
 
-        while i < len(self.incr):
-            self.bits[i] += delta
-            i += (i & -i)
+        while j < len(self.incr):
+            self.bits[j] += delta
+            j += (j & -j)
 
     def sumRange(self, i, j):
         """
@@ -48,9 +51,10 @@ class NumArray:
 
     def sum(self, i):
         res = 0
+        j = i
 
-        while i > 0:
-            res += self.bits[i]
-            i -= (i & -i)
+        while j > 0:
+            res += self.bits[j]
+            j -= (j & -j)
 
         return res

@@ -33,8 +33,15 @@ class NumMatrix:
         :type y2: int
         :rtype: int
         """
-        if not self.ps or not self.ps[0]:
-            return -1
+        if not all((
+            self.ps,
+            self.ps[0],
+            (0 <= x1 < len(self.ps)),
+            (0 <= x2 + 1 < len(self.ps)),
+            (0 <= y1 < len(self.ps[0])),
+            (0 <= y2 + 1 < len(self.ps[0])),
+        )):
+            return 0
 
         return sum((
             self.ps[x2 + 1][y2 + 1],

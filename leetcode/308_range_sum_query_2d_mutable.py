@@ -15,8 +15,8 @@ class NumMatrix:
             return
 
         m, n = len(matrix), len(matrix[0])
-        self.bits = [[0] * (n + 1) for _ in range(m + 1)]
-        self.incr = [[0] * (n + 1) for _ in range(m + 1)]
+        self.bits = [[0] * (n + 1) for _ in range(m + 1)]  # bits
+        self.incr = [[0] * (n + 1) for _ in range(m + 1)]  # increments
 
         for x in range(m):
             for y in range(n):
@@ -29,19 +29,20 @@ class NumMatrix:
         :type val: int
         :rtype: void
         """
-        x += 1
-        y += 1
-        delta = val - self.incr[x][y]
-        self.incr[x][y] = val
+        i = x + 1
+        j = y + 1
+
+        delta = val - self.incr[i][j]
+        self.incr[i][j] = val
 
         m, n = len(self.incr), len(self.incr[0])
 
-        while x < m:
-            i = y
-            while i < n:
-                self.bits[x][i] += delta
-                i += (i & -i)
-            x += (x & -x)
+        while i < m:
+            j = y + 1
+            while j < n:
+                self.bits[i][j] += delta
+                j += (j & -j)
+            i += (i & -i)
 
     def sumRegion(self, x1, y1, x2, y2):
         """
@@ -60,12 +61,14 @@ class NumMatrix:
 
     def sum(self, x, y):
         res = 0
+        i = x
+        j = y
 
-        while x > 0:
-            i = y
-            while i > 0:
-                res += self.bits[x][i]
-                i -= (i & -i)
-            x -= (x & -x)
+        while i > 0:
+            j = y
+            while j > 0:
+                res += self.bits[i][j]
+                j -= (j & -j)
+            i -= (i & -i)
 
         return res

@@ -1,7 +1,7 @@
 """
-# Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# param_1 = obj.sumRange(i,j)
+Your NumArray object will be instantiated and called as such:
+obj = NumArray(nums)
+param_1 = obj.sumRange(i,j)
 """
 
 
@@ -10,6 +10,9 @@ class NumArray:
         """
         :type nums: List[int]
         """
+        if not nums:
+            return
+
         n = len(nums)
         self.ps = [0] * (n + 1)  # prefix sum
 
@@ -22,4 +25,11 @@ class NumArray:
         :type j: int
         :rtype: int
         """
+        if (
+            not self.ps or
+            j + 1 >= len(self.ps) or
+            i < 0
+        ):
+            return 0
+
         return self.ps[j + 1] - self.ps[i]
