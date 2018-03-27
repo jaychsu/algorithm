@@ -1,4 +1,5 @@
 import unittest
+import datetime
 
 MSG_TEMPLATE = '{status}: {msg}'
 
@@ -16,3 +17,10 @@ class TestBase(unittest.TestCase):
             status=cls.__name__,
             msg='finished tests.\n'
         ))
+
+    def setUp(self):
+        self.t0 = datetime.datetime.now()
+
+    def tearDown(self):
+        duration = datetime.datetime.now() - self.t0
+        print(duration.microseconds, 'ms')

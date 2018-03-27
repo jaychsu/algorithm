@@ -5,76 +5,67 @@ class TreeNode:
         self.val = val
         self.left, self.right = None, None
 """
-from collections import deque
 
 
 class Solution:
-    NULL_NODE = '#'
+    EMPTY = '#'
 
-    """
-    @param root: An object of TreeNode, denote the root of the binary tree.
-    This method will be invoked first, you should design your own algorithm
-    to serialize a binary tree which denote by a root node to a string which
-    can be easily deserialized by your own "deserialize" method later.
-    """
     def serialize(self, root):
-        if not isinstance(root, TreeNode):
-            return '{}'
+        """Encodes a tree to a single string.
+        :type root: TreeNode
+        :rtype: str
+        """
+        TEMPLATE = '{{{}}}'  # {{, }} is to escape brackets
+        if not root:
+            return TEMPLATE.format('')
 
+        vals = []
         queue = [root]
-        values = []
 
         for node in queue:
             if not node:
-                values.append(self.NULL_NODE)
+                vals.append(self.EMPTY)
                 continue
 
+            vals.append(str(node.val))
             queue.append(node.left)
             queue.append(node.right)
-            values.append(str(node.val))
 
-        while values[-1] == self.NULL_NODE:
-            values.pop()
+        while vals[-1] == self.EMPTY:
+            vals.pop()
 
-        return '{%s}' % ','.join(values)
+        return TEMPLATE.format(','.join(vals))
 
-    """
-    @param data: A string serialized by your serialize method.
-    This method will be invoked second, the argument data is what exactly
-    you serialized at method "serialize", that means the data is not given by
-    system, it's given by your own serialize method. So the format of data is
-    designed by yourself, and deserialize it here as you serialize it in
-    "serialize" method.
-    """
     def deserialize(self, data):
-        if (not isinstance(data, str) or
+        """Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+        if (not data or
             data[0] != '{' or
-            data[-1] != '}'):
+            data[-1] != '}' or
+            len(data) < 3 or
+            data[1] == '#'
+        ):
             return
 
-        values = deque(data[1:-1].split(','))
-        if not values:
-            return
-        value = values.popleft()
-        if value == self.NULL_NODE:
-            return
+        vals = data[1:-1].split(',')
+        n = len(vals)
+        i = 0
 
-        root = TreeNode(value)
+        root = TreeNode(int(vals[i]))
         queue = [root]
 
         for node in queue:
-            if not values:
-                break
-            value = values.popleft()
-            if value != self.NULL_NODE:
-                node.left = TreeNode(value)
-                queue.append(node.left)
+            for branch in ('left', 'right'):
+                i += 1
 
-            if not values:
-                break
-            value = values.popleft()
-            if value != self.NULL_NODE:
-                node.right = TreeNode(value)
-                queue.append(node.right)
+                if i >= n:
+                    break
+                if vals[i] == self.EMPTY:
+                    continue
+
+                setattr(node, branch, TreeNode(int(vals[i])))
+                queue.append(getattr(node, branch))
 
         return root

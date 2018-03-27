@@ -8,55 +8,59 @@ class ListNode:
 
 
 class Solution:
-    """
-    @param: A: The first list.
-    @param: B: The second list.
-    @return: the sum list of A and B.
-    """
-    def addLists2(self, A, B):
-        if not A:
-            return B
-        if not B:
-            return A
+    def addLists2(self, a, b):
+        """
+        :type a: ListNode
+        :type b: ListNode
+        :rtype: ListNode
+        """
+        if not a and not b:
+            return
+        if not a:
+            return b
+        if not b:
+            return a
 
-        A = self.reverse_list(A)
-        B = self.reverse_list(B)
+        a = self.reverse_list(a)
+        b = self.reverse_list(b)
 
+        carry = 0
         dummy = tail = ListNode(-1)
-        _carry = 0
 
-        while A and B:
-            _carry += A.val + B.val
-            tail.next = ListNode(_carry % 10)
+        while a and b:
+            carry += a.val + b.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
             tail = tail.next
-            A = A.next
-            B = B.next
-            _carry //= 10
+            a = a.next
+            b = b.next
 
-        while A:
-            _carry += A.val
-            tail.next = ListNode(_carry % 10)
+        while a:
+            carry += a.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
             tail = tail.next
-            A = A.next
-            _carry //= 10
+            a = a.next
 
-        while B:
-            _carry += B.val
-            tail.next = ListNode(_carry % 10)
+        while b:
+            carry += b.val
+            tail.next = ListNode(carry % 10)
+            carry //= 10
             tail = tail.next
-            B = B.next
-            _carry //= 10
+            b = b.next
 
-        if _carry > 0:
-            tail.next = ListNode(_carry)
+        if carry:
+            tail.next = ListNode(carry)
 
         return self.reverse_list(dummy.next)
 
     def reverse_list(self, head):
-        pre = nxt = None
+        cur = nxt = None
+
         while head:
             nxt = head.next
-            head.next = pre
-            pre = head
+            head.next = cur
+            cur = head
             head = nxt
-        return pre
+
+        return cur

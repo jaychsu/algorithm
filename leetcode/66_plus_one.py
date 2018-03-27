@@ -16,8 +16,8 @@ class Solution:
             carry //= 10
 
         if carry:
-            # that is just insert `carry` at `0`
             digits.append(carry)
+
             for i in range(len(digits) - 1, 0, -1):
                 digits[i], digits[i - 1] = digits[i - 1], digits[i]
 

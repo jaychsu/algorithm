@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class TreeNode:
     def __init__(self, val):
         self.val = val
@@ -8,62 +5,66 @@ class TreeNode:
 
 
 class BinaryTree:
-    NULL_NODE = '#'
+    EMPTY = '#'
 
     @classmethod
     def serialize(cls, root):
-        if not isinstance(root, TreeNode):
-            return '{}'
+        """Encodes a tree to a single string.
+        :type root: TreeNode
+        :rtype: str
+        """
+        TEMPLATE = '{{{}}}'  # {{, }} is to escape brackets
+        if not root:
+            return TEMPLATE.format('')
 
+        vals = []
         queue = [root]
-        values = []
 
         for node in queue:
             if not node:
-                values.append(cls.NULL_NODE)
+                vals.append(cls.EMPTY)
                 continue
 
+            vals.append(str(node.val))
             queue.append(node.left)
             queue.append(node.right)
-            values.append(str(node.val))
 
-        while values[-1] == cls.NULL_NODE:
-            values.pop()
+        while vals[-1] == cls.EMPTY:
+            vals.pop()
 
-        return '{%s}' % ','.join(values)
+        return TEMPLATE.format(','.join(vals))
 
     @classmethod
     def deserialize(cls, data):
-        if not isinstance(data, str) \
-                or data[0] != '{' \
-                or data[-1] != '}':
+        """Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+        if (not data or
+            data[0] != '{' or
+            data[-1] != '}' or
+            len(data) < 3 or
+            data[1] == '#'
+        ):
             return
 
-        values = deque(data[1:-1].split(','))
-        if not values:
-            return
-        value = values.popleft()
-        if value == cls.NULL_NODE:
-            return
+        vals = data[1:-1].split(',')
+        n = len(vals)
+        i = 0
 
-        root = TreeNode(int(value))
+        root = TreeNode(int(vals[i]))
         queue = [root]
 
         for node in queue:
-            # add to left child
-            if not values:
-                break
-            value = values.popleft()
-            if value != cls.NULL_NODE:
-                node.left = TreeNode(int(value))
-                queue.append(node.left)
+            for branch in ('left', 'right'):
+                i += 1
 
-            # add to right child
-            if not values:
-                break
-            value = values.popleft()
-            if value != cls.NULL_NODE:
-                node.right = TreeNode(int(value))
-                queue.append(node.right)
+                if i >= n:
+                    break
+                if vals[i] == cls.EMPTY:
+                    continue
+
+                setattr(node, branch, TreeNode(int(vals[i])))
+                queue.append(getattr(node, branch))
 
         return root

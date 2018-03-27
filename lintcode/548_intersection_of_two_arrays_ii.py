@@ -1,49 +1,54 @@
 class Solution:
-    def intersect(self, A, B):
+    def intersect(self, a, b):
         """
-        :type A: List[int]
-        :type B: List[int]
+        :type a: List[int]
+        :type b: List[int]
         :rtype: List[int]
         """
         ans = []
-        if not A or not B:
+
+        if not a or not b:
             return ans
 
-        F = {}
-        for a in B:
-            F[a] = F.get(a, 0) + 1
+        freq = {}
 
-        for a in A:
-            if not F.get(a):
+        for x in a:
+            freq[x] = freq.get(x, 0) + 1
+
+        for x in b:
+            if not freq.get(x):
                 continue
-            ans.append(a)
-            F[a] -= 1
+
+            freq[x] -= 1
+            ans.append(x)
 
         return ans
 
 
 class Solution:
-    """
-    @param: A: an integer array
-    @param: B: an integer array
-    @return: an integer array
-    """
-    def intersection(self, A, B):
+    def intersect(self, a, b):
+        """
+        :type a: List[int]
+        :type b: List[int]
+        :rtype: List[int]
+        """
         ans = []
-        if not A or not B:
+
+        if not a or not b:
             return ans
 
-        A.sort()
-        B.sort()
+        a.sort()
+        b.sort()
 
+        m, n = len(a), len(b)
         i = j = 0
-        while i < len(A) and j < len(B):
-            if A[i] == B[j]:
-                ans.append(A[i])
+
+        while i < m and j < n:
+            if a[i] == b[j]:
+                ans.append(a[i])
                 i += 1
                 j += 1
-                continue
-            if A[i] < B[j]:
+            elif a[i] < b[j]:
                 i += 1
             else:
                 j += 1

@@ -1,47 +1,50 @@
 class Solution:
-    def intersection(self, A, B):
+    def intersection(self, a, b):
         """
-        :type A: List[int]
-        :type B: List[int]
+        :type a: List[int]
+        :type b: List[int]
         :rtype: List[int]
         """
         ans = []
-        if not A or not B:
+
+        if not a or not b:
             return ans
 
-        A = set(A)
-        B = set(B)
+        s = set(a)
+        t = set(b)
 
-        for a in A:
-            if a in B:
-                ans.append(a)
+        for x in s:
+            if x in t:
+                ans.append(x)
 
         return ans
 
 
 class Solution:
-    """
-    @param: A: an integer array
-    @param: B: an integer array
-    @return: an integer array
-    """
-    def intersection(self, A, B):
+    def intersection(self, a, b):
+        """
+        :type a: List[int]
+        :type b: List[int]
+        :rtype: List[int]
+        """
         ans = []
-        if not A or not B:
+
+        if not a or not b:
             return ans
 
-        A.sort()
-        B.sort()
+        a.sort()
+        b.sort()
 
+        m, n = len(a), len(b)
         i = j = 0
-        while i < len(A) and j < len(B):
-            if A[i] == B[j]:
-                if not ans or ans[-1] != A[i]:
-                    ans.append(A[i])
+
+        while i < m and j < n:
+            if a[i] == b[j]:
+                if not ans or a[i] != ans[-1]:
+                    ans.append(a[i])
                 i += 1
                 j += 1
-                continue
-            if A[i] < B[j]:
+            elif a[i] < b[j]:
                 i += 1
             else:
                 j += 1

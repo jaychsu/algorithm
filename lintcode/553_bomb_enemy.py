@@ -23,43 +23,49 @@ Main Concept:
     1  [ | E, | 0, v W, | E ],  --2-->
     2  [ v 0, v E, v 0, v 0 ]]  --3-->
 """
+
+
 class Solution:
     WALL = 'W'
     ENEMY = 'E'
     EMPTY = '0'
 
-    """
-    @param grid: Given a 2D grid, each cell is either 'W', 'E' or '0'
-    @return: an integer, the maximum enemies you can kill using one bomb
-    """
     def maxKilledEnemies(self, grid):
+        """
+        :type grid: list[list[str]]
+        :rtype: int
+        """
         ans = 0
         if not grid or not grid[0]:
             return ans
 
         m, n = len(grid), len(grid[0])
-        rs, cs = 0, [0] * n
+        row, cols = 0, [0] * n
 
         for x in range(m):
             for y in range(n):
+                # calculate bomb in cur section [x, 'WALL' | m) in col
                 if x == 0 or grid[x - 1][y] == self.WALL:
-                    cs[y] = 0
+                    cols[y] = 0
+
                     for i in range(x, m):
                         if grid[i][y] == self.WALL:
                             break
                         if grid[i][y] == self.ENEMY:
-                            cs[y] += 1
+                            cols[y] += 1
 
+                # calculate bomb in cur section [y, 'WALL' | n) in row
                 if y == 0 or grid[x][y - 1] == self.WALL:
-                    rs = 0
+                    row = 0
+
                     for i in range(y, n):
                         if grid[x][i] == self.WALL:
                             break
                         if grid[x][i] == self.ENEMY:
-                            rs += 1
+                            row += 1
 
-                if grid[x][y] == self.EMPTY and rs + cs[y] > ans:
-                    ans = rs + cs[y]
+                if grid[x][y] == self.EMPTY and row + cols[y] > ans:
+                    ans = row + cols[y]
 
         return ans
 
@@ -73,11 +79,11 @@ class Solution:
     ENEMY = 'E'
     EMPTY = '0'
 
-    """
-    @param grid: Given a 2D grid, each cell is either 'W', 'E' or '0'
-    @return: an integer, the maximum enemies you can kill using one bomb
-    """
     def maxKilledEnemies(self, grid):
+        """
+        :type grid: list[list[str]]
+        :rtype: int
+        """
         ans = 0
         if not grid or not grid[0]:
             return ans
@@ -97,31 +103,31 @@ class Solution:
         cnt = 0
 
         # up
-        x, y = i, j
-        while x >= 0 and grid[x][y] != self.WALL:
-            if grid[x][y] == self.ENEMY:
+        for x in range(i, -1, -1):
+            if grid[x][j] == self.WALL:
+                break
+            if grid[x][j] == self.ENEMY:
                 cnt += 1
-            x -= 1
 
         # down
-        x, y = i, j
-        while x < m and grid[x][y] != self.WALL:
-            if grid[x][y] == self.ENEMY:
+        for x in range(i, m):
+            if grid[x][j] == self.WALL:
+                break
+            if grid[x][j] == self.ENEMY:
                 cnt += 1
-            x += 1
 
         # left
-        x, y = i, j
-        while y >= 0 and grid[x][y] != self.WALL:
-            if grid[x][y] == self.ENEMY:
+        for y in range(j, -1, -1):
+            if grid[i][y] == self.WALL:
+                break
+            if grid[i][y] == self.ENEMY:
                 cnt += 1
-            y -= 1
 
         # right
-        x, y = i, j
-        while y < n and grid[x][y] != self.WALL:
-            if grid[x][y] == self.ENEMY:
+        for y in range(j, n):
+            if grid[i][y] == self.WALL:
+                break
+            if grid[i][y] == self.ENEMY:
                 cnt += 1
-            y += 1
 
         return cnt
