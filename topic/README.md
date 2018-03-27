@@ -40,6 +40,8 @@ The time and space complexity of common algorithms and data-structures
 
 ### Graph
 
+* Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
+
 | Vertex / Edge Management | 结构名 | Storage | Add Vertex | Add Edge | Remove Vertex | Remove Edge | Search |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Adjacency List | 邻接表 | $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | $\Theta(1)$ | $\Theta(1)$ | $\Theta(\lvert{V}\rvert+\lvert{E}\rvert)$ | $\Theta(\lvert{E}\rvert)$ | $\Theta(\lvert{V}\rvert)$ |
@@ -69,12 +71,14 @@ The time and space complexity of common algorithms and data-structures
 
 ### Searching Algorithms
 
+* Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
+
 | Name | 算法名 | Space | Time | Note |
 | --- | --- | --- | --- | --- |
-| Depth First Search | 深度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
-| Breadth First Search | 广度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
+| Depth First Search | 深度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | |
+| Breadth First Search | 广度优先搜索 | $O(\lvert{V}\rvert)$ | - / $O(\lvert{V}\rvert+\lvert{E}\rvert)$ | |
 | Binary Search | 二分搜索 | $O(1)$ | $\Theta(\log{n})$ / $O(\log{n})$ | Sorted array of n elements |
 | Brute Force | 穷举搜索 | $O(1)$ | $\Theta(n)$ / $O(n)$ | Array |
-| Shortest path by Bellman-Ford | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ / $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
-| Shortest path by Dijkstra (Min Heap) | | $O(\lvert{V}\rvert)$ | $\Theta((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ / $O((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
-| Shortest path by Dijkstra (Unordered Array) | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert^2)$ / $O(\lvert{V}\rvert^2)$ | Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges |
+| Shortest path by Bellman-Ford | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ / $O(\lvert{V}\rvert\cdot\lvert{E}\rvert)$ | |
+| Shortest path by Dijkstra (Min Heap) | | $O(\lvert{V}\rvert)$ | $\Theta((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ / $O((\lvert{V}\rvert+\lvert{E}\rvert)\cdot\log{\lvert{V}\rvert})$ | |
+| Shortest path by Dijkstra (Unordered Array) | | $O(\lvert{V}\rvert)$ | $\Theta(\lvert{V}\rvert^2)$ / $O(\lvert{V}\rvert^2)$ | |
