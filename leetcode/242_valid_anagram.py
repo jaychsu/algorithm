@@ -5,23 +5,20 @@ class Solution:
         :type t: str
         :rtype: bool
         """
-        if s is None or t is None:
+        if s == '' and t == '':
+            return True
+        if not s or not t:
             return False
 
         freq = {}
 
         for c in s:
-            if c not in freq:
-                freq[c] = 0
-            freq[c] += 1
+            freq[c] = freq.get(c, 0) + 1
 
         for c in t:
-            if c not in freq:
+            if not freq.get(c):
                 return False
+
             freq[c] -= 1
 
-        for f in freq.values():
-            if f != 0:
-                return False
-
-        return True
+        return all(v == 0 for v in freq.values())

@@ -11,7 +11,6 @@ REF: http://www.1point3acres.com/bbs/thread-218909-1-1.html
 class Solution:
     """
     >>> sol = Solution()
-
     >>> CASE = (
     ...     ('ff', 'ff'),
     ...     ('fff', 'fff'),
@@ -23,12 +22,11 @@ class Solution:
     ...     ('123aaaa', '1x11x21x34xa'),
     ...     ('aaabbbbcccc', 'aaa4xb4xc'),
     ... )
-    >>> [sol.decode(sol.encode(w)) for w, _ in CASE] == [w for w, _ in CASE]
-    True
 
+    >>> all(sol.decode(sol.encode(inpt)) == inpt for inpt, _ in CASE)
+    True
     >>> all(sol.encode(inpt) == oupt for inpt, oupt in CASE)
     True
-
     >>> all(sol.decode(oupt) == inpt for inpt, oupt in CASE)
     True
     """
