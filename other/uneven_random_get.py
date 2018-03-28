@@ -14,15 +14,19 @@ def uneven_random_get(options, rate):
     >>> for _ in range(10000):
     ...     c = uneven_random_get(options, [10, 10, 10])
     ...     ans[c] += 1
-    >>> [2000 <= ans[c] <= 4000 for c in options]
-    [True, True, True]
+    >>> all(2000 <= ans[c] <= 4000 for c in options)
+    True
 
     >>> ans = dict.fromkeys(options, 0)
     >>> for _ in range(10000):
     ...     c = uneven_random_get(options, [80, 10, 10])
     ...     ans[c] += 1
-    >>> [7000 <= ans['a'] <= 9000, 0 <= ans['b'] <= 2000, 0 <= ans['c'] <= 2000]
-    [True, True, True]
+    >>> all((
+    ...     7000 <= ans['a'] <= 9000,
+    ...     0 <= ans['b'] <= 2000,
+    ...     0 <= ans['c'] <= 2000,
+    ... ))
+    True
     """
     if not options or not rate or len(options) != len(rate):
         return ''
