@@ -1,29 +1,100 @@
+"""
+Merge Sort
+time: O(n)
+space: O(1)
+"""
 class Solution:
     def inputStream(self, a, b):
         """
         :type a: str
         :type b: str
-        :rtype: str, 'YES' or 'NO'
+        :rtype: str, 'NO' or 'YES'
         """
-        if a is None or b is None:
-            return 'NO'
+        RES = ('NO', 'YES')
 
+        if a == '' and b == '':
+            return RES[1]
+        if a is None or b is None:
+            return RES[0]
+
+        RM = '<'
+        m, n = len(a), len(b)
+        i, j = m - 1, n - 1
+        acnt = bcnt = 0  # count the backspace in both a and b
+
+        while i >= 0 and j >= 0:
+            while (
+                i >= 0 and
+                (a[i] == RM or acnt > 0)
+            ):
+                acnt += 1 if a[i] == RM else -1
+                i -= 1
+            while (
+                j >= 0 and
+                (b[j] == RM or bcnt > 0)
+            ):
+                bcnt += 1 if b[j] == RM else -1
+                j -= 1
+
+            if a[i] != b[j]:
+                return RES[0]
+
+            i -= 1
+            j -= 1
+
+        while (
+            i >= 0 and
+            (a[i] == RM or acnt > 0)
+        ):
+            acnt += 1 if a[i] == RM else -1
+            i -= 1
+
+        while (
+            j >= 0 and
+            (b[j] == RM or bcnt > 0)
+        ):
+            bcnt += 1 if b[j] == RM else -1
+            j -= 1
+
+        return RES[int(i == j)]
+
+
+"""
+Stack
+time: O(n)
+space: O(n)
+"""
+class Solution:
+    def inputStream(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str, 'NO' or 'YES'
+        """
+        RES = ('NO', 'YES')
+
+        if a == '' and b == '':
+            return RES[1]
+        if a is None or b is None:
+            return RES[0]
+
+        RM = '<'
         stack = []
 
         for c in a:
-            if c != '<':
+            if c != RM:
                 stack.append(c)
             elif stack:
-                # c == '<'
+                # c == RM
                 stack.pop()
 
         _stack = []
 
         for c in b:
-            if c != '<':
+            if c != RM:
                 _stack.append(c)
             elif _stack:
-                # c == '<'
+                # c == RM
                 _stack.pop()
 
-        return 'YES' if stack == _stack else 'NO'
+        return RES[int(stack == _stack)]
