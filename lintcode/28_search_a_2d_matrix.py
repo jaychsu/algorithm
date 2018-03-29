@@ -1,14 +1,14 @@
 class Solution:
-    """
-    @param: G: matrix, a list of lists of integers
-    @param: target: An integer
-    @return: a boolean, indicate whether matrix contains target
-    """
-    def searchMatrix(self, G, target):
-        if not G or target is None:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: list[list[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix or not matrix[0]:
             return False
 
-        m, n = len(G), len(G[0])
+        m, n = len(matrix), len(matrix[0])
         left, right = 0, m * n - 1
 
         while left + 1 < right:
@@ -16,18 +16,14 @@ class Solution:
             x = mid // n
             y = mid % n
 
-            if G[x][y] == target:
-                return True
-
-            if G[x][y] < target:
+            if matrix[x][y] < target:
                 left = mid
-            else:
+            elif matrix[x][y] > target:
                 right = mid
-
-        for mid in (left, right):
-            x = mid // n
-            y = mid % n
-            if G[x][y] == target:
+            else:
                 return True
 
-        return False
+        return any(
+            matrix[mid // n][mid % n] == target
+            for mid in (left, right)
+        )

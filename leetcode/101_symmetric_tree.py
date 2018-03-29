@@ -18,14 +18,15 @@ class Solution:
         return self.divide_conquer(root.left, root.right)
 
     def divide_conquer(self, left, right):
-        if not left:
-            return not right
-        if not right:
-            return not left
+        # to check left and right are symmetric
+        if not left and not right:
+            return True
+        if not left or not right:
+            return False
         if left.val != right.val:
             return False
-        if not self.divide_conquer(left.left, right.right):
-            return False
         if not self.divide_conquer(left.right, right.left):
+            return False
+        if not self.divide_conquer(left.left, right.right):
             return False
         return True

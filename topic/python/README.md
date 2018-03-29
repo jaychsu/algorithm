@@ -157,6 +157,14 @@ NameError: name 'c' is not defined
 -1
 ```
 
+### To split by multiple delimiters
+
+```python
+>>> import re
+>>> re.split(',\s|\s', "Jimmy has an apple, it is on the table")
+['Jimmy', 'has', 'an', 'apple', 'it', 'is', 'on', 'the', 'table']
+```
+
 ## Number `int`, `float`
 
 ### Using cascade comparison

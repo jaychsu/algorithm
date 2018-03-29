@@ -1,8 +1,33 @@
+class Solution:
+    def alienOrder(self, words):
+        """
+        :type words: list[str]
+        :rtype: str
+        """
+        if not words:
+            return ''
+
+        ans = []
+        gotcha = set()
+        max_size = max(len(word) for word in words)
+
+        for j in range(max_size):
+            for word in words:
+                if j >= len(word):
+                    continue
+
+                if word[j] in gotcha:
+                    continue
+
+                ans.append(word[j])
+                gotcha.add(word[j])
+
+        return ''.join(ans)
+
+
 """
 REF: https://discuss.leetcode.com/topic/28308/java-ac-solution-using-bfs/2
 """
-
-
 class Solution:
     def alienOrder(self, W):
         if not W:
