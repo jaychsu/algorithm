@@ -1,33 +1,35 @@
 class Solution:
-    """
-    @param: A: Give an array A of n integer
-    @param: target: An integer
-    @return: return the sum of the three integers, the sum closest target.
-    """
-    def threeSumClosest(self, A, target):
-        if not A or len(A) < 3:
-            return
+    def threeSumClosest(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        if not nums or len(nums) < 3 or target is None:
+            return -1
 
-        n = len(A)
-        A.sort()
+        ans = INF = float('inf')
+        n = len(nums)
+        nums.sort()
 
-        ans = INFINITY = float('inf')
-        _sum = b = c = 0
         for a in range(n - 2):
-            b = a + 1
-            c = n - 1
-            while b < c:
-                _sum = A[a] + A[b] + A[c]
-                if abs(_sum - target) < abs(ans - target):
-                    ans = _sum
+            if a > 0 and nums[a] == nums[a - 1]:
+                continue
 
-                """
-                continues to narrow the gap with the `target`
-                """
-                if _sum < target:
+            b, c = a + 1, n - 1
+
+            while b < c:
+                total = nums[a] + nums[b] + nums[c]
+
+                if total == target:
+                    return total
+
+                if abs(total - target) < abs(ans - target):
+                    ans = total
+
+                if total < target:
                     b += 1
                 else:
                     c -= 1
 
-        if ans < INFINITY:
-            return ans
+        return ans if ans < INF else -1

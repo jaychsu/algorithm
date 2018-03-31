@@ -1,38 +1,40 @@
 class Solution:
-    """
-    @param: A: Give an array
-    @param: target: An integer
-    @return: Find all unique quadruplets in the array which gives the sum of zero
-    """
-    def fourSum(self, A, target):
+    def fourSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
         ans = []
-        if not A or len(A) < 4:
+
+        if not nums or len(nums) < 4 or target is None:
             return ans
 
-        n = len(A)
-        A.sort()
+        n = len(nums)
+        nums.sort()
 
-        _sum = c = d = 0
         for a in range(n - 3):
-            if a > 0 and A[a] == A[a - 1]:
+            if a > 0 and nums[a] == nums[a - 1]:
                 continue
+
             for b in range(a + 1, n - 2):
-                if b > a + 1 and A[b] == A[b - 1]:
+                if b > a + 1 and nums[b] == nums[b - 1]:
                     continue
-                c = b + 1
-                d = n - 1
+
+                c, d = b + 1, n - 1
+
                 while c < d:
-                    _sum = A[a] + A[b] + A[c] + A[d]
-                    if _sum == target:
-                        ans.append([A[a], A[b], A[c], A[d]])
+                    total = nums[a] + nums[b] + nums[c] + nums[d]
+
+                    if total == target:
+                        ans.append([nums[a], nums[b], nums[c], nums[d]])
                         c += 1
                         d -= 1
-                        while c < d and A[c] == A[c - 1]:
+                        while c < d and nums[c] == nums[c - 1]:
                             c += 1
-                        while c < d and A[d] == A[d + 1]:
+                        while c < d and nums[d] == nums[d + 1]:
                             d -= 1
-                        continue
-                    if _sum < target:
+                    elif total < target:
                         c += 1
                     else:
                         d -= 1
