@@ -19,69 +19,65 @@ class CacheNode:
         self.pre = pre
         self.nxt = nxt
 
+    def link(self, pre, nxt):
+        self.pre = pre
+        self.nxt = nxt
+        pre.nxt = self
+        nxt.pre = self
+
     def unlink(self):
         self.pre.nxt = self.nxt
         self.nxt.pre = self.pre
         self.pre = self.nxt = None
 
-    def link(self, pre_node, nxt_node):
-        self.pre = pre_node
-        self.nxt = nxt_node
-        pre_node.nxt = self
-        nxt_node.pre = self
-
 
 class LRUCache:
-    """
-    @param: capacity: An integer
-    """
     def __init__(self, capacity):
+        """
+        :type capacity: int
+        :rtype: void
+        """
         self.cap = capacity
         self.nodes = {}
-
-        self.D = CacheNode(-1)
-        self.d = CacheNode(-1)
+        self.D = CacheNode(0)
+        self.d = CacheNode(0)
         self.D.nxt = self.d
         self.d.pre = self.D
 
-    """
-    @param: key: An integer
-    @return: An integer
-    """
     def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
         if key not in self.nodes:
             return -1
 
-        self._update_item(key)
+        self._update(key)
         return self.nodes[key].val
 
-    """
-    @param: key: An integer
-    @param: val: An integer
-    @return: nothing
-    """
     def set(self, key, val):
+        """
+        :type key: int
+        :type val: int
+        :rtype: void
+        """
         if self.cap <= 0:
             return
 
         if key in self.nodes:
-            self._update_item(key, val)
+            self._update(key, val)
             return
 
         while len(self.nodes) >= self.cap:
-            self._evict_item()
+            self._evict()
 
-        self._add_item(key, val)
+        self._add(key, val)
 
-    def _evict_item(self):
+    def _evict(self):
         node = self._pop_head()
         del self.nodes[node.key]
 
-    def _add_item(self, key, val):
-        self.nodes[key] = CacheNode(key, val)
-        self._add_tail(self.nodes[key])
-
-    def _update_item(self, key, val=None):
+    def _update(self, key, val=None):
         node = self.nodes[key]
 
         if val:
@@ -89,6 +85,10 @@ class LRUCache:
 
         node.unlink()
         self._add_tail(node)
+
+    def _add(self, key, val):
+        self.nodes[key] = CacheNode(key, val)
+        self._add_tail(self.nodes[key])
 
     def _pop_head(self):
         node = self.D.nxt

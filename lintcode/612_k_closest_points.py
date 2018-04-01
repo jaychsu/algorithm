@@ -5,35 +5,76 @@ class Point:
         self.x = a
         self.y = b
 """
-from heapq import heappop, heappush
+import heapq
 
 
 class Solution:
     """
-    @param: A: a list of points
-    @param: O: a point
-    @param: k: An integer
-    @return: the k closest points
+    max heap
     """
-    def kClosest(self, A, O, k):
+    def kClosest(self, points, origin, k):
+        """
+        :type points: list[Point]
+        :type origin: Point
+        :type k: int
+        :rtype: list[Point]
+        """
         ans = []
-        if not A or not O:
+
+        if not points or not origin or not k:
             return ans
 
-        for P in A:
-            distance = self.get_distance(P, O)
-            heappush(ans, (-distance, P))
+        for i in range(len(points)):
+            distance = self.get_distance(origin, points[i])
+            heapq.heappush(ans, (-distance, i))
 
             if len(ans) > k:
-                heappop(ans)
+                heapq.heappop(ans)
 
-        ans.sort(key=lambda a: (-a[0], a[1].x, a[1].y))
-        return [P for _, P in ans]
+        ans.sort(key=lambda a: (-a[0], points[a[1]].x, points[a[1]].y))
 
-    def get_distance(self, P, O):
-        if not P or not O:
-            return float('inf')
+        return [points[i] for _, i in ans]
 
-        x = P.x - O.x
-        y = P.y - O.y
-        return x * x + y * y
+    def get_distance(self, p, q):
+        dx = p.x - q.x
+        dy = p.y - q.y
+        return dx * dx + dy * dy
+
+
+import heapq
+
+
+class Solution:
+    """
+    min heap
+    """
+    def kClosest(self, points, origin, k):
+        """
+        :type points: list[Point]
+        :type origin: Point
+        :type k: int
+        :rtype: list[Point]
+        """
+        ans = []
+
+        if not points or not origin or not k:
+            return ans
+
+        heap = []
+
+        for i in range(len(points)):
+            distance = self.get_distance(origin, points[i])
+            heapq.heappush(heap, (distance, i))
+
+        for _ in range(k):
+            distance, i = heapq.heappop(heap)
+            ans.append((distance, points[i]))
+
+        ans.sort(key=lambda a: (a[0], a[1].x, a[1].y))
+
+        return [p for _, p in ans]
+
+    def get_distance(self, p, q):
+        dx = p.x - q.x
+        dy = p.y - q.y
+        return dx * dx + dy * dy

@@ -1,56 +1,62 @@
-"""
-BFS
-"""
 class Solution:
-    def coinChange(self, C, amount):
+    """
+    BFS
+    """
+    def coinChange(self, coins, amount):
         """
-        :type C: List[int]
+        :type coins: List[int]
         :type amount: int
         :rtype: int
         """
         ans = 0
-        if not amount:
+
+        if not coins or not amount:
             return ans
 
         queue, _queue = [0], []
-        visited = [False] * (amount + 1)
-        visited[0] = True
+        visited = set(queue)
 
         while queue:
             ans += 1
-            for x in queue:
-                for c in C:
-                    _x = x + c
 
-                    if _x == amount:
+            for a in queue:
+                for c in coins:
+                    _a = a + c
+
+                    if _a == amount:
                         return ans
-                    if _x > amount or visited[_x]:
+
+                    if _a > amount or _a in visited:
                         continue
 
-                    visited[_x] = True
-                    _queue.append(_x)
+                    visited.add(_a)
+                    _queue.append(_a)
 
             queue, _queue = _queue, []
 
         return -1
 
 
-"""
-DP: TLE
-"""
 class Solution:
-    def coinChange(self, C, amount):
+    """
+    DP: TLE
+    """
+    def coinChange(self, coins, amount):
         """
-        :type C: List[int]
+        :type coins: List[int]
         :type amount: int
         :rtype: int
         """
-        INFINITY = float('inf')
-        dp = [INFINITY] * (amount + 1)
+        if not coins or not amount:
+            return 0
+
+        INF = float('inf')
+        dp = [INF] * (amount + 1)
         dp[0] = 0
 
-        for c in C:
-            for x in range(c, amount + 1):
-                dp[x] = min(dp[x], dp[x - c] + 1)
+        for c in coins:
+            for a in range(c, amount + 1):
+                # if a < c: continue
+                dp[a] = min(dp[a], dp[a - c] + 1)
 
-        return dp[amount] if dp[amount] < INFINITY else -1
+        return dp[amount] if dp[amount] < INF else -1

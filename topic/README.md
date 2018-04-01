@@ -11,22 +11,22 @@ The time and space complexity of common algorithms and data-structures
 
 | Name | 结构名 | Space | Access | Search | Insert | Delete | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Array | 数组 | $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | Swap with `a[-1]` => $O(1)$ in insert, delete |
-| Queue | 队列 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
-| Stack | 栈 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
-| Heap | 堆 | | | | | | Check it in [Heap](./#heap) Section |
-| Graph | 图 | | | | | | Check it in [Graph](./#graph) Section |
-| Singly-Linked List | 单向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
-| Doubly-Linked List | 双向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
-| Skip List | 跳跃表 | $O(n\log{n})$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
-| Hash Table | 哈希表 | $O(n)$ | - | $\Theta(1)$ / $O(n)$ | $\Theta(1)$ / $O(n)$ | $\Theta(1)$ / $O(n)$ | |
-| Binary Search Tree | 二叉查找树 | $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
-| Cartesian Tree | 笛卡尔树 | $O(n)$ | - | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
-| B-Tree | B 树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
-| Red-Black Tree | 红黑树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
-| Splay Tree | 伸展树 | $O(n)$ | - | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
-| AVL Tree | AVL 树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
-| KD Tree | K 维树 | $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
+| [Array](http://en.wikipedia.org/wiki/Array_data_structure) | 数组 | $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | Swap with `a[-1]` => $O(1)$ in insert, delete |
+| [Queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) | 队列 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
+| [Stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) | 栈 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
+| [Heap](https://en.wikipedia.org/wiki/Heap_(data_structure)) | 堆 | | | | | | Check it in [Heap](./#heap) Section |
+| [Graph](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) | 图 | | | | | | Check it in [Graph](./#graph) Section |
+| [Singly-Linked List](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_lists) | 单向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
+| [Doubly-Linked List](https://en.wikipedia.org/wiki/Doubly_linked_list) | 双向链表 | $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(n)$ / $O(n)$ | $\Theta(1)$ / $O(1)$ | $\Theta(1)$ / $O(1)$ | |
+| [Skip List](https://en.wikipedia.org/wiki/Skip_list) | 跳跃表 | $O(n\log{n})$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
+| [Hash Table](https://en.wikipedia.org/wiki/Hash_table) | 哈希表 | $O(n)$ | - | $\Theta(1)$ / $O(n)$ | $\Theta(1)$ / $O(n)$ | $\Theta(1)$ / $O(n)$ | |
+| [Binary Search Tree](https://en.wikipedia.org/wiki/Binary_search_tree) | 二叉查找树 | $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
+| [Cartesian Tree](https://en.wikipedia.org/wiki/Cartesian_tree) | 笛卡尔树 | $O(n)$ | - | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
+| [B-Tree](https://en.wikipedia.org/wiki/B-tree) | B 树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
+| [Red-Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) | 红黑树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
+| [Splay Tree](https://en.wikipedia.org/wiki/Splay_tree) | 伸展树 | $O(n)$ | - | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
+| [AVL Tree](https://en.wikipedia.org/wiki/AVL_tree) | AVL 树 | $O(n)$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | $\Theta(\log{n})$ / $O(\log{n})$ | |
+| [KD Tree](https://en.wikipedia.org/wiki/K-d_tree) | K 维树 | $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | $\Theta(\log{n})$ / $O(n)$ | |
 
 ### Heap
 

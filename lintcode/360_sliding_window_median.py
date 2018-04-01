@@ -1,106 +1,96 @@
-from heapq import heappush, heappop
+import heapq
 
-class HashHeap:
+
+class HashHeapq:
     def __init__(self):
-        self.heap = []
-        self.deleted = {}
-        self._len = 0
-
-    def push(self, val):
-        heappush(self.heap, val)
-        self._len += 1
-
-    def pop(self):
-        self._clean_top()
-        self._len -= 1
-        return heappop(self.heap)
-
-    def remove(self, val):
-        self.deleted[val] = self.deleted.get(val, 0) + 1
-        self._len -= 1
-
-    def top(self):
-        self._clean_top()
-        return self.heap[0]
-
-    def _clean_top(self):
-        while self.heap and self.deleted.get(self.heap[0]):
-            self.deleted[self.heap[0]] -= 1
-            heappop(self.heap)
+        self.__heap = []
+        self.__deleted = {}
+        self.__size = 0
 
     def __len__(self):
-        return self._len
+        return self.__size
 
-    def __repr__(self):
-        return repr(self.heap)
+    def __bool__(self):
+        return not self.is_empty()
+
+    def push(self, val):
+        heapq.heappush(self.__heap, val)
+        self.__size += 1
+
+    def pop(self):
+        if self.is_empty():
+            return
+
+        self.__size -= 1
+        return heapq.heappop(self.__heap)
+
+    def remove(self, val):
+        if self.is_empty():
+            return
+
+        self.__size -= 1
+        self.__deleted[val] = self.__deleted.get(val, 0) + 1
+
+    def top(self):
+        if self.is_empty():
+            return
+
+        return self.__heap[0]
+
+    def is_empty(self):
+        while self.__size and self.__deleted.get(self.__heap[0]):
+            val = heapq.heappop(self.__heap)
+            self.__deleted[val] -= 1
+
+        return not self.__heap
+
 
 class Solution:
-    """
-    Assuming nums = [1,2,7,8,5], k = 3
-
-    i | max_heap |m| min_heap
-    =============|=|=========
-    0 |          |1|
-    1 |          |1| 2
-    2 |        1 |2| 7
-    3 |    -1- 2 |7| 8
-    4 |    -2- 5 |7| 8
-
-    ans = [2,7,7]
-
-    The key point is how you delete the `nums[i-k]` after `i>=k` turns
-    see the `remove` and `_clean_top` in `Heap`, the concepts are:
-    1. mark item as deleted when `remove` is calling
-    2. follow the operation rule in heap,
-       just `heappop` these item marked as deleted
-       before calling `pop` or `top`
-    """
-    """
-    @param: nums: A list of integers
-    @param: k: An integer
-    @return: The median of the element inside the window at each moving
-    """
     def medianSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[float]
+        """
         ans = []
-        if not nums or len(nums) < 1 or k <= 0:
+
+        if not nums or k <= 0 or len(nums) < k:
             return ans
-        self.min_heap = HashHeap()
-        self.max_heap = HashHeap()
+
+        self.minheap = HashHeapq()
+        self.maxheap = HashHeapq()
 
         for i in range(len(nums)):
+            # remove nums[i - k]
             if i >= k:
-                if len(self.min_heap) and nums[i - k] >= self.min_heap.top():
-                    self.min_heap.remove(nums[i - k])
+                if self.minheap and nums[i - k] < self.minheap.top():
+                    self.maxheap.remove(-1 * nums[i - k])
                 else:
-                    self.max_heap.remove(- nums[i - k])
+                    self.minheap.remove(nums[i - k])
 
-            if len(self.min_heap) and nums[i] > self.min_heap.top():
-                self.min_heap.push(nums[i])
+            # add nums[i]
+            if self.minheap and nums[i] < self.minheap.top():
+                self.maxheap.push(-1 * nums[i])
             else:
-                self.max_heap.push(- nums[i])
+                self.minheap.push(nums[i])
 
-            self.balance()
-
-            if i + 1 >= k:
+            # get median
+            if i >= k - 1:
                 ans.append(self.get_median())
 
         return ans
 
-    def balance(self):
-        l = len(self.max_heap)
-        r = len(self.min_heap)
-        if abs(r - l) <= 1:
-            return
-        if r > l:
-            self.max_heap.push(- self.min_heap.pop())
-        else:
-            self.min_heap.push(- self.max_heap.pop())
-        self.balance()
-
     def get_median(self):
-        l = len(self.max_heap)
-        r = len(self.min_heap)
-        if r > l:
-            return self.min_heap.top()
-        else:
-            return - self.max_heap.top()
+        if not self.minheap:
+            return 0
+
+        while len(self.minheap) > len(self.maxheap) + 1:
+            self.maxheap.push(-1 * self.minheap.pop())
+
+        while len(self.maxheap) > len(self.minheap):
+            self.minheap.push(-1 * self.maxheap.pop())
+
+        if len(self.minheap) > len(self.maxheap):
+            return self.minheap.top()
+
+        return -1 * self.maxheap.top()

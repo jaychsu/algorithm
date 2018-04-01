@@ -10,10 +10,7 @@ class Solution:
         freq = {}
 
         for c in s:
-            if c not in freq:
-                freq[c] = 0
-
-            freq[c] += 1
+            freq[c] = freq.get(c, 0) + 1
 
         for i in range(len(s)):
             if freq[s[i]] == 1:
