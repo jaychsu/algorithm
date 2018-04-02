@@ -1,29 +1,32 @@
+import collections
+
+
 class Solution:
-    """
-    @param: s: A string
-    @param: k: An integer
-    @return: An integer
-    """
     def lengthOfLongestSubstringKDistinct(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
         ans = 0
-        if not s:
+
+        if not s or not k:
             return ans
 
-        F = {}
+        freq = collections.defaultdict(int)
         n = len(s)
-
-        cnt = left = right = 0
+        left = right = cnt = 0
 
         while right < n:
-            F[s[right]] = F.get(s[right], 0) + 1
-            if F[s[right]] == 1:
+            freq[s[right]] += 1
+            if freq[s[right]] == 1:
                 cnt += 1
 
             right += 1
 
             while cnt > k:
-                F[s[left]] -= 1
-                if F[s[left]] == 0:
+                freq[s[left]] -= 1
+                if freq[s[left]] == 0:
                     cnt -= 1
 
                 left += 1

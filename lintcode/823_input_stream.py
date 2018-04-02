@@ -12,28 +12,20 @@ class Solution:
         """
         RES = ('NO', 'YES')
 
-        if a == '' and b == '':
+        if a == b == '':
             return RES[1]
-        if a is None or b is None:
-            return RES[0]
 
-        RM = '<'
+        BACK = '<'
         m, n = len(a), len(b)
         i, j = m - 1, n - 1
         acnt = bcnt = 0  # count the backspace in both a and b
 
         while i >= 0 and j >= 0:
-            while (
-                i >= 0 and
-                (a[i] == RM or acnt > 0)
-            ):
-                acnt += 1 if a[i] == RM else -1
+            while i >= 0 and (a[i] == BACK or acnt):
+                acnt += 1 if a[i] == BACK else -1
                 i -= 1
-            while (
-                j >= 0 and
-                (b[j] == RM or bcnt > 0)
-            ):
-                bcnt += 1 if b[j] == RM else -1
+            while j >= 0 and (b[j] == BACK or bcnt):
+                bcnt += 1 if b[j] == BACK else -1
                 j -= 1
 
             if a[i] != b[j]:
@@ -42,18 +34,11 @@ class Solution:
             i -= 1
             j -= 1
 
-        while (
-            i >= 0 and
-            (a[i] == RM or acnt > 0)
-        ):
-            acnt += 1 if a[i] == RM else -1
+        while i >= 0 and (a[i] == BACK or acnt):
+            acnt += 1 if a[i] == BACK else -1
             i -= 1
-
-        while (
-            j >= 0 and
-            (b[j] == RM or bcnt > 0)
-        ):
-            bcnt += 1 if b[j] == RM else -1
+        while j >= 0 and (b[j] == BACK or bcnt):
+            bcnt += 1 if b[j] == BACK else -1
             j -= 1
 
         return RES[int(i == j)]

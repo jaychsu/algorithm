@@ -1,23 +1,64 @@
-class Solution(object):
-    def canCompleteCircuit(self, G, C):
+class Solution:
+    """
+    Main Concept:
+
+    if the tank is enough, go to next, otherwise back to previous to get gas
+    """
+    def canCompleteCircuit(self, gas, cost):
         """
-        :type G: List[int]
-        :type C: List[int]
+        :type gas: List[int]
+        :type cost: List[int]
         :rtype: int
         """
         NOT_FOUND = -1
-        if not G or not C or len(G) != len(C):
+
+        if not gas or not cost or len(gas) != len(cost):
             return NOT_FOUND
 
-        end, start = 0, len(G) - 1
-        _sum = G[start] - C[start]
+        end, start = -1, len(gas) - 1  # since its a circle, end start from `-1` means `n - 1`
+        tank = gas[start] - cost[start]
 
         while start > end:
-            if _sum >= 0:
-                _sum += G[end] - C[end]
+            if tank >= 0:
                 end += 1
+                tank += gas[end] - cost[end]
             else:
                 start -= 1
-                _sum += G[start] - C[start]
+                tank += gas[start] - cost[start]
 
-        return start if _sum >= 0 else NOT_FOUND
+        return start if tank >= 0 else NOT_FOUND
+
+
+class Solution:
+    """
+    TLE: Simulate the process
+    """
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        NOT_FOUND = -1
+
+        if not gas or not cost or len(gas) != len(cost):
+            return NOT_FOUND
+
+        n = len(gas)
+        RANGE = list(range(n))
+
+        for start in range(n):
+            tank = 0
+            is_failed = False
+
+            for mid in RANGE[start:n] + RANGE[:start]:
+                tank += gas[mid]
+                if tank < cost[mid]:
+                    is_failed = True
+                    break
+                tank -= cost[mid]
+
+            if not is_failed:
+                return start
+
+        return NOT_FOUND

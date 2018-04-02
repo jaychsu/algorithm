@@ -22,18 +22,16 @@ case 3: `P[j-1]` is `a` and `a` == `P[j-1]` == `S[i-1]`
 class Solution:
     def isMatch(self, s, p):
         """
-        :type s: str, target string
-        :type p: str, regex
+        :type s: str
+        :type p: str
         :rtype: bool
         """
-        if s is None or p is None:
-            return False
-        if s == '' and p == '':
+        if s == p == '':
             return True
 
+        m, n = len(s), len(p)
         MULTI = '*'
         ANY = '.'
-        m, n = len(s), len(p)
 
         """
         `dp[i][j]` means the substr end at `s[i - 1]` was matched by
@@ -41,21 +39,21 @@ class Solution:
         """
         dp = [[False] * (n + 1) for _ in range(m + 1)]
         dp[0][0] = True
-        # dp[i][0] = False
-        # dp[0][j] -> need to check
+        # dp[i][0] = False  # i = 1 -> m + 1
+        # dp[0][j] -> ?, need to check
 
         for i in range(m + 1):
             for j in range(1, n + 1):
-                if p[j - 1] == MULTI:
+                if i > 0 and p[j - 1] == s[i - 1] and dp[i - 1][j - 1]:
+                    dp[i][j] = True
+                elif i > 0 and p[j - 1] == ANY and dp[i - 1][j - 1]:
+                    dp[i][j] = True
+                elif j > 1 and p[j - 1] == MULTI:
                     if dp[i][j - 2]:
                         dp[i][j] = True
-                    elif p[j - 2] == ANY and dp[i - 1][j]:
+                    elif i > 0 and p[j - 2] == s[i - 1] and dp[i - 1][j]:
                         dp[i][j] = True
-                    elif p[j - 2] == s[i - 1] and dp[i - 1][j]:
+                    elif i > 0 and p[j - 2] == ANY and dp[i - 1][j]:
                         dp[i][j] = True
-                elif p[j - 1] == ANY and dp[i - 1][j - 1]:
-                    dp[i][j] = True
-                elif p[j - 1] == s[i - 1] and dp[i - 1][j - 1]:
-                    dp[i][j] = True
 
         return dp[m][n]

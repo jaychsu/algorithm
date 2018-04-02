@@ -22,20 +22,19 @@ class Solution:
         """
         stack = []
         node = root
+        pre = None
 
-        val = None
-
-        while stack or node:
+        while node or stack:
             while node:
                 stack.append(node)
                 node = node.left
 
             node = stack.pop()
 
-            if val is not None and val >= node.val:
+            if pre and node.val <= pre.val:
                 return False
-            else:
-                val = node.val
+
+            pre = node
 
             node = node.right
 
@@ -43,27 +42,25 @@ class Solution:
 
 
 class Solution:
-    is_valid = True
-    last_val = None
+    ans = True
+    pre = None
 
-    """
-    @param: root: The root of binary tree.
-    @return: True if the binary tree is BST, or false
-    """
     def isValidBST(self, root):
-        self._divide_conquer(root)
-        return self.is_valid
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return self.ans
 
-    def _divide_conquer(self, node):
-        if not node:
-            return
+        self.isValidBST(root.left)
 
-        self._divide_conquer(node.left)
+        if self.pre and root.val <= self.pre.val:
+            self.ans = False
+            return self.ans
 
-        # since the demands, we can only accept the ascending sequence
-        if self.last_val and node.val <= self.last_val:
-            self.is_valid = False
-            return
-        self.last_val = node.val
+        self.pre = root
 
-        self._divide_conquer(node.right)
+        self.isValidBST(root.right)
+
+        return self.ans
