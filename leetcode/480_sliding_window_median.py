@@ -4,45 +4,51 @@ import heapq
 class HashHeapq:
     def __init__(self):
         self.__heap = []
-        self.__deleted = {}
-        self.__size = 0
+
+    def __repr__(self):
+        return repr(self.__heap)
 
     def __len__(self):
-        return self.__size
+        return len(self.__heap)
 
     def __bool__(self):
-        return not self.is_empty()
+        return bool(self.__heap)
 
     def push(self, val):
         heapq.heappush(self.__heap, val)
-        self.__size += 1
 
     def pop(self):
-        if self.is_empty():
+        if not self.__heap:
             return
 
-        self.__size -= 1
         return heapq.heappop(self.__heap)
 
     def remove(self, val):
-        if self.is_empty():
+        if not self.__heap:
             return
 
-        self.__size -= 1
-        self.__deleted[val] = self.__deleted.get(val, 0) + 1
+        i = 0
+        n = len(self.__heap)
+
+        while i < n and self.__heap[i] != val:
+            i += 1
+
+        if i == n:
+            return
+
+        if i == n - 1:
+            self.__heap.pop()
+        else:
+            self.__heap[i] = self.__heap[-1]
+            self.__heap.pop()
+            heapq._siftup(self.__heap, i)
+            heapq._siftdown(self.__heap, 0, i)
 
     def top(self):
-        if self.is_empty():
+        if not self.__heap:
             return
 
         return self.__heap[0]
-
-    def is_empty(self):
-        while self.__size and self.__deleted.get(self.__heap[0]):
-            val = heapq.heappop(self.__heap)
-            self.__deleted[val] -= 1
-
-        return not self.__heap
 
 
 class Solution:
@@ -63,16 +69,16 @@ class Solution:
         for i in range(len(nums)):
             # remove nums[i - k]
             if i >= k:
-                if self.minheap and nums[i - k] < self.minheap.top():
-                    self.maxheap.remove(- nums[i - k])
-                else:
+                if self.minheap and nums[i - k] >= self.minheap.top():
                     self.minheap.remove(nums[i - k])
+                else:
+                    self.maxheap.remove(- nums[i - k])
 
             # add nums[i]
-            if self.minheap and nums[i] < self.minheap.top():
-                self.maxheap.push(- nums[i])
-            else:
+            if self.minheap and nums[i] >= self.minheap.top():
                 self.minheap.push(nums[i])
+            else:
+                self.maxheap.push(- nums[i])
 
             # get median
             if i >= k - 1:
@@ -81,7 +87,7 @@ class Solution:
         return ans
 
     def get_median(self):
-        if not self.minheap:
+        if not self.minheap and not self.maxheap:
             return 0.0
 
         while len(self.minheap) > len(self.maxheap) + 1:
