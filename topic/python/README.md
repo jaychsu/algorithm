@@ -413,6 +413,8 @@ ImmutableDict(k1=1, k2=2)
 
 ### Multi-dimensional indexing in dict
 
+- with `tuple`
+
 note that, since `tuple` is also **IMMUTABLE**.
 
 ```python
@@ -424,6 +426,18 @@ note that, since `tuple` is also **IMMUTABLE**.
 1
 >>> d
 {(1, 2, 3): 1}
+```
+
+- with `defaultdict`
+
+```python
+>>> import collections
+>>> d = collections.defaultdict(lambda: collections.defaultdict(int))
+>>> d[1][2] = 1
+>>> d[1][2]
+1
+>>> d
+defaultdict(<function <lambda> at 0x10a889d90>, {1: defaultdict(<class 'int'>, {2: 1})})
 ```
 
 ### To clone a dict
