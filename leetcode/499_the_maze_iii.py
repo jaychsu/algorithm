@@ -8,6 +8,19 @@ class Solution:
         :type ball: List[int]
         :type hole: List[int]
         :rtype: str
+
+        >>> s = Solution()
+        >>> maze = [[0, 0, 0, 0, 0],
+        ...         [1, 1, 0, 0, 1],
+        ...         [0, 0, 0, 0, 0],
+        ...         [0, 1, 0, 0, 1],
+        ...         [0, 1, 0, 0, 0]]
+
+        >>> s.findShortestWay(maze, [4, 3], [0, 1])
+        'lul'
+
+        >>> s.findShortestWay(maze, [4, 3], [3, 0])
+        'impossible'
         """
         NOT_FOUND = 'impossible'
 
@@ -72,6 +85,19 @@ class Solution2:
         :type ball: List[int]
         :type hole: List[int]
         :rtype: str
+
+        >>> s = Solution2()
+        >>> maze = [[0, 0, 0, 0, 0],
+        ...         [1, 1, 0, 0, 1],
+        ...         [0, 0, 0, 0, 0],
+        ...         [0, 1, 0, 0, 1],
+        ...         [0, 1, 0, 0, 0]]
+
+        >>> s.findShortestWay(maze, [4, 3], [0, 1])
+        'lul'
+
+        >>> s.findShortestWay(maze, [4, 3], [3, 0])
+        'impossible'
         """
         NOT_FOUND = 'impossible'
 
@@ -120,26 +146,3 @@ class Solution2:
                 heapq.heappush(heap, (_x, _y))
 
         return ''.join(paths[tx, ty]) if (tx, ty) in paths else NOT_FOUND
-
-
-if __name__ == '__main__':
-    s = Solution()
-    s2 = Solution2()
-    maze = [[0, 0, 0, 0, 0],
-            [1, 1, 0, 0, 1],
-            [0, 0, 0, 0, 0],
-            [0, 1, 0, 0, 1],
-            [0, 1, 0, 0, 0]]
-
-    for _in, _out in ((
-        ((maze, [4, 3], [0, 1]), 'lul'),
-        ((maze, [4, 3], [3, 0]), 'impossible'),
-    )):
-        for res in (
-            s.findShortestWay(*_in),
-            s2.findShortestWay(*_in),
-        ):
-            if res == _out:
-                print('[{0}]: got {1}'.format('Pass', res))
-            else:
-                print('[{0}]: got {1}, but expect {2}'.format('Failed', res, _out))

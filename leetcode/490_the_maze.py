@@ -5,6 +5,19 @@ class Solution:
         :type start: List[int]
         :type destination: List[int]
         :rtype: bool
+
+        >>> s = Solution()
+        >>> maze = [[0, 0, 1, 0, 0],
+        ...         [0, 0, 0, 0, 0],
+        ...         [0, 0, 0, 1, 0],
+        ...         [1, 1, 0, 1, 1],
+        ...         [0, 0, 0, 0, 0]]
+
+        >>> s.hasPath(maze, [0, 4], [4, 4])
+        True
+
+        >>> s.hasPath(maze, [0, 4], [3, 2])
+        False
         """
         if not maze or not maze[0] or not start or not destination:
             return False
@@ -40,23 +53,3 @@ class Solution:
                 return True
 
         return False
-
-
-if __name__ == '__main__':
-    s = Solution()
-    maze = [[0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0],
-            [1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0]]
-
-    for _in, _out in ((
-        ((maze, [0, 4], [4, 4]), True),
-        ((maze, [0, 4], [3, 2]), False),
-    )):
-        res = s.hasPath(*_in)
-
-        if res == _out:
-            print('[{0}]: got {1}'.format('Pass', res))
-        else:
-            print('[{0}]: got {1}, but expect {2}'.format('Failed', res, _out))

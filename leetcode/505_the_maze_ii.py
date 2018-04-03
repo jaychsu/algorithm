@@ -8,6 +8,19 @@ class Solution:
         :type start: List[int]
         :type destination: List[int]
         :rtype: int
+
+        >>> s = Solution()
+        >>> maze = [[0, 0, 1, 0, 0],
+        ...         [0, 0, 0, 0, 0],
+        ...         [0, 0, 0, 1, 0],
+        ...         [1, 1, 0, 1, 1],
+        ...         [0, 0, 0, 0, 0]]
+
+        >>> s.shortestDistance(maze, [0, 4], [4, 4])
+        12
+
+        >>> s.shortestDistance(maze, [0, 4], [3, 2])
+        -1
         """
         if not maze or not maze[0]:
             return -1
@@ -46,6 +59,8 @@ class Solution:
         return -1
 
 
+
+
 import heapq
 
 
@@ -59,6 +74,19 @@ class Solution2:
         :type start: List[int]
         :type destination: List[int]
         :rtype: int
+
+        >>> s = Solution2()
+        >>> maze = [[0, 0, 1, 0, 0],
+        ...         [0, 0, 0, 0, 0],
+        ...         [0, 0, 0, 1, 0],
+        ...         [1, 1, 0, 1, 1],
+        ...         [0, 0, 0, 0, 0]]
+
+        >>> s.shortestDistance(maze, [0, 4], [4, 4])
+        12
+
+        >>> s.shortestDistance(maze, [0, 4], [3, 2])
+        -1
         """
         if not maze or not maze[0]:
             return -1
@@ -95,26 +123,3 @@ class Solution2:
                 heapq.heappush(heap, (_x, _y))
 
         return -1
-
-
-if __name__ == '__main__':
-    s = Solution()
-    s2 = Solution2()
-    maze = [[0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0],
-            [1, 1, 0, 1, 1],
-            [0, 0, 0, 0, 0]]
-
-    for _in, _out in ((
-        ((maze, [0, 4], [4, 4]), 12),
-        ((maze, [0, 4], [3, 2]), -1),
-    )):
-        for res in (
-            s.shortestDistance(*_in),
-            s2.shortestDistance(*_in)
-        ):
-            if res == _out:
-                print('[{0}]: got {1}'.format('Pass', res))
-            else:
-                print('[{0}]: got {1}, but expect {2}'.format('Failed', res, _out))
