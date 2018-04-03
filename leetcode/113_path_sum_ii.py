@@ -1,12 +1,14 @@
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+"""
+Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+"""
 
 
-class Solution(object):
+class Solution:
     def pathSum(self, root, target):
         """
         :type root: TreeNode
@@ -14,7 +16,12 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         ans = []
+
+        if not root:
+            return ans
+
         self.dfs(root, target, ans, [])
+
         return ans
 
     def dfs(self, node, remaining, ans, path):
@@ -22,12 +29,11 @@ class Solution(object):
             return
 
         path.append(node.val)
-        remaining -= node.val
 
-        if remaining == 0 and not node.left and not node.right:
+        if not node.left and not node.right and remaining == node.val:
             ans.append(path[:])
-
-        self.dfs(node.left, remaining, ans, path)
-        self.dfs(node.right, remaining, ans, path)
+        else:
+            self.dfs(node.left, remaining - node.val, ans, path)
+            self.dfs(node.right, remaining - node.val, ans, path)
 
         path.pop()
