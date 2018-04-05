@@ -1,28 +1,26 @@
 class Solution:
-    """
-    @param: A: An array of integers
-    @return: nothing
-    """
-    def nextPermutation(self, A):
-        if not A or len(A) < 2:
-            return A
+    def nextPermutation(self, nums):
+        """
+        :type nums: list[int]
+        :rtype: list[int]
+        """
+        if not nums or len(nums) < 2:
+            return nums
 
-        n = len(A)
+        n = len(nums)
         i = n - 2
-        while i >= 0 and A[i] >= A[i + 1]:
+        while i >= 0 and nums[i] >= nums[i + 1]:
             i -= 1
 
         if i >= 0:
             j = n - 1
-            while j >= 0 and A[i] >= A[j]:
+            while i < j and nums[i] >= nums[j]:
                 j -= 1
-            A[i], A[j] = A[j], A[i]
+            nums[i], nums[j] = nums[j], nums[i]
 
         i = i + 1
         j = n - 1
         while i < j:
-            A[i], A[j] = A[j], A[i]
+            nums[i], nums[j] = nums[j], nums[i]
             i += 1
             j -= 1
-
-        return A
