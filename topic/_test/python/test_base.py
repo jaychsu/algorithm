@@ -23,4 +23,4 @@ class TestBase(unittest.TestCase):
 
     def tearDown(self):
         duration = datetime.datetime.now() - self.t0
-        print(duration.microseconds, 'ms')
+        print(duration.microseconds, 'us')

@@ -84,38 +84,56 @@ class TestBinaryTree(TestBase):
                 ','.join(result)
             )
 
-    def test_preorder_iteration_traversal(self):
+    def test_preorder_recursion_traverse(self):
         self._run_traversal_test(
-            preorder_iteration_traversal,
+            preorder_recursion_traverse,
             type='preorder'
         )
 
-    def test_preorder_recursion_traversal(self):
+    def test_preorder_iteration_traverse(self):
         self._run_traversal_test(
-            preorder_recursion_traversal,
+            preorder_iteration_traverse,
             type='preorder'
         )
 
-    def test_inorder_iteration_traversal(self):
+    def test_preorder_morris_traverse(self):
         self._run_traversal_test(
-            inorder_iteration_traversal,
+            preorder_morris_traverse,
+            type='preorder'
+        )
+
+    def test_inorder_recursion_traverse(self):
+        self._run_traversal_test(
+            inorder_recursion_traverse,
             type='inorder'
         )
 
-    def test_inorder_recursion_traversal(self):
+    def test_inorder_iteration_traverse(self):
         self._run_traversal_test(
-            inorder_recursion_traversal,
+            inorder_iteration_traverse,
             type='inorder'
         )
 
-    def test_postorder_iteration_traversal(self):
+    def test_inorder_morris_traverse(self):
         self._run_traversal_test(
-            postorder_iteration_traversal,
+            inorder_morris_traverse,
+            type='inorder'
+        )
+
+    def test_postorder_recursion_traverse(self):
+        self._run_traversal_test(
+            postorder_recursion_traverse,
             type='postorder'
         )
 
-    def test_postorder_recursion_traversal(self):
+    def test_postorder_iteration_traverse(self):
         self._run_traversal_test(
-            postorder_recursion_traversal,
+            postorder_iteration_traverse,
+            type='postorder'
+        )
+
+    def test_postorder_morris_traverse(self):
+        self._run_traversal_test(
+            postorder_morris_traverse,
             type='postorder'
         )
