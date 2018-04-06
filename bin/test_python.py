@@ -68,4 +68,5 @@ def run_doctest(dirname):
 
 if __name__ == '__main__':
     run_unittest('topic')
+    run_doctest('leetcode')
     run_doctest('other')
