@@ -1,5 +1,5 @@
 """
->>> gotcha = [True]
+>>> gotcha = []
 >>> for s in (Solution(), Solution2()):
 ...     for _in, _out in (
 ...         (([1,3,2], 1), 2),
@@ -8,7 +8,7 @@
 ...         res = s.kEmptySlots(*_in)
 ...         if res != _out: print(_in, res)
 ...         gotcha.append(res == _out)
->>> all(gotcha)
+>>> bool(gotcha) and all(gotcha)
 True
 """
 import bisect

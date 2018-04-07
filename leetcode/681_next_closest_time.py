@@ -6,7 +6,7 @@ just a `next combination`
 2. `ids` record current used num
 3. keep doing plus one and check valid
 
->>> gotcha = [True]
+>>> gotcha = []
 >>> s = Solution()
 >>> for _in, _out in (
 ...     ('19:34', '19:39'), ('23:59', '22:22'),
@@ -17,7 +17,7 @@ just a `next combination`
 ...     res = s.nextClosestTime(_in)
 ...     if res != _out: print('in: {}, out: {}, exp: {}'.format(_in, res, _out))
 ...     gotcha.append(res == _out)
->>> all(gotcha)
+>>> bool(gotcha) and all(gotcha)
 True
 """
 

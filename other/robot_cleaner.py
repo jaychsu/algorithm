@@ -34,7 +34,7 @@ REF:
 
 Testing:
 
-1. is the 3rd party api work?
+1. is the mock api work?
 
 >>> room = Room([
 ...     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -138,7 +138,7 @@ True
 ...     # RobotCleanerBFS(),
 ... )
 
->>> gotcha = [True]
+>>> gotcha = []
 >>> for grid in CASES:
 ...     for cleaner in cleaners:
 ...         room = Room([r[:] for r in grid])
@@ -150,7 +150,7 @@ True
 ...         res = room.is_clear()
 ...         if not res: print(cleaner, grid)
 ...         gotcha.append(res)
->>> # all(gotcha)
+>>> bool(gotcha) and all(gotcha)
 True
 """
 

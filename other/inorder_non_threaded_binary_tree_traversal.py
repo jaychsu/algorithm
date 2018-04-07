@@ -80,14 +80,14 @@ Testing:
 ...
 ...     trees.append(nodes[info[0][0]])
 
->>> gotcha = [True]
+>>> gotcha = []
 
 >>> for i in range(len(trees)):
 ...     res = []
 ...     inorder_traverse(trees[i], callback=lambda val: res.append(str(val)))
 ...     gotcha.append(','.join(res) == tree_infos[i][1])
 
->>> all(gotcha)
+>>> bool(gotcha) and all(gotcha)
 True
 """
 
