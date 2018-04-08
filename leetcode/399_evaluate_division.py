@@ -11,11 +11,11 @@ class Solution:
         """
         ans = []
 
-        if (
-            not equations or
-            not values or
-            not queries or
-            len(equations) != len(values)
+        if not (
+            equations and
+            values and
+            queries and
+            len(equations) == len(values)
         ):
             return ans
 
@@ -35,31 +35,26 @@ class Solution:
 
         return ans
 
-    def dfs(self, start, end, val, nexts, evals, path):
+    def dfs(self, a, b, val, nexts, evals, visited):
         res = -1
 
-        if start in path or start not in nexts:
+        if a not in nexts:
             return res
-        if start == end:
+        if a == b:
+            # this condition must be after `a not in nexts`
+            # to prevent the node not in graph
             return val
 
-        path.add(start)
+        visited.add(a)
 
-        for nxt in nexts[start]:
-            if (start, nxt) not in evals:
+        for c in nexts[a]:
+            if c in visited or (a, c) not in evals:
                 continue
+
+            res = self.dfs(c, b, val * evals[a, c], nexts, evals, visited)
+
             if res != -1:
                 break
 
-            res = self.dfs(
-                nxt,
-                end,
-                val * evals[start, nxt],
-                nexts,
-                evals,
-                path
-            )
-
-        path.discard(start)
-
+        visited.discard(a)
         return res
