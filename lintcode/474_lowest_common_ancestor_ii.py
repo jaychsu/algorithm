@@ -1,4 +1,8 @@
 """
+The node has an extra attribute parent which point to the father of itself.
+The root's parent is null.
+
+
 Definition of ParentTreeNode:
 class ParentTreeNode:
     def __init__(self, val):
@@ -8,25 +12,25 @@ class ParentTreeNode:
 
 
 class Solution:
-    def lowestCommonAncestorII(self, root, A, B):
+    def lowestCommonAncestorII(self, root, a, b):
         """
         :type root: ParentTreeNode
-        :type A: int
-        :type B: int
-        :rtype: int
+        :type a: ParentTreeNode
+        :type b: ParentTreeNode
+        :rtype: ParentTreeNode
         """
         if not root:
             return root
 
-        nodes = {}
+        nodes = set()
 
-        while A:
-            nodes[A] = True
-            A = A.parent
+        while a:
+            nodes.add(a)
+            a = a.parent
 
-        while B:
-            if B in nodes:
-                return B
-            B = B.parent
+        while b:
+            if b in nodes:
+                return b
+            b = b.parent
 
         return root

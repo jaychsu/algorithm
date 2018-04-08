@@ -1,4 +1,7 @@
 """
+The path could be start and end at any node in the tree
+
+
 Definition for a multi tree node.
 class MultiTreeNode(object):
     def __init__(self, x):
@@ -8,6 +11,9 @@ class MultiTreeNode(object):
 
 
 class Solution:
+    """
+    Bottom Up
+    """
     def longestConsecutive3(self, root):
         """
         :type root: MultiTreeNode
@@ -40,7 +46,6 @@ class Solution:
             if _size > size:
                 size = _size
 
-        # `+1` means `node` self
         if up + down + 1 > size:
             size = up + down + 1
 

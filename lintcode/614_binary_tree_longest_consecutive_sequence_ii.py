@@ -1,4 +1,11 @@
 """
+The path could be start and end at any node in the tree
+
+
+If use top down in this case, still need return the result from bottom
+=> just use bottom up
+
+
 Definition of TreeNode:
 class TreeNode:
     def __init__(self, val):
@@ -8,6 +15,9 @@ class TreeNode:
 
 
 class Solution:
+    """
+    Bottom Up
+    """
     def longestConsecutive2(self, root):
         """
         :type root: TreeNode
@@ -27,6 +37,7 @@ class Solution:
 
         for branch in ('left', 'right'):
             child = getattr(node, branch)
+
             if not child:
                 continue
 

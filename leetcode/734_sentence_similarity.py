@@ -1,3 +1,21 @@
+"""
+>>> pairs = [['great', 'fine'], ['acting', 'drama'], ['skills', 'talent']]
+>>> gotcha = []
+>>> s = Solution()
+>>> for _in, _out in (
+...     ((['great', 'acting'], ['fine', 'drama'], pairs), True),
+...     ((['great', 'acting'], ['fine', 'talent'], pairs), False),
+...     ((['great'], ['great'], []), True),
+...     ((['great'], ['fine', 'drama'], pairs), False),
+... ):
+...     res = s.areSentencesSimilar(*_in)
+...     if res != _out: print(_in, res)
+...     gotcha.append(res == _out)
+>>> bool(gotcha) and all(gotcha)
+True
+"""
+
+
 import collections
 
 

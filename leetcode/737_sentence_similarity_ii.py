@@ -1,3 +1,21 @@
+"""
+>>> pairs = [['great', 'fine'], ['acting', 'drama'], ['skills', 'talent']]
+>>> gotcha = []
+>>> for s in (Solution(), Solution2()):
+...     for _in, _out in (
+...         ((['great', 'acting'], ['fine', 'drama'], pairs), True),
+...         ((['great', 'acting'], ['fine', 'talent'], pairs), False),
+...         ((['great'], ['great'], []), True),
+...         ((['great'], ['fine', 'drama'], pairs), False),
+...     ):
+...         res = s.areSentencesSimilarTwo(*_in)
+...         if res != _out: print(_in, res)
+...         gotcha.append(res == _out)
+>>> bool(gotcha) and all(gotcha)
+True
+"""
+
+
 class Solution:
     """
     UnionFind
@@ -15,7 +33,7 @@ class Solution:
         nodes = {}
 
         for a, b in pairs:
-            self.connect(nodes, a, b)
+            self.union(nodes, a, b)
 
         for i in range(len(words1)):
             a = words1[i]
@@ -28,7 +46,7 @@ class Solution:
 
         return True
 
-    def connect(self, nodes, a, b):
+    def union(self, nodes, a, b):
         _a = self.find(nodes, a)
         _b = self.find(nodes, b)
 
@@ -51,7 +69,7 @@ class Solution:
 import collections
 
 
-class Solution:
+class Solution2:
     """
     DFS
     """

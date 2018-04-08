@@ -1,4 +1,7 @@
 """
+The longest consecutive path need to be from parent to child (cannot be the reverse).
+
+
 Definition of TreeNode:
 class TreeNode:
     def __init__(self, val):
@@ -8,6 +11,9 @@ class TreeNode:
 
 
 class Solution:
+    """
+    Bottom Up
+    """
     def longestConsecutive(self, root):
         """
         :type root: TreeNode
@@ -23,28 +29,32 @@ class Solution:
             return 0, 0
 
         size = 1
-        seg_size = 0
+        down = 0
 
         for branch in ('left', 'right'):
             child = getattr(node, branch)
+
             if not child:
                 continue
 
-            _size, _seg_size = self.divide_conquer(child)
+            _size, _down = self.divide_conquer(child)
 
-            if child.val - 1 == node.val and _seg_size + 1 > seg_size:
-                seg_size = _seg_size + 1
+            if child.val - 1 == node.val and _down + 1 > down:
+                down = _down + 1
 
             if _size > size:
                 size = _size
 
-        if seg_size + 1 > size:
-            size = seg_size + 1
+        if down + 1 > size:
+            size = down + 1
 
-        return size, seg_size
+        return size, down
 
 
 class Solution:
+    """
+    Top Down
+    """
     def longestConsecutive(self, root):
         """
         :type root: TreeNode
@@ -55,14 +65,14 @@ class Solution:
 
         return self.divide_conquer(root, 0, 0)
 
-    def divide_conquer(self, node, parent_val, max_size):
+    def divide_conquer(self, node, parent_val, _size):
         if not node:
             return 0
 
         size = 1
 
         if parent_val + 1 == node.val:
-            size += max_size
+            size += _size
 
         left = self.divide_conquer(node.left, node.val, size)
         right = self.divide_conquer(node.right, node.val, size)

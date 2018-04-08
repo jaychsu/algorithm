@@ -12,18 +12,18 @@ class TreeNode:
 
 
 class Solution:
-    """
-    @param: root: The root of the binary search tree.
-    @param: A: A TreeNode in a Binary.
-    @param: B: A TreeNode in a Binary.
-    @return: Return the least common ancestor(LCA) of the two nodes.
-    """
-    def lowestCommonAncestor(self, root, A, B):
-        if not root or root is A or root is B:
+    def lowestCommonAncestor(self, root, a, b):
+        """
+        :type root: TreeNode
+        :type a: TreeNode
+        :type b: TreeNode
+        :rtype: TreeNode
+        """
+        if not root or root is a or root is b:
             return root
 
-        left = self.lowestCommonAncestor(root.left, A, B)
-        right = self.lowestCommonAncestor(root.right, A, B)
+        left = self.lowestCommonAncestor(root.left, a, b)
+        right = self.lowestCommonAncestor(root.right, a, b)
 
         if left and right:
             return root
