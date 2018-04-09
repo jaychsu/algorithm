@@ -1,32 +1,34 @@
 """
 REF: https://leetcode.com/problems/partition-equal-subset-sum/discuss/90592
+
+
+`dp[s]` means the specific sum `s` can be gotten from the sum of subset in `nums`
 """
 
 
 class Solution:
-    def canPartition(self, A):
+    def canPartition(self, nums):
         """
-        :type A: List[int]
+        :type nums: List[int]
         :rtype: bool
         """
-        if not A:
+        if not nums:
             return True
 
-        target = sum(A)
+        target = sum(nums)
 
         if target & 1 == 1:
             return False
 
         target //= 2
-
-        """
-        `dp[i]` means the specific sum `i` can be gotten from the sum of subset in `A`
-        """
         dp = [False] * (target + 1)
         dp[0] = True
 
-        for a in A:
-            for i in range(target, a - 1, -1):
-                dp[i] = dp[i] or dp[i - a]
+        for a in nums:
+            for s in range(target, a - 1, -1):
+                if dp[s]:
+                    continue
+
+                dp[s] = dp[s - a]
 
         return dp[target]
