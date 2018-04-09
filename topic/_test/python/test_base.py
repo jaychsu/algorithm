@@ -8,14 +8,14 @@ class TestBase(unittest.TestCase):
     def setUpClass(cls):
         print(MSG_TEMPLATE.format(
             status=cls.__name__,
-            msg='starting tests...'
+            msg='Starting tests...'
         ))
 
     @classmethod
     def tearDownClass(cls):
         print(MSG_TEMPLATE.format(
             status=cls.__name__,
-            msg='finished tests.\n'
+            msg='Finished tests.\n'
         ))
 
     def setUp(self):

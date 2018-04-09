@@ -7,75 +7,43 @@ class UndirectedGraphNode:
 """
 
 
-"""
-DFS
-"""
 class Solution:
     """
-    @param: N: a array of Undirected graph node
-    @return: a connected set of a Undirected graph
+    Union Find
     """
-    def connectedSet(self, N):
-        ans = []
-        if not N:
-            return ans
-
-        visited = {}
-        for node in N:
-            visited[node] = False
-
-        for node in N:
-            if visited[node]:
-                continue
-            nodes = []
-            self.dfs(node, visited, nodes)
-            nodes.sort()
-            ans.append(nodes)
-
-        return ans
-
-    def dfs(self, node, visited, nodes):
-        visited[node] = True
-        nodes.append(node.label)
-
-        for _node in node.neighbors:
-            if visited[_node]:
-                continue
-            self.dfs(_node, visited, nodes)
-
-
-"""
-Union Found
-"""
-class Solution:
-    """
-    @param: N: a array of Undirected graph node
-    @return: a connected set of a Undirected graph
-    """
-    def connectedSet(self, N):
-        if not N:
+    def connectedSet(self, nodes):
+        """
+        :type nodes: list[UndirectedGraphNode]
+        :rtype: list[list[UndirectedGraphNode]]
+        """
+        if not nodes:
             return []
 
-        nodes = {}
+        uf = {}
 
-        for node in N:
-            for _node in node.neighbors:
-                self.connect(nodes, _node.label, node.label)
+        for node in nodes:
+            for neib in node.neighbors:
+                self.union(uf, node, neib)
 
         ans = {}
-        for node in N:
-            root = self.find(nodes, node.label)
+
+        for node in nodes:
+            # to correct root again
+            root = self.find(uf, node)
+
             if root not in ans:
                 ans[root] = []
+
             ans[root].append(node.label)
 
-        return ans.values()
+        return list(ans.values())
 
-    def connect(self, nodes, a, b):
-        root_a = self.find(nodes, a)
-        root_b = self.find(nodes, b)
-        if root_a is not root_b:
-            nodes[root_a] = root_b
+    def union(self, nodes, a, b):
+        _a = self.find(nodes, a)
+        _b = self.find(nodes, b)
+
+        if _a is not _b:
+            nodes[_b] = _a
 
     def find(self, nodes, a):
         if a not in nodes:
@@ -83,5 +51,43 @@ class Solution:
             return a
         if nodes[a] is a:
             return a
+
         nodes[a] = self.find(nodes, nodes[a])
         return nodes[a]
+
+
+class Solution:
+    """
+    DFS
+    """
+    def connectedSet(self, nodes):
+        """
+        :type nodes: list[UndirectedGraphNode]
+        :rtype: list[list[UndirectedGraphNode]]
+        """
+        ans = []
+
+        if not nodes:
+            return ans
+
+        visited = set()
+
+        for node in nodes:
+            if node in visited:
+                continue
+
+            path = []
+            self.dfs(node, visited, path)
+            ans.append(sorted(path))
+
+        return ans
+
+    def dfs(self, a, visited, path):
+        visited.add(a)
+        path.append(a.label)
+
+        for b in a.neighbors:
+            if b in visited:
+                continue
+
+            self.dfs(b, visited, path)
