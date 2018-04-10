@@ -1,24 +1,43 @@
 class Solution:
-    def rotate(self, g):
+    def rotate(self, matrix):
         """
-        :type g: List[List[int]]
-        :rtype: void Do not return anything, modify g in-place instead.
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
         """
-        if not g or not g[0] or len(g) != len(g[0]):
+        if not matrix or not matrix[0] or len(matrix) != len(matrix[0]):
             return
 
-        N = len(g)
+        n = len(matrix)
 
         # swap by diagonal axis
-        for i in range(N - 1):
-            y = N - 1 - i
-            for j in range(y):
-                x = N - 1 - j
-                g[i][j], g[x][y] = g[x][y], g[i][j]
+        for i in range(n - 1):
+            for j in range(n - 1 - i):
+                x = n - 1 - j
+                y = n - 1 - i
+                matrix[i][j], matrix[x][y] = matrix[x][y], matrix[i][j]
 
         # swap by x-mid axis
-        for i in range(N // 2):
-            x = N - 1 - i
-            for j in range(N):
+        for i in range(n // 2):
+            for j in range(n):
+                x = n - 1 - i
                 y = j
-                g[i][j], g[x][y] = g[x][y], g[i][j]
+                matrix[i][j], matrix[x][y] = matrix[x][y], matrix[i][j]
+
+
+class Solution:
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        if not matrix or not matrix[0] or len(matrix) != len(matrix[0]):
+            return
+
+        n = len(matrix)
+        ans = [[0] * n for _ in range(n)]
+
+        for x in range(n):
+            for y in range(n):
+                ans[y][n - 1 - x] = matrix[x][y]
+
+        matrix[:] = ans[:]
