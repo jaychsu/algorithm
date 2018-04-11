@@ -20,10 +20,10 @@ def root(x, n):
         return x
 
     left = 0
-    right = x if x > 1 else 1
+    right = max(1, x)
 
     while right - left > 1e-4:
-        mid = (left + right) / 2
+        mid = (left + right) / 2.0
         product = get_product(mid, n)
 
         if product < x:
@@ -33,14 +33,13 @@ def root(x, n):
         else:
             return mid
 
-    return left
+    return (left + right) / 2.0
 
 
 def get_product(x, n):
     res = 1
 
-    while n:
+    for _ in range(n):
         res *= x
-        n -= 1
 
     return res

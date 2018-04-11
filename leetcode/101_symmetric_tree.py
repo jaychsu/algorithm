@@ -1,9 +1,11 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+"""
+Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+"""
 
 
 class Solution:
@@ -18,15 +20,14 @@ class Solution:
         return self.divide_conquer(root.left, root.right)
 
     def divide_conquer(self, left, right):
-        # to check left and right are symmetric
         if not left and not right:
             return True
         if not left or not right:
             return False
         if left.val != right.val:
             return False
-        if not self.divide_conquer(left.right, right.left):
-            return False
         if not self.divide_conquer(left.left, right.right):
+            return False
+        if not self.divide_conquer(left.right, right.left):
             return False
         return True

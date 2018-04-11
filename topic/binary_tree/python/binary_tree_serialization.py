@@ -40,11 +40,12 @@ class BinaryTree:
         :type data: str
         :rtype: TreeNode
         """
-        if (not data or
+        if (
+            not data or
             data[0] != '{' or
             data[-1] != '}' or
             len(data) < 3 or
-            data[1] == '#'
+            data[1] == cls.EMPTY
         ):
             return
 

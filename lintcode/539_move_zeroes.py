@@ -1,17 +1,16 @@
 class Solution:
-    """
-    @param: A: an integer array
-    @return:
-    """
-    def moveZeroes(self, A):
-        if not A:
+    def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        if not nums:
             return
 
-        n = len(A)
-        left = right = 0
+        n = len(nums)
+        left = 0
 
-        while right < n:
-            if A[right] != 0:
-                A[left], A[right] = A[right], A[left]
+        for right in range(n):
+            if nums[right] != 0:
+                nums[left], nums[right] = nums[right], nums[left]
                 left += 1
-            right += 1

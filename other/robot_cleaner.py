@@ -104,37 +104,38 @@ True
 
 >>> CASES = (
 ...     [
-...         [3, 0, 0, 0, 0, 0, 0, 0],
+...         [3, 0, 0, 0, 0, 0, 1, 0],
 ...         [0, 0, 0, 0, 0, 0, 0, 0],
 ...         [0, 2, 0, 0, 0, 0, 0, 0],
 ...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [0, 0, 1, 0, 0, 0, 0, 0],
+...         [0, 0, 1, 0, 0, 0, 1, 0],
 ...     ],
 ...     [
 ...         [0, 0, 0, 0, 0, 0, 0, 0],
 ...         [0, 0, 1, 0, 0, 0, 0, 0],
 ...         [0, 2, 0, 0, 0, 1, 0, 0],
 ...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [0, 0, 0, 0, 0, 0, 0, 3],
+...         [1, 0, 0, 0, 0, 0, 0, 3],
 ...     ],
 ...     [
 ...         [1, 0, 0, 0, 0, 0, 0, 1],
 ...         [0, 0, 0, 1, 0, 0, 0, 0],
 ...         [0, 2, 0, 0, 0, 0, 1, 0],
 ...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [0, 0, 0, 3, 0, 1, 0, 0],
+...         [0, 1, 0, 3, 0, 1, 0, 1],
 ...     ],
 ...     [
 ...         [0, 0, 0, 0, 0, 0, 0, 1],
 ...         [0, 0, 0, 1, 0, 0, 3, 0],
 ...         [0, 2, 0, 0, 0, 1, 0, 0],
 ...         [2, 2, 2, 1, 2, 2, 2, 2],
-...         [0, 1, 0, 0, 0, 0, 0, 1],
+...         [0, 1, 0, 0, 1, 0, 0, 1],
 ...     ],
 ... )
 
 >>> cleaners = (
 ...     RobotCleanerDFS(),
+...     RobotCleanerDFS2(),
 ...     # RobotCleanerBFS(),
 ... )
 
@@ -148,7 +149,7 @@ True
 ...         cleaner.clean_room(robot)
 ...
 ...         res = room.is_clear()
-...         if not res: print(cleaner, grid)
+...         if not res: print(cleaner, room._print_room())
 ...         gotcha.append(res)
 >>> bool(gotcha) and all(gotcha)
 True
@@ -241,7 +242,7 @@ class Room:
         # for testing
         return self.__robot_at
 
-    def _get_room(self):
+    def _print_room(self):
         # for testing
         print('\n'.join(str(r) for r in self.__room))
 
@@ -277,8 +278,9 @@ class Robot:
         :type k: int
         :rtype: void
         """
-        n = len(Dirs.DELTA)
         # note that, -1 % 4 == 3 in Python
+        # or just (x - k + n) % n
+        n = len(Dirs.DELTA)
         self.__face = (self.__face - k) % n
 
     def clean(self):
@@ -293,6 +295,73 @@ class Robot:
 
 
 class RobotCleanerDFS:
+    """
+    this approach is for we need to adjust `dir` manually
+    the `robot.move()` only can move forward with 1 step
+    """
+    def clean_room(self, robot):
+        """
+        :type robot: Robot
+        """
+        if not isinstance(robot, Robot):
+            return
+
+        self.dn = len(Dirs.DELTA)
+        """
+        robot's direction and coord no needs to same as room
+        just start as (0, 0),
+        and face 0 (this 0 just ref of dirs, no needs to treat it as Dirs.DOWN)
+        """
+        self.dfs(0, 0, 0, robot, set())
+
+    def dfs(self, x, y, to_dir, robot, visited):
+        robot.clean()
+        visited.add((x, y))
+
+        d = to_dir
+        _x = x + Dirs.DELTA[d][0]
+        _y = y + Dirs.DELTA[d][1]
+
+        if (_x, _y) not in visited and robot.move():
+            self.dfs(_x, _y, d, robot, visited)
+            robot.turnrigt()
+        else:
+            robot.turnleft()
+
+        d = (to_dir + 1) % self.dn
+        _x = x + Dirs.DELTA[d][0]
+        _y = y + Dirs.DELTA[d][1]
+
+        if (_x, _y) not in visited and robot.move():
+            self.dfs(_x, _y, d, robot, visited)
+        else:
+            robot.turnleft(2)
+
+        d = (to_dir - 1) % self.dn
+        _x = x + Dirs.DELTA[d][0]
+        _y = y + Dirs.DELTA[d][1]
+
+        if (_x, _y) not in visited and robot.move():
+            self.dfs(_x, _y, d, robot, visited)
+            robot.turnleft()
+        else:
+            robot.turnrigt()
+
+        d = (to_dir + 2) % self.dn
+        _x = x + Dirs.DELTA[d][0]
+        _y = y + Dirs.DELTA[d][1]
+
+        if (_x, _y) not in visited and robot.move():
+            self.dfs(_x, _y, d, robot, visited)
+            robot.turnrigt(2)
+
+        robot.move()
+
+
+class RobotCleanerDFS2:
+    """
+    this approach is for we can just pass `dir` into `robot.move(dir)`
+    """
     def clean_room(self, robot):
         """
         :type robot: Robot
@@ -332,7 +401,6 @@ class RobotCleanerDFS:
             else:
                 visited.add((_x, _y))
 
-        visited.discard((x, y))
         robot.move(from_dir)
 
 
@@ -351,15 +419,17 @@ class RobotCleanerBFS:
 if __name__ == '__main__':
     # for debugging
     room = Room([
-        [1, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 2, 0],
-        [1, 2, 0, 0, 3, 0],
+        [1, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 1, 0],
+        [2, 2, 2, 0, 2, 2, 2, 2],
+        [0, 1, 0, 3, 0, 1, 0, 1],
     ])
     robot = Robot(room)
     s = RobotCleanerDFS()
 
     print(room._get_robot())
-    print(room._get_room())
+    print(room._print_room())
     s.clean_room(robot)
     print(room._get_robot())
-    print(room._get_room())
+    print(room._print_room())
