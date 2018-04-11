@@ -7,17 +7,27 @@ Rules:
 2. no 3 for run after initialization
 3. must contain at least one valid move at the beginning
 
+Thought:
+1. for random candies and no 3 for run at begining
+    - random generate, and re-gen if invalid
+2. prevent dead loop while checking valid
+    - [x] iterate by order
+      => dead loop may occur when visiting the cells arround prefilled
+    - [v] BFS from the prefilled cell to boundary
+3. at least one valid move at the beginning
+    - just define the patterns (3 for run => 12 patterns)
+      prefill to board, and mark as unchangable
+
 REF:
 1. LC 723
 2. http://massivetechinterview.blogspot.com/2015/11/how-to-initialize-board-of-candy-crush.html
 
 TODO:
-1. refactoring conflict resolving strategy, for current its just do `reset` again
-2. implement `move` to move candy to D/R/U/L, and
+1. implement `move` to move candy to D/R/U/L, and
     - remove the connected candy
     - the candy will drop if there is empty below
-3. count score
-4. end up game if no more valid move or the game is finished
+2. count score
+3. end up game if no more valid move or the game is finished
 
 Testing:
 >>> gotcha = []
@@ -26,8 +36,10 @@ Testing:
 ...     (7, 7, 5), (10, 10, 4), (20, 20, 6),
 ... ):
 ...     game = CandyCrush(*params)
-...     for _ in range(10):
-...         gotcha.append(_check_board_valid(game.get_board()))
+...     for _ in range(5):
+...         valid = _check_board_valid(game.get_board())
+...         if not valid: print(game._print_board())
+...         gotcha.append(valid)
 >>> bool(gotcha) and all(gotcha)
 True
 """
@@ -58,7 +70,9 @@ class CandyCrush:
         :type n: int
         :type q: int
         """
-        self.__board = [[-1] * n for _ in range(m)]
+        self.width = n
+        self.height = m
+        self.__board = None
         self.__types = q
         self.__patterns = (   # with rotating, we can find up to 12 patterns
             (-1, -1, 1,  0),  # /--
@@ -71,30 +85,37 @@ class CandyCrush:
         """
         :rtype: void
         """
-        b = self.__board
-        m, n = len(b), len(b[0])
-        b[:] = [[-1] * n for _ in range(m)]
+        m, n = self.height, self.width
+        b = self.__board = [[-1] * n for _ in range(m)]
+
         x, y = random.randint(1, m - 2), random.randint(1, n - 2)
         d = random.choice(self.__patterns)  # dx1, dy1, dx2, dy2
-
-        fixed = ((x + d[0], y + d[1]), (x, y), (x + d[2], y + d[3]))
         q = random.randrange(self.__types)
-        for x, y in fixed:
+
+        queue = [(x + d[0], y + d[1]), (x, y), (x + d[2], y + d[3])]
+        visited = set(queue)
+
+        for x, y in queue:
             b[x][y] = q
 
-        for x in range(m):
-            for y in range(n):
-                if (x, y) in fixed:
+        for x, y in queue:
+            for dx, dy in (
+                (0, -1), (0, 1),
+                (-1, 0), (1, 0),
+            ):
+                _x = x + dx
+                _y = y + dy
+
+                if not (0 <= _x < m and 0 <= _y < n):
+                    continue
+                if (_x, _y) in visited:
                     continue
 
-                cnt = 0
+                visited.add((_x, _y))
+                queue.append((_x, _y))
 
-                while not self._check_cell_valid(x, y):
-                    if cnt > 50:
-                        self.reset_board()
-
-                    b[x][y] = random.randrange(self.__types)
-                    cnt += 1
+                while not self._check_cell_valid(_x, _y):
+                    b[_x][_y] = random.randrange(self.__types)
 
     def get_board(self):
         """
@@ -109,7 +130,7 @@ class CandyCrush:
         :rtype: bool
         """
         b = self.__board
-        m, n = len(b), len(b[0])
+        m, n = self.height, self.width
 
         if b[x][y] == -1:
             return False
