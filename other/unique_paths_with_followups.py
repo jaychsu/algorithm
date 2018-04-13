@@ -201,7 +201,7 @@ def unique_paths_from_three_dir2_1_1(m, n, points):
             if x + 1 < m:
                 dp[x][y] += dp[x + 1][y - 1]
 
-        if pi < 3:
+        if pi < 3 and y == points[pi][1]:
             for x in range(m):
                 if x != points[pi][0]:
                     dp[x][y] = 0
@@ -279,7 +279,7 @@ def unique_paths_from_three_dir2_2(m, n, points):
     """
     paths = [(0, 0)]
     points.sort(key=lambda p: (p[1], p[0]))
-    paths.extend((x, y) for x, y in points)
+    paths.extend(tuple(p) for p in points)
     paths.append((0, n - 1))
 
     for i in range(1, len(paths)):

@@ -148,9 +148,9 @@ True
 ...         gotcha.append(not room.is_clear())
 ...         cleaner.clean_room(robot)
 ...
-...         res = room.is_clear()
-...         if not res: print(cleaner, room._print_room())
-...         gotcha.append(res)
+...         is_clear = room.is_clear()
+...         if not is_clear: room._print_room(); print(cleaner)
+...         gotcha.append(is_clear)
 >>> bool(gotcha) and all(gotcha)
 True
 """
@@ -244,7 +244,12 @@ class Room:
 
     def _print_room(self):
         # for testing
-        print('\n'.join(str(r) for r in self.__room))
+        print(
+            '\n'.join(str(r) for r in self.__room),
+            '\nRobot at: ', self.__robot_at,
+            '\nCleanups: ', self.__cleanups,
+            '\n'
+        )
 
 
 class Robot:
@@ -428,8 +433,6 @@ if __name__ == '__main__':
     robot = Robot(room)
     s = RobotCleanerDFS()
 
-    print(room._get_robot())
-    print(room._print_room())
+    room._print_room()
     s.clean_room(robot)
-    print(room._get_robot())
-    print(room._print_room())
+    room._print_room()

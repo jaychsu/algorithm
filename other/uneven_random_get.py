@@ -14,7 +14,7 @@ def uneven_random_get(options, rate):
     >>> for _ in range(10000):
     ...     c = uneven_random_get(options, [10, 10, 10])
     ...     ans[c] += 1
-    >>> all(2000 <= ans[c] <= 4000 for c in options)
+    >>> all(2333 <= ans[c] <= 4333 for c in options)
     True
 
     >>> ans = dict.fromkeys(options, 0)
