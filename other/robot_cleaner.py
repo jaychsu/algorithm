@@ -311,18 +311,22 @@ class RobotCleanerDFS:
         if not isinstance(robot, Robot):
             return
 
-        self.dn = len(Dirs.DELTA)
         """
         robot's direction and coord no needs to same as room
         just start as (0, 0),
         and face 0 (this 0 just ref of dirs, no needs to treat it as Dirs.DOWN)
+
+        Dirs.DELTA => D, R, U, L
+        (1, 0), (0, 1), (-1, 0), (0, -1)
         """
+        self.dn = len(Dirs.DELTA)
         self.dfs(0, 0, 0, robot, set())
 
     def dfs(self, x, y, to_dir, robot, visited):
         robot.clean()
         visited.add((x, y))
 
+        # down
         d = to_dir
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
@@ -333,6 +337,7 @@ class RobotCleanerDFS:
         else:
             robot.turnleft()
 
+        # right
         d = (to_dir + 1) % self.dn
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
@@ -342,7 +347,8 @@ class RobotCleanerDFS:
         else:
             robot.turnleft(2)
 
-        d = (to_dir - 1) % self.dn
+        # left
+        d = (to_dir + 3) % self.dn
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
 
@@ -352,6 +358,7 @@ class RobotCleanerDFS:
         else:
             robot.turnrigt()
 
+        # up
         d = (to_dir + 2) % self.dn
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
@@ -360,6 +367,7 @@ class RobotCleanerDFS:
             self.dfs(_x, _y, d, robot, visited)
             robot.turnrigt(2)
 
+        # move robot when the recursion is back
         robot.move()
 
 
