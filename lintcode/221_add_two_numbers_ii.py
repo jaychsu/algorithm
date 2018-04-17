@@ -21,46 +21,46 @@ class Solution:
         if not b:
             return a
 
-        a = self.reverse_list(a)
-        b = self.reverse_list(b)
+        a = self.rev_list(a)
+        b = self.rev_list(b)
 
+        dummy = tail = ListNode(0)
         carry = 0
-        dummy = tail = ListNode(-1)
 
         while a and b:
             carry += a.val + b.val
             tail.next = ListNode(carry % 10)
             carry //= 10
-            tail = tail.next
             a = a.next
             b = b.next
+            tail = tail.next
 
         while a:
             carry += a.val
             tail.next = ListNode(carry % 10)
             carry //= 10
-            tail = tail.next
             a = a.next
+            tail = tail.next
 
         while b:
             carry += b.val
             tail.next = ListNode(carry % 10)
             carry //= 10
-            tail = tail.next
             b = b.next
+            tail = tail.next
 
         if carry:
             tail.next = ListNode(carry)
 
-        return self.reverse_list(dummy.next)
+        return self.rev_list(dummy.next)
 
-    def reverse_list(self, head):
-        cur = nxt = None
+    def rev_list(self, head):
+        pre = nxt = None
 
         while head:
             nxt = head.next
-            head.next = cur
-            cur = head
+            head.next = pre
+            pre = head
             head = nxt
 
-        return cur
+        return pre

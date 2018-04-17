@@ -5,9 +5,9 @@ class Solution:
         :type t: str
         :rtype: bool
         """
-        if s == '' and t == '':
+        if s == t:
             return True
-        if not s or not t:
+        if not s or not t or len(s) != len(t):
             return False
 
         freq = {}
@@ -16,7 +16,7 @@ class Solution:
             freq[c] = freq.get(c, 0) + 1
 
         for c in t:
-            if not freq.get(c):
+            if c not in freq:
                 return False
 
             freq[c] -= 1

@@ -39,10 +39,10 @@ class Solution:
         if not people:
             return ans
 
-        people.sort(key=lambda x: (x[0], -x[1]))
+        people.sort(key=lambda p: (p[0], -p[1]))
 
-        for man in people[::-1]:
-            ans.insert(man[1], man)
+        for i in range(len(people) - 1, -1, -1):
+            ans.insert(people[i][1], people[i])
 
         return ans
 

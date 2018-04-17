@@ -14,14 +14,14 @@ class NumMatrix:
             return
 
         m, n = len(matrix), len(matrix[0])
-        self.ps = [[0] * (n + 1) for _ in range(m + 1)]
+        self.prefix_sum = [[0] * (n + 1) for _ in range(m + 1)]
 
         for x in range(1, m + 1):
             for y in range(1, n + 1):
-                self.ps[x][y] = sum((
-                    self.ps[x - 1][y],
-                    self.ps[x][y - 1],
-                    - self.ps[x - 1][y - 1],
+                self.prefix_sum[x][y] = sum((
+                    self.prefix_sum[x - 1][y],
+                    self.prefix_sum[x][y - 1],
+                    - self.prefix_sum[x - 1][y - 1],
                     matrix[x - 1][y - 1],
                 ))
 
@@ -34,18 +34,18 @@ class NumMatrix:
         :rtype: int
         """
         if not all((
-            self.ps,
-            self.ps[0],
-            (0 <= x1 < len(self.ps)),
-            (0 <= x2 + 1 < len(self.ps)),
-            (0 <= y1 < len(self.ps[0])),
-            (0 <= y2 + 1 < len(self.ps[0])),
+            self.prefix_sum,
+            self.prefix_sum[0],
+            0 <= x1 < len(self.prefix_sum),
+            0 <= x2 + 1 < len(self.prefix_sum),
+            0 <= y1 < len(self.prefix_sum[0]),
+            0 <= y2 + 1 < len(self.prefix_sum[0]),
         )):
             return 0
 
         return sum((
-            self.ps[x2 + 1][y2 + 1],
-            - self.ps[x1][y2 + 1],
-            - self.ps[x2 + 1][y1],
-            self.ps[x1][y1],
+            self.prefix_sum[x2 + 1][y2 + 1],
+            - self.prefix_sum[x2 + 1][y1],
+            - self.prefix_sum[x1][y2 + 1],
+            self.prefix_sum[x1][y1],
         ))

@@ -9,6 +9,9 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
+        if not nums:
+            return False
+
         n = len(nums)
         dp = [0] * n
 
@@ -19,7 +22,7 @@ class Solution:
                     nums[j] - dp[j - 1]
                 )
 
-        return dp[-1] >= 0
+        return dp[n - 1] >= 0
 
 
 """
@@ -33,8 +36,10 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        n = len(nums)
+        if not nums:
+            return False
 
+        n = len(nums)
         dp = [[0] * n for _ in range(n)]
 
         for i in range(n - 1, -1, -1):
@@ -44,4 +49,4 @@ class Solution:
                     nums[j] - dp[i][j - 1]
                 )
 
-        return dp[0][-1] >= 0
+        return dp[0][n - 1] >= 0
