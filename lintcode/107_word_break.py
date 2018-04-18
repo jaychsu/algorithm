@@ -1,21 +1,22 @@
 class Solution:
+    """
+    `dp[i]` means `s[:i]` is segmented by words
+    """
     def wordBreak(self, s, words):
         """
         :type s: str
         :type words: List[str]
         :rtype: bool
         """
-        if s is None or not words:
+        if not s and not words:
+            return True
+        if not s or not words:
             return False
 
-        max_size = max(len(word) for word in words)
-        word_set = set(words)  # in set is O(1)
+        max_size = max(len(w) for w in words)
+        word_set = set(words)
 
         n = len(s)
-
-        """
-        `dp[i]` means `s[:i]` is segmented by words
-        """
         dp = [False] * (n + 1)
         dp[0] = True
 

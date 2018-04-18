@@ -8,7 +8,6 @@ class Solution:
             return []
 
         m, n = len(matrix), len(matrix[0])
-
         ans = [[float('inf')] * n for _ in range(m)]
         queue = []
 
@@ -20,20 +19,15 @@ class Solution:
 
         for x, y in queue:
             for dx, dy in (
-                ( 0, -1),
-                ( 0,  1),
-                (-1,  0),
-                ( 1,  0),
+                (-1, 0), (1, 0),
+                (0, -1), (0, 1),
             ):
                 _x = x + dx
                 _y = y + dy
 
-                if not (
-                    0 <= _x < m and
-                    0 <= _y < n and
-                    matrix[_x][_y] == 1 and
-                    ans[_x][_y] > ans[x][y]
-                ):
+                if not (0 <= _x < m and 0 <= _y < n):
+                    continue
+                if ans[_x][_y] < ans[x][y] + 1:
                     continue
 
                 ans[_x][_y] = ans[x][y] + 1

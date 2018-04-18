@@ -25,25 +25,25 @@ class Solution:
         return ''.join(ans)
 
 
-"""
-REF: https://discuss.leetcode.com/topic/28308/java-ac-solution-using-bfs/2
-"""
 class Solution:
-    def alienOrder(self, W):
-        if not W:
+    """
+    REF: https://discuss.leetcode.com/topic/28308/java-ac-solution-using-bfs/2
+    """
+    def alienOrder(self, words):
+        if not words:
             return ''
 
         ans = []
         edges = {}
         indeg = {}
 
-        for w in W:
+        for w in words:
             for c in w:
                 indeg[c] = 0
 
-        for i in range(len(W) - 1):
-            cur = W[i]
-            nxt = W[i + 1]
+        for i in range(len(words) - 1):
+            cur = words[i]
+            nxt = words[i + 1]
             for j in range(min(len(cur), len(nxt))):
                 if cur[j] == nxt[j]:
                     continue

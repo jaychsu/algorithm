@@ -7,8 +7,8 @@ class Solution:
         if not s:
             return ''
 
-        stack = []
         times = 0
+        stack = []
 
         for c in s:
             if c.isdigit():
@@ -17,13 +17,11 @@ class Solution:
                 stack.append(times)
                 times = 0
             elif c == ']':
-                tmp = []
-
+                part = []
                 while stack and isinstance(stack[-1], str):
-                    tmp.append(stack.pop())
-
-                t = int(stack.pop()) if stack else 1
-                stack.append(t * ''.join(reversed(tmp)))
+                    part.append(stack.pop())
+                cnt = int(stack.pop()) if stack else 1
+                stack.append(cnt * ''.join(reversed(part)))
             else:
                 stack.append(c)
 

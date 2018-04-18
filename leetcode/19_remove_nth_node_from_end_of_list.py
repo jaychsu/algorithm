@@ -17,17 +17,18 @@ class Solution:
         if not head or not n:
             return head
 
-        dummy = slow = ListNode(-1)
+        dummy = slow = ListNode(0)
         dummy.next = fast = head
 
         while fast and n:
-            fast = fast.next
             n -= 1
-
-        while fast:
             fast = fast.next
-            slow = slow.next
 
-        slow.next = slow.next.next
+        while slow and fast:
+            slow = slow.next
+            fast = fast.next
+
+        if slow and slow.next:
+            slow.next = slow.next.next
 
         return dummy.next

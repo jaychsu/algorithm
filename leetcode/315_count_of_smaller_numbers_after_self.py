@@ -1,31 +1,34 @@
-"""
-REF: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76657/
-"""
 class Solution:
+    """
+    REF: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76657/
+    """
     def countSmaller(self, nums):
         """
         :type nums: List[int]
         :rtype: List[int]
         """
-        ans = []
-
         if not nums:
-            return ans
+            return []
 
-        v2i = {v: i for i, v in enumerate(sorted(set(nums)))}
+        n = len(nums)
+        ans = [0] * n
+
+        cands = sorted(set(nums))
+        v2i = {cands[i]: i for i in range(len(cands))}
         self.bits = [0] * (len(v2i) + 1)
 
-        for i in range(len(nums) - 1, -1, -1):
+        for i in range(n - 1, -1, -1):
             j = v2i[nums[i]]
+            ans[i] = self.sum(j)
+            self.update(j)
 
-            ans.append(self.sum(j))
-            self.update(j + 1)
+        return ans
 
-        return ans[::-1]
+    def update(self, i):
+        i += 1
 
-    def update(self, i, delta=1):
         while i < len(self.bits):
-            self.bits[i] += delta
+            self.bits[i] += 1
             i += (i & -i)
 
     def sum(self, i):
@@ -38,10 +41,10 @@ class Solution:
         return res
 
 
-"""
-Brute Force: TLE
-"""
 class Solution:
+    """
+    Brute Force: TLE
+    """
     def countSmaller(self, nums):
         """
         :type nums: List[int]
