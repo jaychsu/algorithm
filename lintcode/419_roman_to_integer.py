@@ -4,10 +4,12 @@ class Solution:
         :type s: str
         :rtype: int
         """
-        if not s:
-            return 0
+        ans = 0
 
-        symb = {
+        if not s:
+            return ans
+
+        symbs = {
             'I': 1,
             'V': 5,
             'X': 10,
@@ -17,12 +19,12 @@ class Solution:
             'M': 1000,
         }
 
-        ans = symb[s[-1]]
+        ans += symbs[s[-1]]
 
         for i in range(len(s) - 2, -1, -1):
-            if symb[s[i]] < symb[s[i + 1]]:
-                ans -= symb[s[i]]
+            if symbs[s[i]] >= symbs[s[i + 1]]:
+                ans += symbs[s[i]]
             else:
-                ans += symb[s[i]]
+                ans -= symbs[s[i]]
 
         return ans

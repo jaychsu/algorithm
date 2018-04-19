@@ -12,7 +12,6 @@ The challenges for algorithm contests, and summary the implementation.
 | bin | commands |
 | topic | implementation and summaries of algorithms and data structures |
 | other | for problems met in life |
-| acm | for [ACM](http://acm.nyist.edu.cn/JudgeOnline/problemset.php) |
 | codeforces | for [Codeforces](http://codeforces.com) |
 | codewars | for [Codewars](https://www.codewars.com) |
 | leetcode | for [LeetCode](https://leetcode.com) |
