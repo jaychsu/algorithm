@@ -37,6 +37,7 @@ Testing:
 ... ):
 ...     game = CandyCrush(*params)
 ...     for _ in range(5):
+...         game.reset_board()
 ...         valid = _check_board_valid(game.get_board())
 ...         if not valid: print(game._print_board())
 ...         gotcha.append(valid)

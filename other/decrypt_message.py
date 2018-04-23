@@ -9,15 +9,29 @@ Testing:
 >>> for origin, encryption in (
 ...     ('crime', 'dnotq'),
 ...     ('encyclopedia', 'flgxswdliefy'),
+...     ('qqqqq', 'rajsb'),
+...     ('abcdefghijklmnopqrstuvwxyz', 'bvqmjhgghjmqvbiqzjugthwmdv'),
+...     ('drugtrafficking', 'eobamwpnlmhklrq'),
+...     ('', ''),
 ... ):
 ...     res = encrypt(origin)
-...     if res != encryption: print('L14', origin, res)
+...     if res != encryption: print('L18', origin, res)
 ...     gotcha.append(res == encryption)
+...
 ...     res = decrypt(encryption)
-...     if res != origin: print('L17', encryption, res)
+...     if res != origin: print('L22', encryption, res)
 ...     gotcha.append(res == origin)
+...
 ...     res = decrypt(encrypt(origin))
-...     if res != origin: print('L20', origin, res)
+...     if res != origin: print('L26', origin, res)
+...     gotcha.append(res == origin)
+...
+...     res = decrypt2(encryption)
+...     if res != origin: print('L30', encryption, res)
+...     gotcha.append(res == origin)
+...
+...     res = decrypt2(encrypt(origin))
+...     if res != origin: print('L34', origin, res)
 ...     gotcha.append(res == origin)
 >>> bool(gotcha) and all(gotcha)
 True
@@ -25,12 +39,14 @@ True
 
 
 def encrypt(word):
-    n = len(word)
+    if not word:
+        return ''
+
     a = ord('a')
     ans = [ord(c) for c in word]
     cumul = 1
 
-    for i in range(n):
+    for i in range(len(word)):
         cumul += ans[i]
         ans[i] = chr((cumul - a) % 26 + a)
 
@@ -38,12 +54,30 @@ def encrypt(word):
 
 
 def decrypt(word):
-    n = len(word)
+    if not word:
+        return ''
+
+    a = ord('a')
+    ans = [ord(c) for c in word]
+
+    for i in range(len(word) - 1, -1, -1):
+        if i == 0:
+            ans[i] = chr((ans[i] - 1 - a) % 26 + a)
+        else:
+            ans[i] = chr((ans[i] - ans[i - 1] - a) % 26 + a)
+
+    return ''.join(ans)
+
+
+def decrypt2(word):
+    if not word:
+        return ''
+
     a = ord('a')
     ans = [ord(c) for c in word]
     cumul = 1
 
-    for i in range(n):
+    for i in range(len(word)):
         # substract the cumul sum
         ans[i] -= cumul
 
