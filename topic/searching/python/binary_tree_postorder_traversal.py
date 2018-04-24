@@ -1,4 +1,4 @@
-from binary_tree.python.binary_tree_serialization import TreeNode
+from tree.python import TreeNode
 
 
 def postorder_recursion_traverse(root, *, callback):

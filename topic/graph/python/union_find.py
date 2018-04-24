@@ -5,7 +5,7 @@ class UnionFind:
     def __repr__(self):
         return repr(self.nodes)
 
-    def connect(self, a, b):
+    def union(self, a, b):
         _a = self.find(a)
         _b = self.find(b)
         if _a is not _b:

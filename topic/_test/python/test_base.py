@@ -3,6 +3,7 @@ import datetime
 
 MSG_TEMPLATE = '{status}: {msg}'
 
+
 class TestBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

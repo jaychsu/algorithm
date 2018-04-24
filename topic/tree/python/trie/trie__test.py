@@ -1,5 +1,5 @@
 from _test.python import *
-from trie.python import *
+from tree.python import Trie
 
 
 class TestTrie(TestBase):

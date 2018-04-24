@@ -1,5 +1,5 @@
 from _test.python import *
-from union_find.python import *
+from graph.python import UnionFind
 
 
 class TestUnionFind(TestBase):
@@ -8,11 +8,11 @@ class TestUnionFind(TestBase):
 
         self.assertEqual(uf.nodes, {})
 
-    def test_connect(self):
+    def test_union(self):
         uf = UnionFind()
 
         for i in range(1, 6):
-            query = uf.connect(i, 0)
+            query = uf.union(i, 0)
             self.assertEqual(query, 0)
 
         for i in range(1, 6):
@@ -21,8 +21,8 @@ class TestUnionFind(TestBase):
     def test_compression(self):
         uf = UnionFind()
 
-        uf.connect(3, 2)
-        uf.connect(2, 1)
+        uf.union(3, 2)
+        uf.union(2, 1)
 
         self.assertEqual(uf.nodes[3], 2)
         self.assertEqual(uf.nodes[2], 1)
