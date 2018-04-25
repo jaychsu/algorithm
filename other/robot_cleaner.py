@@ -15,13 +15,14 @@ move(direction=None): move forward for 1 position, return False if that’s not 
 - How long will it take? (1 step == 1 time unit)
 - Can you show paths?
 
-Need Ask:
 
-- Is there a api to detect the cell need to clean?
-- Do the robot's direction and coord need to same as room?
-- Once called the `move` api and passed a direction,
-  and then the robot will turn its face to that direction
-  and move forward for 1 unit?
+Need to ask:
+
+- is there an api to detect the cell need to clean?
+- are both the robot's direction and coordinate need to same as room?
+- once we called the `move` api and passed a direction.
+  will the robot turn its face in that direction?
+  and move forward with 1 unit?
 
 
 REF:
@@ -34,7 +35,7 @@ REF:
 
 Testing:
 
-1. is the mock api work?
+1. is the mock api working?
 
 >>> room = Room([
 ...     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -103,34 +104,34 @@ True
 2. test cleaner
 
 >>> CASES = (
-...     [
-...         [3, 0, 0, 0, 0, 0, 1, 0],
-...         [0, 0, 0, 0, 0, 0, 0, 0],
-...         [0, 2, 0, 0, 0, 0, 0, 0],
-...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [0, 0, 1, 0, 0, 0, 1, 0],
-...     ],
-...     [
-...         [0, 0, 0, 0, 0, 0, 0, 0],
-...         [0, 0, 1, 0, 0, 0, 0, 0],
-...         [0, 2, 0, 0, 0, 1, 0, 0],
-...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [1, 0, 0, 0, 0, 0, 0, 3],
-...     ],
-...     [
-...         [1, 0, 0, 0, 0, 0, 0, 1],
-...         [0, 0, 0, 1, 0, 0, 0, 0],
-...         [0, 2, 0, 0, 0, 0, 1, 0],
-...         [2, 2, 2, 0, 2, 2, 2, 2],
-...         [0, 1, 0, 3, 0, 1, 0, 1],
-...     ],
-...     [
-...         [0, 0, 0, 0, 0, 0, 0, 1],
-...         [0, 0, 0, 1, 0, 0, 3, 0],
-...         [0, 2, 0, 0, 0, 1, 0, 0],
-...         [2, 2, 2, 1, 2, 2, 2, 2],
-...         [0, 1, 0, 0, 1, 0, 0, 1],
-...     ],
+...     (
+...         (3, 0, 0, 0, 0, 0, 1, 0),
+...         (0, 0, 0, 0, 0, 0, 0, 0),
+...         (0, 2, 0, 0, 0, 0, 0, 0),
+...         (2, 2, 2, 0, 2, 2, 2, 2),
+...         (0, 0, 1, 0, 0, 0, 1, 0),
+...     ),
+...     (
+...         (0, 0, 0, 0, 0, 0, 0, 0),
+...         (0, 0, 1, 0, 2, 0, 0, 0),
+...         (1, 2, 0, 0, 2, 1, 0, 0),
+...         (2, 2, 2, 0, 2, 2, 2, 2),
+...         (1, 0, 0, 0, 0, 0, 0, 3),
+...     ),
+...     (
+...         (1, 0, 0, 0, 0, 0, 0, 1),
+...         (0, 0, 0, 1, 0, 0, 0, 0),
+...         (0, 2, 0, 0, 0, 0, 1, 0),
+...         (2, 2, 2, 0, 2, 2, 2, 2),
+...         (0, 1, 0, 3, 0, 1, 0, 1),
+...     ),
+...     (
+...         (0, 0, 0, 0, 0, 0, 0, 1),
+...         (0, 0, 0, 1, 2, 0, 3, 0),
+...         (0, 2, 0, 0, 2, 1, 0, 0),
+...         (2, 2, 2, 1, 2, 2, 2, 2),
+...         (0, 1, 0, 0, 1, 0, 0, 1),
+...     ),
 ... )
 
 >>> cleaners = (
@@ -142,15 +143,14 @@ True
 >>> gotcha = []
 >>> for grid in CASES:
 ...     for cleaner in cleaners:
-...         room = Room([r[:] for r in grid])
+...         room = Room([list(r) for r in grid])
 ...         robot = Robot(room)
 ...
 ...         gotcha.append(not room.is_clear())
 ...         cleaner.clean_room(robot)
 ...
-...         is_clear = room.is_clear()
-...         if not is_clear: room._print_room(); print(cleaner)
-...         gotcha.append(is_clear)
+...         if not room.is_clear(): room._print_room(); print(cleaner)
+...         gotcha.append(room.is_clear())
 >>> bool(gotcha) and all(gotcha)
 True
 """
@@ -283,8 +283,7 @@ class Robot:
         :type k: int
         :rtype: void
         """
-        # note that, -1 % 4 == 3 in Python
-        # or just (x - k + n) % n
+        # note that, -1 % 4 == 3 in Python, or just (x - k + n) % n
         n = len(Dirs.DELTA)
         self.__face = (self.__face - k) % n
 
@@ -319,7 +318,6 @@ class RobotCleanerDFS:
         Dirs.DELTA => D, R, U, L
         (1, 0), (0, 1), (-1, 0), (0, -1)
         """
-        self.dn = len(Dirs.DELTA)
         self.dfs(0, 0, 0, robot, set())
 
     def dfs(self, x, y, to_dir, robot, visited):
@@ -338,7 +336,7 @@ class RobotCleanerDFS:
             robot.turnleft()
 
         # right
-        d = (to_dir + 1) % self.dn
+        d = (to_dir + 1) % len(Dirs.DELTA)
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
 
@@ -348,7 +346,7 @@ class RobotCleanerDFS:
             robot.turnleft(2)
 
         # left
-        d = (to_dir + 3) % self.dn
+        d = (to_dir + 3) % len(Dirs.DELTA)
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
 
@@ -359,7 +357,7 @@ class RobotCleanerDFS:
             robot.turnrigt()
 
         # up
-        d = (to_dir + 2) % self.dn
+        d = (to_dir + 2) % len(Dirs.DELTA)
         _x = x + Dirs.DELTA[d][0]
         _y = y + Dirs.DELTA[d][1]
 
@@ -382,7 +380,6 @@ class RobotCleanerDFS2:
         if not isinstance(robot, Robot):
             return
 
-        self.dn = len(Dirs.DELTA)
         """
         robot's direction and coord no needs to same as room
         just start as (0, 0),
@@ -391,16 +388,11 @@ class RobotCleanerDFS2:
         self.dfs(0, 0, 0, robot, set())
 
     def dfs(self, x, y, from_dir, robot, visited):
-        if (x, y) in visited:
-            robot.move(from_dir)
-            robot.turnleft(2)
-            return
-
         # is there a api to detect the cell need to clean?
         robot.clean()
         visited.add((x, y))
 
-        for to_dir in range(self.dn):
+        for to_dir in range(len(Dirs.DELTA)):
             if to_dir == from_dir:
                 continue
 
@@ -409,8 +401,11 @@ class RobotCleanerDFS2:
             _x = x + dx
             _y = y + dy
 
+            if (_x, _y) in visited:
+                continue
+
             if robot.move(to_dir):
-                self.dfs(_x, _y, (to_dir + 2) % self.dn, robot, visited)
+                self.dfs(_x, _y, (to_dir + 2) % len(Dirs.DELTA), robot, visited)
             else:
                 visited.add((_x, _y))
 
@@ -425,7 +420,7 @@ class RobotCleanerBFS:
         if not isinstance(robot, Robot):
             return
 
-    def bfs(self, x, y, robot, paths, unvisit):
+    def bfs(self):
         pass
 
 

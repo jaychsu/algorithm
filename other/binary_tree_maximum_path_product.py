@@ -95,8 +95,6 @@ class Solution:
             a, b,
             # go through current (3)
             node.val * max_left * max_right,
-            node.val * max_left * min_right,
-            node.val * min_left * max_right,
             node.val * min_left * min_right,
         )
 

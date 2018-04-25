@@ -18,9 +18,9 @@ Testing:
 ...     (([1, 2, 3, 4, 5], 5), [5, 4, 3, 2, 1]),
 ...     (([1, 2, 3, 4, 5], 6), [5, 4, 3, 2, 1]),
 ... ):
-...     res = flip(*_in)
-...     if res != _out: print(_in, res)
-...     gotcha.append(res == _out)
+...     flip(*_in)
+...     if _in[0] != _out: print(_in, _out)
+...     gotcha.append(_in[0] == _out)
 >>> bool(gotcha) and all(gotcha)
 True
 >>> gotcha = []
@@ -39,31 +39,6 @@ True
 """
 
 
-def flip(nums, k):
-    """reverses the order of the first `k` elements in the array `nums`
-    :type nums: list[int]
-    :type k: int
-    :rtype: list[int]
-    """
-    if not nums:
-        return []
-
-    if not k or k <= 1:
-        return nums
-
-    if k > len(nums):
-        k = len(nums)
-
-    left, right = 0, k - 1
-
-    while left < right:
-        nums[left], nums[right] = nums[right], nums[left]
-        left += 1
-        right -= 1
-
-    return nums
-
-
 def pancake_sort(nums):
     """using `flip` to sort input in order
     :type nums: list[int]
@@ -75,6 +50,29 @@ def pancake_sort(nums):
         flip(nums, i + 1)
 
     return nums
+
+
+def flip(nums, k):
+    """reverses the order of the first `k` elements in the array `nums` place
+    :type nums: list[int]
+    :type k: int
+    :rtype: void
+    """
+    if not nums:
+        return
+
+    if not k or k <= 1:
+        return
+
+    if k > len(nums):
+        k = len(nums)
+
+    left, right = 0, k - 1
+
+    while left < right:
+        nums[left], nums[right] = nums[right], nums[left]
+        left += 1
+        right -= 1
 
 
 def get_max_index(nums, i):
