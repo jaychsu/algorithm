@@ -1,7 +1,7 @@
 """
 Main Concept:
 
-dummy <-> a <-> b <-> c <-> dummy  |<- cache_list (dll)
+Dm <-> a <-> b <-> c <-> dm  |<- cache_list (dll)
 
 1. if cache is updated (set/get)
     => move to the end of cache_list
@@ -12,35 +12,15 @@ dummy <-> a <-> b <-> c <-> dummy  |<- cache_list (dll)
 """
 
 
-class CacheNode:
-    def __init__(self, key, val=None, pre=None, nxt=None):
-        self.key = key
-        self.val = val
-        self.pre = pre
-        self.nxt = nxt
-
-    def link(self, pre, nxt):
-        self.pre = pre
-        self.nxt = nxt
-        pre.nxt = self
-        nxt.pre = self
-
-    def unlink(self):
-        self.pre.nxt = self.nxt
-        self.nxt.pre = self.pre
-        self.pre = self.nxt = None
-
-
 class LRUCache:
     def __init__(self, capacity):
         """
         :type capacity: int
-        :rtype: void
         """
         self.cap = capacity
         self.nodes = {}
-        self.D = CacheNode(0)
-        self.d = CacheNode(0)
+        self.D = CacheNode(-1)
+        self.d = CacheNode(-1)
         self.D.nxt = self.d
         self.d.pre = self.D
 
@@ -97,3 +77,22 @@ class LRUCache:
 
     def _add_tail(self, node):
         node.link(self.d.pre, self.d)
+
+
+class CacheNode:
+    def __init__(self, key, val=None, pre=None, nxt=None):
+        self.key = key
+        self.val = val
+        self.pre = pre
+        self.nxt = nxt
+
+    def link(self, pre, nxt):
+        self.pre = pre
+        self.nxt = nxt
+        pre.nxt = self
+        nxt.pre = self
+
+    def unlink(self):
+        self.pre.nxt = self.nxt
+        self.nxt.pre = self.pre
+        self.pre = self.nxt = None

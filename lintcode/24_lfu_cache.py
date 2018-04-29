@@ -1,11 +1,11 @@
 """
 Main Concept:
 
-dummy <-> 2 <-> 3 <-> 8   |<- freq_list (dll)
-          |     |     |
-          a     c     d   |<- cache_list (dll)
-          &           &
-          b           e
+Dm <-> 2 <-> 3 <-> 8 <-> dm   |<- freq_list (dll)
+       |     |     |
+       a     c     d          |<- cache_list (dll)
+       &           &
+       b           e
 
 1. if cache is updated (set/get)
     => freq += 1
@@ -17,73 +17,57 @@ dummy <-> 2 <-> 3 <-> 8   |<- freq_list (dll)
 """
 
 
-"""
-Two Dummy Doubly Linked List
-"""
 class LFUCache:
-    """
-    @param: capacity: An integer
-    """
     def __init__(self, capacity):
-        self.capacity = capacity
-        self.caches = {}
+        """
+        :type capacity: int
+        """
+        self.cap = capacity
+        self.nodes = {}
         self.D = FreqNode(-1)
         self.d = FreqNode(-1)
         self.D.nxt = self.d
         self.d.pre = self.D
 
-    """
-    @param: key: An integer
-    @param: val: An integer
-    @return: nothing
-    """
-    def set(self, key, val):
-        if self.capacity <= 0:
-            return
-
-        if key in self.caches:
-            self._update_item(key, val)
-            return
-
-        if len(self.caches) >= self.capacity:
-            self._evict_item()
-
-        self._add_item(key, val)
-
-    """
-    @param: key: An integer
-    @return: An integer
-    """
     def get(self, key):
-        if key not in self.caches:
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key not in self.nodes:
             return -1
 
-        self._update_item(key)
-        return self.caches[key].val
+        self._update(key)
+        return self.nodes[key].val
 
-    def _add_item(self, key, val):
-        cache_node = CacheNode(key, val)
-        self.caches[key] = cache_node
-
-        freq_head = self.D.nxt
-        if freq_head and freq_head.freq == 0:
-            freq_head.append_tail(cache_node)
+    def set(self, key, val):
+        """
+        :type key: int
+        :type val: int
+        :rtype: void
+        """
+        if self.cap <= 0:
             return
 
-        freq_head = FreqNode(0)
-        freq_head.append_tail(cache_node)
-        self.D.after(freq_head)
+        if key in self.nodes:
+            self._update(key, val)
+            return
 
-    def _evict_item(self):
+        while len(self.nodes) >= self.cap:
+            self._evict()
+
+        self._add(key, val)
+
+    def _evict(self):
         freq_head = self.D.nxt
         cache_node = freq_head.pop_head()
-        self.caches.pop(cache_node.key)
+        del self.nodes[cache_node.key]
 
         if freq_head.is_empty():
             freq_head.unlink()
 
-    def _update_item(self, key, val=None):
-        cache_node = self.caches[key]
+    def _update(self, key, val=None):
+        cache_node = self.nodes[key]
 
         if val:
             cache_node.val = val
@@ -102,6 +86,19 @@ class LFUCache:
 
         if from_freq.is_empty():
             from_freq.unlink()
+
+    def _add(self, key, val):
+        cache_node = CacheNode(key, val)
+        self.nodes[key] = cache_node
+
+        freq_head = self.D.nxt
+        if freq_head and freq_head.freq == 0:
+            freq_head.append_tail(cache_node)
+            return
+
+        freq_head = FreqNode(0)
+        freq_head.append_tail(cache_node)
+        self.D.after(freq_head)
 
 
 class CacheNode:
@@ -133,7 +130,6 @@ class FreqNode:
     def unlink(self):
         self.pre.nxt = self.nxt
         self.nxt.pre = self.pre
-
         self.pre = self.nxt = self.D = self.d = None
 
     # to change self in freq nodes

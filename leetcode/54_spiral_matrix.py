@@ -1,34 +1,34 @@
 class Solution:
-    def spiralOrder(self, G):
+    def spiralOrder(self, matrix):
         """
-        :type G: List[List[int]]
+        :type matrix: List[List[int]]
         :rtype: List[int]
         """
         ans = []
-        if not G:
+
+        if not matrix or not matrix[0]:
             return ans
 
-        """
-        it means go right, bottom, left, top
-        """
-        dx = ( 0,  1,  0, -1)
-        dy = ( 1,  0, -1,  0)
-
-        m, n = len(G), len(G[0])
+        # need keep its order to go right, bottom, left, top
+        delta = (
+            (0, 1), (1, 0),
+            (0, -1), (-1, 0),
+        )
+        m, n = len(matrix), len(matrix[0])
         x = y = turn = 0
 
         for _ in range(m * n):
-            ans.append(G[x][y])
-            G[x][y] = None
-            _x = x + dx[turn]
-            _y = y + dy[turn]
+            ans.append(matrix[x][y])
+            matrix[x][y] = None
+            _x = x + delta[turn][0]
+            _y = y + delta[turn][1]
 
-            if 0 <= _x < m and 0 <= _y < n and G[_x][_y] is not None:
-                x = _x
-                y = _y
-            else:
-                turn = (turn + 1) % 4
-                x += dx[turn]
-                y += dy[turn]
+            if not (0 <= _x < m and 0 <= _y < n) or matrix[_x][_y] is None:
+                turn = (turn + 1) % len(delta)
+                _x = x + delta[turn][0]
+                _y = y + delta[turn][1]
+
+            x = _x
+            y = _y
 
         return ans
