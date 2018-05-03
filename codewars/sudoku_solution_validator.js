@@ -8,8 +8,6 @@ function validSolution(board) {
   const n = board.length
   const g = Math.sqrt(n)  // group counts
 
-  if (g % 1 !== 0) return false  // check its square root
-
   const cnts = new Array(n).fill(0)
   let cnt = 0
   let i, j, x, y
