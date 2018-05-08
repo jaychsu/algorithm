@@ -58,7 +58,7 @@ Definition for a binary tree node.
 ...     ((trees[0], trees[0]), trees[0].right),
 ...     ((trees[1], trees[1].left.right.right), trees[1]),
 ... ):
-...     for s in (Solution(), Solution2(), Solution3()):
+...     for s in (Solution(), Solution2(), Solution3(), Solution4()):
 ...         res = s.inorderSuccessor(*_in)
 ...         if res is not _out: print(_in[0].val, res.val)
 ...         gotcha.append(res is _out)
@@ -163,6 +163,36 @@ class Solution3:
         ans = target.parent
         while ans and target is ans.right:
             target = ans
+            ans = ans.parent
+
+        return ans
+
+
+class Solution4:
+    """
+    * every node has `parent` pointer
+    time: O(log n) or O(h), `n` is the number of nodes and `h` is the tree height
+
+    1. if `target` has right child, then successor lies at the most-left child in right child of `target`
+    2. otherwise, just traverse top to root
+    """
+    def inorderSuccessor(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: TreeNode
+        :rtype: TreeNode
+        """
+        if not root or not target:
+            return
+
+        if target.right:
+            ans = target.right
+            while ans and ans.left:
+                ans = ans.left
+            return ans
+
+        ans = target.parent
+        while ans and ans.val < target.val:
             ans = ans.parent
 
         return ans

@@ -1,47 +1,55 @@
 import random
-import re
+
 
 class TinyUrl:
     def __init__(self):
-        self.char_list = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        self.chars = [str(i) for i in range(10)]
+        self.chars.extend(chr(i) for i in range(ord('a'), ord('z') + 1))
+        self.chars.extend(chr(i) for i in range(ord('A'), ord('Z') + 1))
+
         self.host = 'http://tiny.url/'
-        self.k = 6
-        self.l2s = {}
-        self.s2l = {}
+        self.size = 6
+        self.lg2st = {}
+        self.st2lg = {}
 
-    def generateHash(self, k):
-        res = ''
-        j, n = 0, len(self.char_list)
-        for i in range(k):
-            j = random.randint(0, n - 1)
-            res += self.char_list[j]
-        return res
-
-    """
-    @param: url: a long url
-    @return: a short url starts with http://tiny.url/
-    """
     def longToShort(self, url):
+        """
+        :type url: str
+        :rtype: str
+        """
         if not url:
             return 'error'
-        if url in self.l2s:
-            return self.host + self.l2s[url]
-        hash = self.generateHash(self.k)
-        while hash in self.s2l:
-            hash = self.generateHash(self.k)
-        self.l2s[url] = hash
-        self.s2l[hash] = url
-        return self.host + hash
+        if url in self.lg2st:
+            return self.get_tiny_url(self.lg2st[url])
 
-    """
-    @param: url: a short url starts with http://tiny.url/
-    @return: a long url
-    """
+        key = self.get_hash_key(self.size)
+        while key in self.st2lg:
+            key = self.get_hash_key(self.size)
+
+        self.lg2st[url] = key
+        self.st2lg[key] = url
+        return self.get_tiny_url(key)
+
     def shortToLong(self, url):
+        """
+        :type url: str
+        :rtype: str
+        """
         if not url:
             return 'error'
-        hash = re.match(self.host + '([A-Za-z0-9]+)\/?', url)
-        hash = hash.group(1) if hash else None
-        if hash in self.s2l:
-            return self.s2l[hash]
+
+        key = url.replace(self.host, '')
+
+        if key in self.st2lg:
+            return self.st2lg[key]
+
         return 'error'
+
+    def get_tiny_url(self, hash_key):
+        return '{}{}'.format(self.host, hash_key)
+
+    def get_hash_key(self, size):
+        return ''.join(
+            random.choice(self.chars)
+            for _ in range(size)
+        )
