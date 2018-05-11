@@ -14,8 +14,10 @@ The challenges for algorithm contests, and summary the implementation.
 | other | for problems met in life |
 | codeforces | for [Codeforces](http://codeforces.com) |
 | codewars | for [Codewars](https://www.codewars.com) |
+| hackerrank | for [HackerRank](https://www.hackerrank.com/contests) |
 | leetcode | for [LeetCode](https://leetcode.com) |
 | lintcode | for [LintCode](http://www.lintcode.com) |
+| pramp | for [Pramp](https://www.pramp.com) |
 | topcoder | for [ActiveContests](https://community.topcoder.com/longcontest/?module=ViewActiveContests), [Practices](https://community.topcoder.com/longcontest/?module=ViewPractice), and [ProblemArchives](https://community.topcoder.com/tc?module=ProblemArchive) in [Topcoder](https://www.topcoder.com) |
 
 ## Testing
