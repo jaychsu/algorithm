@@ -13,3 +13,8 @@ for (int i = N; i > 0; i /= 2) {
   }
 }
 ```
+
+## Case #2
+
+If X will always be a better choice for **large inputs**,
+then we say that **an algorithm X is asymptotically more efficient than Y**.
