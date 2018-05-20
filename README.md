@@ -13,7 +13,10 @@ The challenges for algorithm contests, and summary the implementation.
 | topic | implementation and summaries of algorithms and data structures |
 | other | for problems met in life |
 | codeforces | for [Codeforces](http://codeforces.com) |
+| codejam | for [PastContests](https://code.google.com/codejam/past-contests) in [code jam](https://code.google.com/codejam) from Google |
+| codelab | for [Code Lab](https://codelab.interviewbit.com) from Facebook |
 | codewars | for [Codewars](https://www.codewars.com) |
+| geeksforgeeks | for [GeeksforGeeks](https://www.geeksforgeeks.org) |
 | hackerrank | for [HackerRank](https://www.hackerrank.com/contests) |
 | leetcode | for [LeetCode](https://leetcode.com) |
 | lintcode | for [LintCode](http://www.lintcode.com) |
