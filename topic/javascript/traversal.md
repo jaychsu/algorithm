@@ -1,3 +1,6 @@
+Traversal
+======
+
 ## To simulate a queue
 
 It's also a good example to show how the pointer works for the loop.

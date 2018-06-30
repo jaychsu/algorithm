@@ -1,3 +1,6 @@
+Complexity Analysis
+======
+
 ## Case #1
 
 - time: `O(N)`

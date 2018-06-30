@@ -1,3 +1,6 @@
+Dynamic Programming
+======
+
 ## Steps to find solutions
 
 ```

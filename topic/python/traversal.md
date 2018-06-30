@@ -1,3 +1,6 @@
+Traversal
+======
+
 ## Iterate an iterable item
 
 - `for`: the pointer of an iterable item will be **UNCHANGED** after start

@@ -1,3 +1,6 @@
+Linked List
+======
+
 ## Common Rule
 
 - If the list is cyclic, the 2-pace pointer will eventually meet the 1-pace. see [lintcode/102_linked_list_cycle.py](../lintcode/102_linked_list_cycle.py)

@@ -1,4 +1,5 @@
-## Binary search in 1D list
+Binary search
+======
 
 ```python
 >>> arr = [True, True, True, True, False, False]
@@ -18,10 +19,4 @@
 # check again the end point, and fetch what we need
 >>> left if arr[left] else right
 3
-```
-
-## Binary search in 2D matrix
-
-```
-TODO
 ```

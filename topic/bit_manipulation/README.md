@@ -1,3 +1,6 @@
+Bit Manipulation
+======
+
 ## Modulo
 
 ```python

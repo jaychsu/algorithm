@@ -1,3 +1,6 @@
+Binary Tree
+======
+
 ## Binary Tree
 
 ```
