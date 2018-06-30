@@ -10,5 +10,8 @@ indent_style = space
 [*.py]
 indent_size = 4
 
+[*.{md,markdown}]
+indent_size = 4
+
 [Makefile]
 indent_style = tab
