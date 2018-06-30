@@ -12,7 +12,7 @@ class TestUnionFind(TestBase):
         uf = UnionFind()
 
         for i in range(1, 6):
-            query = uf.union(i, 0)
+            query = uf.union(0, i)
             self.assertEqual(query, 0)
 
         for i in range(1, 6):
@@ -21,8 +21,8 @@ class TestUnionFind(TestBase):
     def test_compression(self):
         uf = UnionFind()
 
-        uf.union(3, 2)
-        uf.union(2, 1)
+        uf.union(2, 3)
+        uf.union(1, 2)
 
         self.assertEqual(uf.nodes[3], 2)
         self.assertEqual(uf.nodes[2], 1)

@@ -2,21 +2,21 @@ class UnionFind:
     def __init__(self):
         self.nodes = {}
 
-    def __repr__(self):
-        return repr(self.nodes)
+    def union(self, u, v):
+        a = self.find(u)
+        b = self.find(v)
 
-    def union(self, a, b):
-        _a = self.find(a)
-        _b = self.find(b)
-        if _a is not _b:
-            self.nodes[_a] = _b
-        return _b
+        if a is not b:
+            self.nodes[b] = a
 
-    def find(self, a):
-        if a not in self.nodes:
-            self.nodes[a] = a
-            return a
-        if self.nodes[a] is a:
-            return a
-        self.nodes[a] = self.find(self.nodes[a])
-        return self.nodes[a]
+        return a
+
+    def find(self, u):
+        if u not in self.nodes:
+            self.nodes[u] = u
+            return u
+        if self.nodes[u] is u:
+            return u
+
+        self.nodes[u] = self.find(self.nodes[u])
+        return self.nodes[u]
