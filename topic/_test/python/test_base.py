@@ -11,7 +11,7 @@ class TaskTimer:
 
     def print_duration(self):
         duration = datetime.datetime.now() - self.timestamp
-        print(duration.microseconds / 1000.0, 'ms')
+        print(duration.microseconds // 10 / 100.0, 'ms')
 
 
 class TestBase(unittest.TestCase):

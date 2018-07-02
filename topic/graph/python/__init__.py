@@ -1,1 +1,1 @@
-from graph.python.union_find import *
+from graph.python.union_find import UnionFind
