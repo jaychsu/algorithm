@@ -11,100 +11,75 @@ main concept for encoding
 
 
 class GeoHash:
-    base32 = []
+    def __init__(self):
+        ignored_chars = {ord(i) for i in 'ailo'}
+        base32 = [str(i) for i in range(10)]
+        base32.extend(
+            chr(i)
+            for i in range(ord('a'), ord('z') + 1)
+            if i not in ignored_chars
+        )
+        base32i = {base32[i]: i for i in range(len(base32))}
 
-    @classmethod
-    def encode(cls, latitude, longitude, precision=5):
-        if not cls.base32:
-            cls.base32 = cls.get_base32_list()
+        self.base32 = base32
+        self.base32i = base32i
 
-        times = (precision * 5) // 2 + 1
-        lat_codes = cls._loc_to_bins( latitude, times,  -90,  90)
-        lng_codes = cls._loc_to_bins(longitude, times, -180, 180)
+    def encode(self, latitude, longitude, precision=5):
+        digits = precision * 5 // 2 + 1
+        lngcode = self._pos_to_bin(longitude, digits, -180, 180)
+        latcode = self._pos_to_bin( latitude, digits,  -90,  90)
 
-        bin_codes = []
-        for i in range(times):
-            bin_codes.extend((str(lng_codes[i]), str(lat_codes[i])))
+        bincode = []
+        for i in range(digits):
+            bincode.append(lngcode[i])
+            bincode.append(latcode[i])
 
-        hash_codes = []
-        hash_code = ''
-        for i in range(0, len(bin_codes), 5):
-            hash_code = int(''.join(bin_codes[i : i + 5]), 2)
-            hash_codes.append(cls.base32[hash_code])
-
-        return ''.join(hash_codes[:precision])
-
-    @classmethod
-    def decode(cls, geohash):
-        if not geohash:
-            return []
-        if not cls.base32:
-            cls.base32 = cls.get_base32_list()
-
-        bin_codes = []
-        for char in geohash:
-            if char not in cls.base32:
-                return []
-            bin_codes.extend(cls._oct_to_bins(cls.base32.index(char)))
-
-        n = len(bin_codes)
-        lat_codes = [bin_codes[i] for i in range(1, n, 2)]
-        lng_codes = [bin_codes[i] for i in range(0, n, 2)]
-
-        return [
-            cls._bins_to_loc(lat_codes,  -90,  90),
-            cls._bins_to_loc(lng_codes, -180, 180)
+        geohash = [
+            self.base32[int(''.join(bincode[i:i + 5]), 2)]
+            for i in range(0, len(bincode), 5)
         ]
 
-    @classmethod
-    def get_base32_list(cls):
-        base32_list = [str(i) for i in range(10)]
+        return ''.join(geohash[:precision])
 
-        ignored_char = (ord('a'), ord('i'), ord('l'), ord('o'))
-        for i in range(ord('a'), ord('z') + 1):
-            if i in ignored_char:
-                continue
-            base32_list.append(chr(i))
+    def decode(self, geohash):
+        bincode = []
+        for i in geohash:
+            if i not in self.base32i:
+                return []
+            code = bin(self.base32i[i])[2:].rjust(5, '0')
+            bincode.extend(list(code))
 
-        return base32_list
+        n = len(bincode)
+        latcode = [bincode[i] for i in range(1, n, 2)]
+        lngcode = [bincode[i] for i in range(0, n, 2)]
 
-    @classmethod
-    def _loc_to_bins(cls, location, times, left, right):
-        mid = 0
-        bins = []
+        return [
+            self._bin_to_pos(latcode,  -90,  90),
+            self._bin_to_pos(lngcode, -180, 180),
+        ]
 
-        for i in range(times):
-            mid = left + (right - left) / 2.0
-            if location > mid:
-                left = mid
-                bins.append(1)
+    def _bin_to_pos(self, bincode, start, end):
+        for i in bincode:
+            mid = (start + end) / 2.0
+
+            if i == '1':
+                start = mid
             else:
-                right = mid
-                bins.append(0)
+                end = mid
 
-        return bins
+        return (start + end) / 2.0
 
-    @classmethod
-    def _bins_to_loc(cls, bins, left, right):
-        mid = 0
+    def _pos_to_bin(self, position, digits, start, end):
+        bincode = []
 
-        for code in bins:
-            mid = left + (right - left) / 2.0
-            if code:
-                left = mid
+        for _ in range(digits):
+            mid = (start + end) / 2.0
+
+            if mid < position:
+                bincode.append('1')
+                start = mid
             else:
-                right = mid
+                bincode.append('0')
+                end = mid
 
-        return left + (right - left) / 2.0
-
-    @classmethod
-    def _oct_to_bins(cls, val_in_oct):
-        bins = []
-        for i in range(5):
-            if val_in_oct % 2:
-                bins.append(1)
-            else:
-                bins.append(0)
-            val_in_oct = val_in_oct >> 1
-
-        return reversed(bins)
+        return bincode
