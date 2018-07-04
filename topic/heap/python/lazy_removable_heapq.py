@@ -3,6 +3,8 @@ import heapq
 
 
 class LazyRemovableHeapq:
+    MSG_EMPTY_HEAP = 'access element from empty heap'
+
     def __init__(self, iterable=None):
         self.__heap = []
         self.__size = 0
@@ -18,7 +20,7 @@ class LazyRemovableHeapq:
         return self.__size > 0
 
     def heapify(self, iterable):
-        if not iterable:
+        if not isinstance(iterable, collections.Iterable):
             return
 
         for val in iterable:
@@ -31,7 +33,7 @@ class LazyRemovableHeapq:
 
     def pop(self):
         if self._is_empty():
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
         val = heapq.heappop(self.__heap)
         self.__size -= 1
@@ -40,14 +42,14 @@ class LazyRemovableHeapq:
 
     def remove(self, val):
         if self._is_empty() or self.__cnts.get(val, 0) < 1:
-            raise ValueError('value was not in heap')
+            raise KeyError(val)
 
         self.__size -= 1
         self.__cnts[val] -= 1
 
     def top(self):
         if self._is_empty():
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
         return self.__heap[0]
 

@@ -2,6 +2,8 @@ import collections
 
 
 class BinaryHashHeap:
+    MSG_EMPTY_HEAP = 'access element from empty heap'
+
     def __init__(self, iterable=None):
         self.__heap = [0]
         self.__size = 0
@@ -17,7 +19,7 @@ class BinaryHashHeap:
         return self.__size > 0
 
     def heapify(self, iterable):
-        if not iterable:
+        if not isinstance(iterable, collections.Iterable):
             return
 
         for val in iterable:
@@ -28,45 +30,51 @@ class BinaryHashHeap:
         self.__size += 1
         self.__idxs[val].add(self.__size)
 
-        self._siftup(self.__size)
+        self._siftdown(self.__size)
 
     def pop(self):
         if self.__size < 1:
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
-        val = self.__heap[1]
-        self.__idxs[val].discard(1)
-        self.__idxs[self.__heap[-1]].discard(self.__size)
-        self.__idxs[self.__heap[-1]].add(1)
+        heap = self.__heap
+        idxs = self.__idxs
 
-        self.__heap[1] = self.__heap[-1]
+        val = heap[1]
+        idxs[val].discard(1)
+        idxs[heap[-1]].discard(self.__size)
+        idxs[heap[-1]].add(1)
+
+        heap[1] = heap[-1]
+        heap.pop()
+
         self.__size -= 1
-
-        self.__heap.pop()
-        self._siftdown(1)
+        self._siftup(1)
         return val
 
     def remove(self, val):
         if not self.__idxs.get(val):
-            raise ValueError('value was not in heap')
+            raise KeyError(val)
 
-        i = self.__idxs[val].pop()
-        self.__idxs[self.__heap[-1]].discard(self.__size)
-        self.__idxs[self.__heap[-1]].add(i)
+        heap = self.__heap
+        idxs = self.__idxs
 
-        self.__heap[i] = self.__heap[-1]
+        i = idxs[val].pop()
+        idxs[heap[-1]].discard(self.__size)
+        idxs[heap[-1]].add(i)
+
+        heap[i] = heap[-1]
+        heap.pop()
+
         self.__size -= 1
-
-        self.__heap.pop()
-        self._siftdown(i)
+        self._siftup(i)
 
     def top(self):
         if self.__size < 1:
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
         return self.__heap[1]
 
-    def _siftup(self, i):
+    def _siftdown(self, i):
         heap = self.__heap
 
         while i // 2 > 0:
@@ -77,7 +85,7 @@ class BinaryHashHeap:
 
             i = j
 
-    def _siftdown(self, i):
+    def _siftup(self, i):
         heap = self.__heap
         size = self.__size
 

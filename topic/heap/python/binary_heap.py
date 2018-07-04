@@ -1,4 +1,9 @@
+import collections
+
+
 class BinaryHeap:
+    MSG_EMPTY_HEAP = 'access element from empty heap'
+
     def __init__(self, iterable=None):
         self.__heap = [0]
         self.__size = 0
@@ -13,7 +18,7 @@ class BinaryHeap:
         return self.__size > 0
 
     def heapify(self, iterable):
-        if not iterable:
+        if not isinstance(iterable, collections.Iterable):
             return
 
         for val in iterable:
@@ -23,27 +28,29 @@ class BinaryHeap:
         self.__heap.append(val)
         self.__size += 1
 
-        self._siftup(self.__size)
+        self._siftdown(self.__size)
 
     def pop(self):
         if self.__size < 1:
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
-        val = self.__heap[1]
-        self.__heap[1] = self.__heap[-1]
+        heap = self.__heap
+
+        val = heap[1]
+        heap[1] = heap[-1]
+        heap.pop()
+
         self.__size -= 1
-
-        self.__heap.pop()
-        self._siftdown(1)
+        self._siftup(1)
         return val
 
     def top(self):
         if self.__size < 1:
-            raise IndexError('index out of range')
+            raise IndexError(self.MSG_EMPTY_HEAP)
 
         return self.__heap[1]
 
-    def _siftup(self, i):
+    def _siftdown(self, i):
         heap = self.__heap
 
         while i // 2 > 0:
@@ -54,7 +61,7 @@ class BinaryHeap:
 
             i = j
 
-    def _siftdown(self, i):
+    def _siftup(self, i):
         heap = self.__heap
         size = self.__size
 

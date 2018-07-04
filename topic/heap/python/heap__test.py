@@ -9,7 +9,7 @@ class TestHeap(TestBase):
         self.assertEqual(len(h), 10)
         self.assertEqual(h.top(), 0)
         self.assertEqual(
-            [h.pop() for i in range(10)],
+            [h.pop() for _ in range(10)],
             [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]
         )
         self.assertEqual(len(h), 0)
@@ -66,13 +66,24 @@ class TestHeap(TestBase):
         self.assertEqual(len(h), 7)
         self.assertIsNone(h.remove(1))
         self.assertEqual(len(h), 6)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             h.remove(1)
             h.remove(5)
             h.remove(1)
 
         self.assertEqual(h.pop(), 0)
         self.assertEqual(len(h), 5)
+
+        self.assertEqual(h.top(), 2)
+        self.assertEqual(len(h), 5)
+        self.assertIsNone(h.push(1))
+        self.assertEqual(len(h), 6)
+        self.assertEqual(h.top(), 1)
+        self.assertEqual(len(h), 6)
+        self.assertIsNone(h.remove(1))
+        self.assertEqual(h.top(), 2)
+        self.assertEqual(len(h), 5)
+
         self.assertEqual(h.pop(), 2)
         self.assertEqual(len(h), 4)
         self.assertIsNone(h.remove(3))
@@ -83,7 +94,8 @@ class TestHeap(TestBase):
         self.assertEqual(len(h), 1)
         self.assertEqual(h.pop(), 4)
         self.assertEqual(len(h), 0)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
+            h.remove(-1)
             h.remove(0)
             h.remove(1)
             h.remove(2)
