@@ -9,8 +9,8 @@ It's also a good example to show how the pointer works for the loop.
 > const queue = [1]
 undefined
 > for (let i = 0; i < queue.length; i++) {
-... if (i === 5) break
-... queue.push(i)
+...   if (i === 5) break
+...   queue.push(i)
 ... }
 undefined
 > queue
@@ -23,8 +23,8 @@ undefined
 > let i = 0
 undefined
 > queue.forEach(num => {
-... if (i === 5) return
-... queue.push(i)
+...   if (i === 5) return
+...   queue.push(i)
 ... })
 undefined
 > queue
@@ -39,8 +39,8 @@ undefined
 > const _queue = []
 undefined
 > const delta = [
-... [0, -1], [0, 1],
-... [-1, 0], [1, 0],
+...   [0, -1], [0, 1],
+...   [-1, 0], [1, 0],
 ... ]
 undefined
 >

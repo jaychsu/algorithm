@@ -38,7 +38,7 @@ Explanation:
 ```js
 > let nums
 
-// error
+// bad
 > nums = new Array(3).fill(new Array(3).fill(0))
 [ [ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ] ]
 > nums[0][0] = 1
@@ -46,7 +46,7 @@ Explanation:
 > nums
 [ [ 1, 0, 0 ], [ 1, 0, 0 ], [ 1, 0, 0 ] ]
 
-// correct
+// good
 > nums = new Array(3).fill(0).map(_ => new Array(3).fill(0))
 [ [ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ] ]
 > nums[0][0] = 1
@@ -57,7 +57,7 @@ Explanation:
 
 ### To sort
 
-The default sorting is by alphabetical order.
+The default sorting is by **alphabetical order**.
 You can also indicate a comparator if you want to sort it by custom order.
 
 ```js
