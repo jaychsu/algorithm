@@ -1,62 +1,51 @@
-"""
-Concept:
-bottom-up -> post-order
-1. pick mid_int at middle index
-2. continue to compare the first int on either side,
-   push the smaller one to the tmp,
-   that is, 2-way merge sort
-3. override origin array by the corresponding int in tmp
-4. step up to a larder scale and repeat (1), (2)
-
-# the ints in the same section will sort first
-given array: [1, 5, 2, 4, 6, 7, 3]
-
-r1: [1, 5, 2, 4, 6, 7, 3]
-         |     |     |
-
-r2: [1, 2, 4, 5, 3, 6, 7]
-               |
-
-r3: [1, 2, 3, 4, 5, 6, 7]
-"""
+from sorting.python._helper import *
 
 
-def merge_sort(A):
-    n = len(A)
-    tmp = [0] * n
-    _merge_sort(A, 0, n - 1, tmp)
-    return A
+class MergeSort(SortBase):
+    @classmethod
+    def sort(cls, iterable):
+        """
+        :type iterable: Iterable
+        :rtype: list
+        """
+        if not cls._is_valid_payload(iterable):
+            return []
 
+        res = list(iterable)
+        n = len(iterable)
+        cls._divide_conquer(res, 0, n - 1, [None] * n)
+        return res
 
-def _merge_sort(A, start, end, tmp):
-    if start >= end:
-        return
+    @classmethod
+    def _divide_conquer(cls, arr, start, end, tmp):
+        if start >= end:
+            return
 
-    mid = (start + end) // 2
-    left, right = start, mid + 1
-    _merge_sort(A, left, mid, tmp)
-    _merge_sort(A, right, end, tmp)
+        mid = (start + end) // 2
+        left, right = start, mid + 1
+        cls._divide_conquer(arr, left, mid, tmp)
+        cls._divide_conquer(arr, right, end, tmp)
 
-    index = start
+        idx = start
 
-    while left <= mid and right <= end:
-        if A[left] < A[right]:
-            tmp[index] = A[left]
+        while left <= mid and right <= end:
+            if arr[left] < arr[right]:
+                tmp[idx] = arr[left]
+                left += 1
+            else:
+                tmp[idx] = arr[right]
+                right += 1
+            idx += 1
+
+        while left <= mid:
+            tmp[idx] = arr[left]
             left += 1
-        else:
-            tmp[index] = A[right]
+            idx += 1
+
+        while right <= end:
+            tmp[idx] = arr[right]
             right += 1
-        index += 1
+            idx += 1
 
-    while left <= mid:
-        tmp[index] = A[left]
-        left += 1
-        index += 1
-
-    while right <= end:
-        tmp[index] = A[right]
-        right += 1
-        index += 1
-
-    for index in range(start, end + 1):
-        A[index] = tmp[index]
+        for idx in range(start, end + 1):
+            arr[idx] = tmp[idx]

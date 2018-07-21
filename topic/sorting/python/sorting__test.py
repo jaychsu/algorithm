@@ -15,20 +15,17 @@ class TestSorting(TestBase):
         (70, 91, 92, -42, -4, 13, -12, -94, -56, -70, 34, -97, 58, -14, -75),
     )
 
-    def _run_sorting_test(self, _sort):
+    def _run_sorting_test(self, Sort):
         for case in self.CASES:
             a = list(case)
-            b = list(case)
-
-            c = _sort(a)
-            b.sort()
+            b = Sort.sort(a)
+            c = sorted(a)
 
             self.assertIsNot(a, b)
-            self.assertIs(a, c)
-            self.assertEqual(a, b)
+            self.assertEqual(b, c)
 
     def test_quick_sort(self):
-        self._run_sorting_test(quick_sort)
+        self._run_sorting_test(QuickSort)
 
     def test_merge_sort(self):
-        self._run_sorting_test(merge_sort)
+        self._run_sorting_test(MergeSort)
