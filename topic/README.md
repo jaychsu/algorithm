@@ -1,11 +1,11 @@
 The time and space complexity of common algorithms and data-structures
 ======
 
-* Sourced from [Big-O Algorithm Complexity Cheat Sheet (Know Thy Complexities!) @ericdrowell](http://bigocheatsheet.com/)
-* For the complexity representation
-  * 1 param: $\Theta(avg.)$
-  * 2 paras: $\Theta(avg.)$ / $O(worst)$
-  * 3 paras: $\Omega(best)$ / $\Theta(avg.)$ / $O(worst)$
+- Inspired by [Big-O Algorithm Complexity Cheat Sheet @ericdrowell](http://bigocheatsheet.com)
+- For the complexity representation
+  - 1 param: $\Theta(avg.)$
+  - 2 params: $\Theta(avg.)$ / $O(worst)$
+  - 3 params: $\Omega(best)$ / $\Theta(avg.)$ / $O(worst)$
 
 ## Data Structures
 
@@ -40,7 +40,7 @@ The time and space complexity of common algorithms and data-structures
 
 ### Graph
 
-* Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
+- Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
 
 | Vertex / Edge Management | 结构名 | Storage | Add Vertex | Add Edge | Remove Vertex | Remove Edge | Search |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -71,7 +71,7 @@ The time and space complexity of common algorithms and data-structures
 
 ### Searching Algorithms
 
-* Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
+- Graph with $\lvert{V}\rvert$ vertices and $\lvert{E}\rvert$ edges
 
 | Name | 算法名 | Space | Time | Note |
 | --- | --- | --- | --- | --- |
