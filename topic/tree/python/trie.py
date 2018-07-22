@@ -1,6 +1,9 @@
+import collections
+
+
 class TrieNode:
     def __init__(self):
-        self.children = {}
+        self.children = collections.defaultdict(TrieNode)
         self.end_of = None
 
 
@@ -12,27 +15,24 @@ class Trie:
         return repr(self.root)
 
     def put(self, word):
-        if not self._is_string(word):
+        if not self._is_str(word):
             return
 
         node = self.root
 
         for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
-
             node = node.children[char]
 
         node.end_of = word
 
     def has_word(self, word):
-        if not self._is_string(word):
+        if not self._is_str(word):
             return False
 
         return self._search(word) is word
 
     def has_prefix(self, word):
-        if not self._is_string(word):
+        if not self._is_str(word):
             return False
 
         return self._search(word) is not False
@@ -47,9 +47,6 @@ class Trie:
     def _search(self, word):
         node = self.root
 
-        # word is type of str or bytes
-        # 1. its ensures in both `has_word` and `has_prefix`
-        # 2. prevent case if its in one of `''`, `u''`, or `b''`
         if not word and node.end_of is None:
             return False
 
@@ -61,5 +58,5 @@ class Trie:
 
         return node.end_of
 
-    def _is_string(self, word):
+    def _is_str(self, word):
         return isinstance(word, (str, bytes))
