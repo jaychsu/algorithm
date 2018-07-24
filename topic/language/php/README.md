@@ -53,3 +53,45 @@ echo CONSTANT_NAME;
 | `||` / `or`  | `$a || $b`    | Returns `true` if **either** `$a` and `$b` is `true`.        |
 | `xor`        | `$a xor $b`   | Returns `true` if **either** `$a` and `$b` is `true`, but **NOT both**. |
 | `!`          | `!$a`         | Returns `true` if `$a` is falsy.                             |
+
+## `String`
+
+- `""` supports escape character and html tag, but `''` do NOT.
+
+## `Array`
+
+- Numeric Array: generic array; Associative Array: like a hashtable.
+
+### Inited by values
+
+```php
+$arr = array('a', 'b', 'c');
+echo $arr[0]; // 'a'
+$arr[0] = 'd';
+echo $arr[0]; // 'd'
+
+$arr = array('a' => 1, 'b' => 2, 'c' => 3);
+echo $arr['a']; // 1
+$arr['a'] = 4;
+echo $arr['a']; // 4
+```
+
+### Inited by size
+
+```php
+// 1d array
+$arr = array_fill(0, 10, 1);
+echo implode(',', $arr); // 1,1,1,1,1,1,1,1,1,1
+
+// 2d array
+$arr = array_fill(0, 5, array_fill(0, 5, 1));
+echo $arr[0][0]; // 1
+$arr[0][0] = 2;
+echo $arr[0][0]; // 2
+
+echo implode(',', $arr[0]); // 2,1,1,1,1
+echo implode(',', $arr[1]); // 1,1,1,1,1
+echo implode(',', $arr[2]); // 1,1,1,1,1
+echo implode(',', $arr[3]); // 1,1,1,1,1
+echo implode(',', $arr[4]); // 1,1,1,1,1
+```
