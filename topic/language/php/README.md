@@ -54,6 +54,10 @@ echo CONSTANT_NAME;
 | `xor`        | `$a xor $b`   | Returns `true` if **either** `$a` and `$b` is `true`, but **NOT both**. |
 | `!`          | `!$a`         | Returns `true` if `$a` is falsy.                             |
 
+## Template
+
+- `include`: continue if file was not found. `require`: throw error if file was not found.
+
 ## `String`
 
 - `""` supports escape character and html tag, but `''` do NOT.
