@@ -1,3 +1,6 @@
+import collections
+
+
 class Solution:
     def lengthOfLongestSubstring(self, s):
         """
@@ -5,27 +8,25 @@ class Solution:
         :rtype: int
         """
         ans = 0
+
         if not s:
             return ans
 
-        n = len(s)
-        F = {}  # frequency for every char between `left`, `right`
-        rep = 0  # contained repeated char between `left`, `right`
+        freqs = collections.defaultdict(int)
+        i = rep = 0
 
-        left = right = 0
-        while right < n:
-            F[s[right]] = F.get(s[right], 0) + 1
-            if F[s[right]] == 2:
+        for j in range(len(s)):
+            if freqs[s[j]] == 1:
                 rep += 1
-            right += 1
+            freqs[s[j]] += 1
 
             while rep > 0:
-                if F[s[left]] == 2:
+                freqs[s[i]] -= 1
+                if freqs[s[i]] == 1:
                     rep -= 1
-                F[s[left]] -= 1
-                left += 1
 
-            if right - left > ans:
-                ans = right - left
+                i += 1
+
+            ans = max(ans, j - i + 1)
 
         return ans
