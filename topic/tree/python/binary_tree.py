@@ -6,6 +6,7 @@ class TreeNode:
 
 class BinaryTree:
     EMPTY = '#'
+    TMPL = '{{{}}}'  # {{, }} is to escape brackets
 
     @classmethod
     def serialize(cls, root):
@@ -13,26 +14,25 @@ class BinaryTree:
         :type root: TreeNode
         :rtype: str
         """
-        TEMPLATE = '{{{}}}'  # {{, }} is to escape brackets
         if not root:
-            return TEMPLATE.format('')
+            return cls.TMPL.format('')
 
-        vals = []
+        values = []
         queue = [root]
 
         for node in queue:
             if not node:
-                vals.append(cls.EMPTY)
+                values.append(cls.EMPTY)
                 continue
 
-            vals.append(str(node.val))
+            values.append(str(node.val))
             queue.append(node.left)
             queue.append(node.right)
 
-        while vals[-1] == cls.EMPTY:
-            vals.pop()
+        while values[-1] == cls.EMPTY:
+            values.pop()
 
-        return TEMPLATE.format(','.join(vals))
+        return cls.TMPL.format(','.join(values))
 
     @classmethod
     def deserialize(cls, data):
@@ -40,32 +40,30 @@ class BinaryTree:
         :type data: str
         :rtype: TreeNode
         """
-        if (
-            not data or
-            data[0] != '{' or
-            data[-1] != '}' or
-            len(data) < 3 or
-            data[1] == cls.EMPTY
-        ):
+        if any((
+            not data,
+            len(data) < 3,
+            data[0] != '{',
+            data[-1] != '}',
+            data[1] in (cls.EMPTY, ','),
+        )):
             return
 
-        vals = data[1:-1].split(',')
-        n = len(vals)
+        values = data[1:-1].split(',')
         i = 0
-
-        root = TreeNode(int(vals[i]))
+        root = TreeNode(int(values[i]))
         queue = [root]
 
         for node in queue:
             for branch in ('left', 'right'):
                 i += 1
 
-                if i >= n:
+                if i >= len(values):
                     break
-                if vals[i] == cls.EMPTY:
+                if values[i] == cls.EMPTY:
                     continue
 
-                setattr(node, branch, TreeNode(int(vals[i])))
+                setattr(node, branch, TreeNode(int(values[i])))
                 queue.append(getattr(node, branch))
 
         return root

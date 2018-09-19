@@ -1,12 +1,18 @@
 """
-main concept for encoding
+REF:
 
-1. use binary search to convert `lng` and `lat` to `bin_code`
-   `1`: up or right
-   `0`: down or left
-2. merge `lng_codes` and `lat_codes` alternately into one `bin_codes`
-   `lng_codes[0] + lat_codes[0] + lng_codes[1] + ...`
-3. pick every 5 digit from `bin_codes` and convert that to `base32`
+- lintcode/529_geohash.py
+- lintcode/530_geohash_ii.py
+
+
+Main Concept: for encoding
+
+1. use binary search to convert `lng` and `lat` to `bincode`
+   1: up or right
+   0: down or left
+2. merge `lngcode` and `latcode` alternately into one `bincode`
+   `lngcode[0] + latcode[0] + lngcode[1] + ...`
+3. pick every 5 digit from `bincode` and convert that to base32 chars
 """
 
 

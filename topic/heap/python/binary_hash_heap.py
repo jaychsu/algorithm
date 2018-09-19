@@ -92,8 +92,8 @@ class BinaryHashHeap:
         while i * 2 <= size:
             j = i * 2
 
-            if i * 2 + 1 <= size and heap[i * 2 + 1] < heap[i * 2]:
-                j = i * 2 + 1
+            if j + 1 <= size and heap[j + 1] < heap[j]:
+                j += 1
 
             if heap[i] > heap[j]:
                 self._swap(i, j)

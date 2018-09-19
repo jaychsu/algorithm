@@ -29,3 +29,12 @@ output 1 if input 0
 >>> 0 ^ 1
 1
 ```
+
+## To check a number is power of 2
+
+if a number is power of 2, then there is only 1 in the bit format in the number.
+
+```python
+>>> [(num & (num - 1)) == 0 for num in (4, 5, 11, 16, 21, 29, 32)]
+[True, False, False, True, False, False, True]
+```
