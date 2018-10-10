@@ -44,10 +44,10 @@ def pancake_sort(nums):
     :type nums: list[int]
     :rtype: list[int]
     """
-    for i in range(len(nums) - 1, -1, -1):
-        max_idx = get_max_index(nums, i)
-        flip(nums, max_idx + 1)
+    for j in range(len(nums) - 1, -1, -1):
+        i = get_max_index(nums, j)
         flip(nums, i + 1)
+        flip(nums, j + 1)
 
     return nums
 
@@ -64,15 +64,13 @@ def flip(nums, k):
     if not k or k <= 1:
         return
 
-    if k > len(nums):
-        k = len(nums)
+    k = min(k, len(nums))
+    i, j = 0, k - 1
 
-    left, right = 0, k - 1
-
-    while left < right:
-        nums[left], nums[right] = nums[right], nums[left]
-        left += 1
-        right -= 1
+    while i < j:
+        nums[i], nums[j] = nums[j], nums[i]
+        i += 1
+        j -= 1
 
 
 def get_max_index(nums, i):
@@ -81,10 +79,10 @@ def get_max_index(nums, i):
     :type i: int
     :rtype: int
     """
-    max_idx = 0
+    k = 0
 
     for j in range(1, i + 1):
-        if nums[j] > nums[max_idx]:
-            max_idx = j
+        if nums[j] > nums[k]:
+            k = j
 
-    return max_idx
+    return k

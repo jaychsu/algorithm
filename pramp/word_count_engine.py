@@ -23,12 +23,21 @@ True
 
 
 def word_count_engine(document):
+    """
+    :type document: str
+    :rtype: list[list[str]]
+
+    count and sort
+    time: O(n logn)
+    """
+    ans = []
+    document = document and document.strip()
+
     if not document:
-        return []
+        return ans
 
     document = ''.join(c for c in document if c.isalnum() or c == ' ')
     word2idx = {}
-    ans = []
 
     for word in document.lower().strip().split():
         if not word:
@@ -43,3 +52,15 @@ def word_count_engine(document):
 
     ans.sort(key=lambda x: x[1], reverse=True)
     return ans
+
+
+def word_count_engine2(document):
+    """
+    :type document: str
+    :rtype: list[list[str]]
+
+    # TODO
+    LRU
+    time: O(n)
+    """
+    pass
