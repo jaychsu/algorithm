@@ -25,5 +25,5 @@ Linked List
 ```python
 >>> cur = None
 >>> while head:
-...     cur, cur.next, head = head, cur, head.next
+...     head.next, cur, head = cur, head, head.next
 ```

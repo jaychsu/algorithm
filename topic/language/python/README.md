@@ -8,6 +8,25 @@ Python Syntax Note
 `is` will return True if two variables point to the same object,
 `==` if the objects referred to by the variables are equal.
 
+- example in `int` and `float`
+
+note that, negative `int`/`float` is special case.
+
+```python
+>>> 10 != 10
+False
+>>> 10 is not 10
+False
+>>> 0 != 0
+False
+>>> 0 is not 0
+False
+>>> -9 != -9
+False
+>>> -9 is not -9
+True
+```
+
 - example in `str` and `bytes`
 
 ```python
