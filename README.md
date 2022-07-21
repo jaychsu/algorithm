@@ -22,6 +22,7 @@ The challenges for algorithm contests, and summary the implementation.
 | lintcode | for [LintCode](http://www.lintcode.com) |
 | pramp | for [Pramp](https://www.pramp.com) |
 | topcoder | for [ActiveContests](https://community.topcoder.com/longcontest/?module=ViewActiveContests), [Practices](https://community.topcoder.com/longcontest/?module=ViewPractice), and [ProblemArchives](https://community.topcoder.com/tc?module=ProblemArchive) in [Topcoder](https://www.topcoder.com) |
+| Scaler | for [Scaler Topics](https://www.scaler.com/topics/) |
 
 ## Testing
 
