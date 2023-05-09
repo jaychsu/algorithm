@@ -23,7 +23,7 @@ The challenges for algorithm contests, and summary the implementation.
 | pramp | for [Pramp](https://www.pramp.com) |
 | topcoder | for [ActiveContests](https://community.topcoder.com/longcontest/?module=ViewActiveContests), [Practices](https://community.topcoder.com/longcontest/?module=ViewPractice), and [ProblemArchives](https://community.topcoder.com/tc?module=ProblemArchive) in [Topcoder](https://www.topcoder.com) |
 | Scaler | for [Scaler Topics](https://www.scaler.com/topics/) |
-| InterviewBit | for [Technical Interview](https://www.interviewbit.com/technical-interview-questions/), [Data Structures and Algorithms](https://www.interviewbit.com/courses/programming/), [Contests](https://www.interviewbit.com/contests/), and [Mock Interviews](https://www.interviewbit.com/mock-interview/) |
+| InterviewBit | for [Technical Interview](https://www.interviewbit.com/technical-interview-questions/), [Data Structures and Algorithms](https://www.interviewbit.com/courses/programming/), [Contests](https://www.interviewbit.com/contests/), and [Mock Interviews](https://www.interviewbit.com/mock-interview/) 
 | wiingy | for [Python Tutorial](https://wiingy.com/learn/python/python-tutorial) |
 ## Testing
 
